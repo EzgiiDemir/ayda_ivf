@@ -1,0 +1,9 @@
+module.exports = {
+
+"[project]/src/messages/en/treatments.json (json)": ((__turbopack_context__) => {
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, t: __turbopack_require_real__ } = __turbopack_context__;
+{
+__turbopack_export_value__(JSON.parse("{\"topTitle\":\"Most Preferred\",\"title\":\"Our Treatment Methods\",\"description1\":\"Before visiting the Ayda IVF Team, we invite you to take a look at our carefully prepared treatment methods — thoughtfully designed to provide you with detailed information about your treatment options. Here, you’ll have the chance to explore which treatment suits you best and gain more in-depth knowledge about each one.\",\"description2\":\"After reviewing our treatments, remember that we’re only a phone call away for any questions you may have. We’re eagerly looking forward to meeting you and providing professional support on your journey to holding a healthy baby in your arms.\",\"contactButton\":\"Contact Us\",\"list\":{\"ivf-icsi\":\"In Vitro Fertilization (IVF) - ICSI\",\"egg-donation\":\"Egg Donation\",\"sperm-donation\":\"Sperm Donation\",\"embryo-donation\":\"Embryo Donation\",\"ovarian-prp\":\"Ovarian and Endometrial PRP\",\"genetic-screening\":\"Embryo Genetic Screening (NGS, Single Gene)\",\"gender-selection\":\"Gender Selection (PGD)\",\"egg-freezing\":\"Egg Freezing\",\"surrogacy\":\"Surrogacy\",\"pgd\":\"Embryo Genetic Screening (PGD)\"}}"));}}),
+
+};

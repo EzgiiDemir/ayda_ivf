@@ -1,0 +1,9 @@
+module.exports = {
+
+"[project]/src/messages/en/contact.json (json)": ((__turbopack_context__) => {
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, t: __turbopack_require_real__ } = __turbopack_context__;
+{
+__turbopack_export_value__(JSON.parse("{\"meta\":{\"title\":\"Contact - Ayda IVF\",\"description\":\"Get in touch with us. Ask your questions about IVF treatment.\"},\"hero\":{\"preTitle\":\"You can contact us by filling\",\"title\":\"the form below\"},\"form\":{\"name\":{\"label\":\"Full Name\",\"placeholder\":\"Please enter your full name\",\"subjects\":[\"General\",\"Info\",\"Application\",\"IVF\"],\"apiEndpoint\":\"/api/contact\"},\"email\":{\"label\":\"Email\",\"placeholder\":\"Please enter your email\",\"invalid\":\"Please enter a valid email\"},\"subject\":{\"label\":\"Subject\",\"placeholder\":\"Please select a subject\",\"options\":[\"Appointment\",\"Treatment Information\",\"Price\",\"Other\"]},\"message\":{\"label\":\"Message\",\"placeholder\":\"Write your message here\"},\"submit\":\"Send\",\"sending\":\"Sending...\",\"success\":\"Your message has been sent. Thank you!\",\"error\":\"An error occurred. Please try again later.\"},\"heroImage\":\"https://api.aydaivf.com/uploads/elitebig_7bc1166778.jpg\",\"heroPreTitle\":\"Fill out the form below\",\"heroTitle\":\"to get in touch with us\"}"));}}),
+
+};

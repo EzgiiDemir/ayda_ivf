@@ -1,0 +1,9 @@
+module.exports = {
+
+"[project]/src/messages/tr/eggDonation.json (json)": ((__turbopack_context__) => {
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, t: __turbopack_require_real__ } = __turbopack_context__;
+{
+__turbopack_export_value__(JSON.parse("{\"metaTitle\":\"Yumurta Donasyonu | Ayda IVF\",\"metaDescription\":\"Yumurta donasyonu hakkında detaylı bilgi edinin.\",\"title\":\"Yumurta Donasyonu\",\"whatIs\":{\"title\":\"Yumurta Donasyonu Nedir?\",\"paragraph1\":\"Bayanın kendi yumurtalarının yetersiz, kalitesi düşük veya hiç olmadığı durumlarda hamileliğin mümkün olamadığı için yumurta bağışçısından yumurta alınarak uygulanan yöntemdir.\",\"paragraph2\":\"Ekibimiz tarafından bayanın kendi kan grubu ve tipik özelliklerine uygun bir yumurta bağışçısı seçilerek protokoller takibiyle bağışçının işlemi yapılır. Böylelikle embriyolar oluşturulur ve bayana transfer edilerek hamile olma şansı sağlanır.\"},\"who\":{\"title\":\"Yumurta Donasyonu Tedavisi Hangi Durumlardaki Bayanların Tercihidir?\",\"items\":[\"Menopoza giren bayanlar\",\"Yaşı ilerleyip yumurta rezervi azalanlar\",\"Embriyoları sağlıksız olanlar\",\"Genetik bozukluk nedeniyle düşük kaliteli yumurtalar üretenler\",\"Erken menopoz yaşayanlar (AMH düşük, FSH yüksek)\",\"Kemoterapi görmüş veya yumurtalıkları alınmış bayanlar\"]},\"why\":{\"title\":\"Neden Evlatlık Edinmeyip Yumurta Donasyonu Tedavisine Gidilmeli?\",\"paragraph\":\"Hamilelik duygusunu tatmak, anne olmak isteyen her kadının hakkıdır. Bilim, yumurta donasyonu tedavisiyle bu duyguyu yaşama imkânı sunmaktadır.\"}}"));}}),
+
+};

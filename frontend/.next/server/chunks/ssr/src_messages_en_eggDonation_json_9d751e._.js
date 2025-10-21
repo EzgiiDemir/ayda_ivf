@@ -1,0 +1,9 @@
+module.exports = {
+
+"[project]/src/messages/en/eggDonation.json (json)": ((__turbopack_context__) => {
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, t: __turbopack_require_real__ } = __turbopack_context__;
+{
+__turbopack_export_value__(JSON.parse("{\"metaTitle\":\"Egg Donation | Ayda IVF\",\"metaDescription\":\"Learn about egg donation treatment in detail.\",\"title\":\"Egg Donation\",\"whatIs\":{\"title\":\"What Is Egg Donation?\",\"paragraph1\":\"When a woman’s own eggs are insufficient, low-quality, or absent, egg donation is a method that allows pregnancy by using donor eggs.\",\"paragraph2\":\"Our team selects a suitable egg donor matching the recipient’s blood type and physical features. The eggs are fertilized, embryos are created, and transferred to the recipient to achieve pregnancy.\"},\"who\":{\"title\":\"Who Is Egg Donation Suitable For?\",\"items\":[\"Women who entered menopause\",\"Women with decreased egg reserves due to age\",\"Women whose embryos are genetically unhealthy\",\"Those with low egg quality due to genetic disorders\",\"Early menopause (low AMH, high FSH)\",\"Women after chemotherapy or ovary removal\"]},\"why\":{\"title\":\"Why Choose Egg Donation Instead of Adoption?\",\"paragraph\":\"Experiencing pregnancy and motherhood is every woman’s right. Science offers this opportunity through egg donation.\"}}"));}}),
+
+};

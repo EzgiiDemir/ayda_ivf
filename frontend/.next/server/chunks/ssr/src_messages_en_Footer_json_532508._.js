@@ -1,0 +1,9 @@
+module.exports = {
+
+"[project]/src/messages/en/Footer.json (json)": ((__turbopack_context__) => {
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, t: __turbopack_require_real__ } = __turbopack_context__;
+{
+__turbopack_export_value__(JSON.parse("{\"address\":{\"title\":\"Address\",\"iconAlt\":\"Location icon\",\"isoAlt\":\"ISO Certificate\",\"text\":\"Küçükkaymaklı, Dr. Fazıl Küçük Blv No:24, 99010 Nicosia\"},\"contact\":{\"title\":\"Contact\",\"iconAlt\":\"Phone icon\",\"phoneLabel\":\"Call us\",\"emailLabel\":\"Send email\",\"navLabel\":\"Social media links\",\"social\":{\"facebook\":\"Visit our Facebook page\",\"instagram\":\"Follow us on Instagram\",\"youtube\":\"Watch our YouTube channel\",\"twitter\":\"Follow us on Twitter\",\"linkedin\":\"View our LinkedIn profile\"}},\"quickAccess\":{\"title\":\"Quick Access\",\"iconAlt\":\"Link icon\",\"navLabel\":\"Quick access menu\",\"links\":{\"home\":{\"text\":\"Home\",\"label\":\"Go to home page\"},\"treatments\":{\"text\":\"Treatments\",\"label\":\"Go to treatments page\"},\"travel\":{\"text\":\"Travel\",\"label\":\"Go to travel information\"},\"about\":{\"text\":\"About Us\",\"label\":\"Go to about page\"},\"contact\":{\"text\":\"Contact\",\"label\":\"Go to contact page\"},\"blog\":{\"text\":\"Blog\",\"label\":\"Go to blog page\"},\"faq\":{\"text\":\"FAQ\",\"label\":\"Go to frequently asked questions\"}}},\"copyright\":{\"text\":\"© 2025 Ayda IVF. All rights reserved.\",\"logoAlt\":\"Copyright logo\"}}"));}}),
+
+};

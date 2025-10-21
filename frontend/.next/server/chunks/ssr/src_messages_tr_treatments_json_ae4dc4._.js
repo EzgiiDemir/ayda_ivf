@@ -1,0 +1,9 @@
+module.exports = {
+
+"[project]/src/messages/tr/treatments.json (json)": ((__turbopack_context__) => {
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, t: __turbopack_require_real__ } = __turbopack_context__;
+{
+__turbopack_export_value__(JSON.parse("{\"topTitle\":\"En Sık Tercih Edilen\",\"title\":\"Tedavi Yöntemlerimiz\",\"description1\":\"Ayda Tüp Bebek Ekibini ziyaret etmeden önce tedaviniz hakkında daha detaylı bilgiye ulaşabilmeniz için sizlere özel olarak, her bir detayı özenle düşünerek hazırlamış olduğumuz tedavi yöntemlerimize mutlaka bir göz atınız. Burada size uygun tedavinizi daha yakından inceleme fırsatına ve detaylı bilgi edinebilme şansına sahip olacaksınız.\",\"description2\":\"Tedavilerimizi inceledikten sonra merak ettiğiniz tüm sorularınız için bir telefon kadar uzağınızda olduğumuzu unutmayınız. Sizlerle tanışmak ve sağlıklı bir bebek kucağınıza almanız için sizlere profesyonel yardımda bulunmayı dört gözle bekliyoruz.\",\"contactButton\":\"Bizimle İletişime Geçin\",\"list\":{\"ivf-icsi\":\"Tüp Bebek (IVF) - ICSI\",\"egg-donation\":\"Yumurta Donasyonu\",\"sperm-donation\":\"Sperm Donasyonu\",\"embryo-donation\":\"Embriyo Donasyonu\",\"ovarian-prp\":\"Ovarian ve Endometrial PRP\",\"genetic-screening\":\"Embriyo Genetik Tarama (NGS, Tek Gen)\",\"gender-selection\":\"Cinsiyet Seçimi (PGD)\",\"egg-freezing\":\"Yumurta Dondurma\",\"surrogacy\":\"Taşıyıcı Annelik\",\"pgd\":\"Embriyo Genetik Tarama (PGD)\"}}"));}}),
+
+};

@@ -1,0 +1,9 @@
+module.exports = {
+
+"[project]/src/messages/tr/contact.json (json)": ((__turbopack_context__) => {
+
+var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, t: __turbopack_require_real__ } = __turbopack_context__;
+{
+__turbopack_export_value__(JSON.parse("{\"meta\":{\"title\":\"İletişim - Ayda IVF\",\"description\":\"Bizimle iletişime geçin. Tüp bebek tedavisi hakkında merak ettiklerinizi sorun.\"},\"hero\":{\"preTitle\":\"Aşağıdaki formu doldurarak\",\"title\":\"bizimle iletişime geçebilirsiniz\"},\"form\":{\"name\":{\"label\":\"Ad - Soyad\",\"placeholder\":\"Lütfen Ad - Soyad giriniz\",\"subjects\":[\"Genel\",\"Bilgi\",\"Başvuru\",\"Tüp Bebek\"],\"apiEndpoint\":\"/api/contact\"},\"email\":{\"label\":\"E-posta\",\"placeholder\":\"Lütfen E-posta giriniz\",\"invalid\":\"Geçerli bir e-posta girin\"},\"subject\":{\"label\":\"Konu\",\"placeholder\":\"Lütfen bir konu seçin\",\"options\":[\"Genel\",\"Bilgi\",\"Başvuru\",\"TüpBebek\"]},\"message\":{\"label\":\"Mesaj\",\"placeholder\":\"Mesajınızı buraya yazın\"},\"submit\":\"Gönder\",\"sending\":\"Gönderiliyor...\",\"success\":\"Mesajınız gönderildi. Teşekkürler!\",\"error\":\"Bir hata oluştu. Lütfen daha sonra tekrar deneyin.\"},\"heroImage\":\"https://api.aydaivf.com/uploads/elitebig_7bc1166778.jpg\",\"heroPreTitle\":\"Aşağıdaki formu doldurarak\",\"heroTitle\":\"bizimle iletişime geçebilirsiniz\"}"));}}),
+
+};
