@@ -147,6 +147,7 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 
 var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, k: __turbopack_refresh__, m: module, z: __turbopack_require_stub__ } = __turbopack_context__;
 {
+// src/components/navbar.tsx
 __turbopack_esm__({
     "default": (()=>Navbar)
 });
@@ -156,7 +157,6 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/image.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/navigation.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$config$2f$navbar$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/config/navbar.config.ts [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$use$2d$intl$2f$dist$2f$esm$2f$development$2f$react$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/use-intl/dist/esm/development/react.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/axios/lib/axios.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$phone$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Phone$3e$__ = __turbopack_import__("[project]/node_modules/lucide-react/dist/esm/icons/phone.js [app-client] (ecmascript) <export default as Phone>");
@@ -164,7 +164,6 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 ;
 var _s = __turbopack_refresh__.signature();
 'use client';
-;
 ;
 ;
 ;
@@ -180,11 +179,10 @@ function Navbar() {
     const [mobileAboutOpen, setMobileAboutOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [mobileTreatmentsOpen, setMobileTreatmentsOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [config, setConfig] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$config$2f$navbar$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DEFAULT_NAVBAR_CONFIG"]);
-    const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true); // ✅ LOADING STATE
+    const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     const params = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useParams"])();
     const locale = params?.locale || 'tr';
-    const t = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$use$2d$intl$2f$dist$2f$esm$2f$development$2f$react$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useTranslations"])();
-    // ✅ API'DEN VERİ ÇEK
+    // ✅ API'DEN VERİ ÇEK - LOCALE İLE
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "Navbar.useEffect": ()=>{
             const fetchNavbarData = {
@@ -192,10 +190,12 @@ function Navbar() {
                     try {
                         setLoading(true);
                         const apiUrl = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+                        // 🔥 ÖNEMLİ: locale parametresini URL'ye ekle
+                        console.log(`🔍 Fetching navbar for locale: ${locale}`);
                         const response = await __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get(`${apiUrl}/api/navbar?locale=${locale}`);
+                        console.log(`✅ Navbar data received for ${locale}:`, response.data.data);
                         if (response.data.success && response.data.data) {
                             const apiData = response.data.data;
-                            // ✅ API DATA'YI CONFIG FORMATINA DÖNÜŞTÜR
                             const newConfig = {
                                 logo: {
                                     url: apiData.logo.url || __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$config$2f$navbar$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DEFAULT_NAVBAR_CONFIG"].logo.url,
@@ -245,11 +245,9 @@ function Navbar() {
                                 }
                             };
                             setConfig(newConfig);
-                            console.log('✅ Navbar data loaded:', newConfig);
                         }
                     } catch (error) {
-                        console.error('❌ Navbar fetch error:', error);
-                        // Hata durumunda default config kullan
+                        console.error(`❌ Navbar fetch error for ${locale}:`, error);
                         setConfig(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$config$2f$navbar$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DEFAULT_NAVBAR_CONFIG"]);
                     } finally{
                         setLoading(false);
@@ -307,12 +305,8 @@ function Navbar() {
         setMobileAboutOpen(false);
         setMobileTreatmentsOpen(false);
     };
-    const phoneNumber = t('phoneNumber') || config.contact.phoneNumber;
+    const phoneNumber = config.contact.phoneNumber;
     const whatsappUrl = `https://wa.me/${phoneNumber.replace(/[\s\-\(\)]/g, '')}`;
-    // ✅ LOADING STATE GÖSTER (Opsiyonel)
-    // if (loading) {
-    //     return <nav className="sticky top-0 shadow-md bg-white/60 backdrop-blur-[30px] h-20 z-50 border-b-2 border-primary-pink-light" />;
-    // }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
             className: "sticky top-0 shadow-md bg-white/60 backdrop-blur-[30px] h-20 z-50 border-b-2 border-primary-pink-light",
@@ -325,7 +319,7 @@ function Navbar() {
                             className: "relative w-[125px] h-[65px] transition-transform duration-300 hover:scale-105",
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                 src: config.logo.url,
-                                alt: config.logo.alt || t('logoAlt'),
+                                alt: config.logo.alt,
                                 width: config.logo.width,
                                 height: config.logo.height,
                                 className: "w-full h-full object-contain transition-all duration-300 hover:contrast-125 hover:brightness-110",
@@ -334,12 +328,12 @@ function Navbar() {
                                 unoptimized: true
                             }, void 0, false, {
                                 fileName: "[project]/src/components/layout/navbar.tsx",
-                                lineNumber: 135,
+                                lineNumber: 132,
                                 columnNumber: 25
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/layout/navbar.tsx",
-                            lineNumber: 134,
+                            lineNumber: 131,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -358,15 +352,15 @@ function Navbar() {
                                                     "aria-expanded": aboutOpen,
                                                     "aria-haspopup": "true",
                                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                        children: t(config.about.label)
+                                                        children: config.about.label
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/layout/navbar.tsx",
-                                                        lineNumber: 154,
+                                                        lineNumber: 150,
                                                         columnNumber: 41
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/layout/navbar.tsx",
-                                                    lineNumber: 153,
+                                                    lineNumber: 149,
                                                     columnNumber: 37
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -375,26 +369,26 @@ function Navbar() {
                                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                                                 href: `/${locale}${link.href}`,
                                                                 className: "block px-4 py-3 hover-bg-primary-pink hover:text-white transition-colors duration-300",
-                                                                children: t(link.label)
+                                                                children: link.label
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/layout/navbar.tsx",
-                                                                lineNumber: 159,
+                                                                lineNumber: 155,
                                                                 columnNumber: 49
                                                             }, this)
                                                         }, link.id, false, {
                                                             fileName: "[project]/src/components/layout/navbar.tsx",
-                                                            lineNumber: 158,
+                                                            lineNumber: 154,
                                                             columnNumber: 45
                                                         }, this))
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/layout/navbar.tsx",
-                                                    lineNumber: 156,
+                                                    lineNumber: 152,
                                                     columnNumber: 37
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/layout/navbar.tsx",
-                                            lineNumber: 152,
+                                            lineNumber: 148,
                                             columnNumber: 33
                                         }, this),
                                         config.treatments.links.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
@@ -407,15 +401,15 @@ function Navbar() {
                                                     "aria-expanded": treatmentsOpen,
                                                     "aria-haspopup": "true",
                                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                        children: t(config.treatments.label)
+                                                        children: config.treatments.label
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/layout/navbar.tsx",
-                                                        lineNumber: 172,
+                                                        lineNumber: 168,
                                                         columnNumber: 41
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/layout/navbar.tsx",
-                                                    lineNumber: 171,
+                                                    lineNumber: 167,
                                                     columnNumber: 37
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -424,47 +418,47 @@ function Navbar() {
                                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                                                 href: `/${locale}${link.href}`,
                                                                 className: "block px-4 py-3 hover-bg-primary-pink hover:text-white transition-colors duration-300",
-                                                                children: t(link.label)
+                                                                children: link.label
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/layout/navbar.tsx",
-                                                                lineNumber: 177,
+                                                                lineNumber: 173,
                                                                 columnNumber: 49
                                                             }, this)
                                                         }, link.id, false, {
                                                             fileName: "[project]/src/components/layout/navbar.tsx",
-                                                            lineNumber: 176,
+                                                            lineNumber: 172,
                                                             columnNumber: 45
                                                         }, this))
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/layout/navbar.tsx",
-                                                    lineNumber: 174,
+                                                    lineNumber: 170,
                                                     columnNumber: 37
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/layout/navbar.tsx",
-                                            lineNumber: 170,
+                                            lineNumber: 166,
                                             columnNumber: 33
                                         }, this),
                                         config.links.map((link)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
                                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                                     href: `/${locale}${link.href}`,
                                                     className: "hover-primary-pink transition-colors duration-300",
-                                                    children: t(link.label)
+                                                    children: link.label
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/layout/navbar.tsx",
-                                                    lineNumber: 189,
+                                                    lineNumber: 185,
                                                     columnNumber: 37
                                                 }, this)
                                             }, link.id, false, {
                                                 fileName: "[project]/src/components/layout/navbar.tsx",
-                                                lineNumber: 188,
+                                                lineNumber: 184,
                                                 columnNumber: 33
                                             }, this))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/layout/navbar.tsx",
-                                    lineNumber: 149,
+                                    lineNumber: 145,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -472,61 +466,62 @@ function Navbar() {
                                     target: "_blank",
                                     rel: "noopener noreferrer",
                                     className: "w-10 h-10 rounded-md bg-primary-pink hover-bg-primary-blue transition-colors duration-300 flex justify-center items-center",
-                                    "aria-label": t('contactViaWhatsApp'),
+                                    "aria-label": "WhatsApp ile iletişim",
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$phone$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Phone$3e$__["Phone"], {
                                         className: "text-white",
                                         size: 18
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/layout/navbar.tsx",
-                                        lineNumber: 197,
+                                        lineNumber: 193,
                                         columnNumber: 29
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/layout/navbar.tsx",
-                                    lineNumber: 196,
+                                    lineNumber: 192,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/layout/navbar.tsx",
-                            lineNumber: 148,
+                            lineNumber: 144,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                             className: "flex md:hidden flex-col gap-[6px] p-2 z-50",
                             onClick: handleMobileMenuToggle,
+                            "aria-label": "Menüyü aç/kapat",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                     className: `h-[2px] w-6 bg-primary-pink rounded-md transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-[8px]' : ''}`
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/layout/navbar.tsx",
-                                    lineNumber: 203,
+                                    lineNumber: 199,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                     className: `h-[2px] w-6 bg-primary-pink rounded-md transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : 'opacity-100'}`
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/layout/navbar.tsx",
-                                    lineNumber: 204,
+                                    lineNumber: 200,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                     className: `h-[2px] w-6 bg-primary-pink rounded-md transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 -translate-y-[8px]' : ''}`
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/layout/navbar.tsx",
-                                    lineNumber: 205,
+                                    lineNumber: 201,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/layout/navbar.tsx",
-                            lineNumber: 202,
+                            lineNumber: 198,
                             columnNumber: 21
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/layout/navbar.tsx",
-                    lineNumber: 133,
+                    lineNumber: 130,
                     columnNumber: 17
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -544,10 +539,10 @@ function Navbar() {
                                                 className: "flex items-center gap-1 py-2 hover-primary-pink transition-colors duration-300 w-full",
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                        children: t(config.about.label)
+                                                        children: config.about.label
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/layout/navbar.tsx",
-                                                        lineNumber: 217,
+                                                        lineNumber: 213,
                                                         columnNumber: 41
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
@@ -555,13 +550,13 @@ function Navbar() {
                                                         className: `transition-transform duration-300 ${mobileAboutOpen ? 'rotate-180' : ''}`
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/layout/navbar.tsx",
-                                                        lineNumber: 218,
+                                                        lineNumber: 214,
                                                         columnNumber: 41
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/layout/navbar.tsx",
-                                                lineNumber: 216,
+                                                lineNumber: 212,
                                                 columnNumber: 37
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -570,21 +565,21 @@ function Navbar() {
                                                         href: `/${locale}${link.href}`,
                                                         onClick: handleMobileLinkClick,
                                                         className: "px-4 py-3 hover:bg-primary-pink-light transition-colors duration-300",
-                                                        children: t(link.label)
+                                                        children: link.label
                                                     }, link.id, false, {
                                                         fileName: "[project]/src/components/layout/navbar.tsx",
-                                                        lineNumber: 222,
+                                                        lineNumber: 218,
                                                         columnNumber: 45
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/layout/navbar.tsx",
-                                                lineNumber: 220,
+                                                lineNumber: 216,
                                                 columnNumber: 37
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/layout/navbar.tsx",
-                                        lineNumber: 215,
+                                        lineNumber: 211,
                                         columnNumber: 33
                                     }, this),
                                     config.treatments.links.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -594,10 +589,10 @@ function Navbar() {
                                                 className: "flex items-center gap-1 py-2 hover-primary-pink transition-colors duration-300 w-full",
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                        children: t(config.treatments.label)
+                                                        children: config.treatments.label
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/layout/navbar.tsx",
-                                                        lineNumber: 234,
+                                                        lineNumber: 230,
                                                         columnNumber: 41
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
@@ -605,13 +600,13 @@ function Navbar() {
                                                         className: `transition-transform duration-300 ${mobileTreatmentsOpen ? 'rotate-180' : ''}`
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/layout/navbar.tsx",
-                                                        lineNumber: 235,
+                                                        lineNumber: 231,
                                                         columnNumber: 41
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/layout/navbar.tsx",
-                                                lineNumber: 233,
+                                                lineNumber: 229,
                                                 columnNumber: 37
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -620,37 +615,37 @@ function Navbar() {
                                                         href: `/${locale}${link.href}`,
                                                         onClick: handleMobileLinkClick,
                                                         className: "px-4 py-3 hover:bg-primary-pink-light transition-colors duration-300",
-                                                        children: t(link.label)
+                                                        children: link.label
                                                     }, link.id, false, {
                                                         fileName: "[project]/src/components/layout/navbar.tsx",
-                                                        lineNumber: 239,
+                                                        lineNumber: 235,
                                                         columnNumber: 45
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/layout/navbar.tsx",
-                                                lineNumber: 237,
+                                                lineNumber: 233,
                                                 columnNumber: 37
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/layout/navbar.tsx",
-                                        lineNumber: 232,
+                                        lineNumber: 228,
                                         columnNumber: 33
                                     }, this),
                                     config.links.map((link)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                             href: `/${locale}${link.href}`,
                                             onClick: handleMobileLinkClick,
                                             className: "py-2 hover-primary-pink transition-colors duration-300",
-                                            children: t(link.label)
+                                            children: link.label
                                         }, link.id, false, {
                                             fileName: "[project]/src/components/layout/navbar.tsx",
-                                            lineNumber: 249,
+                                            lineNumber: 245,
                                             columnNumber: 33
                                         }, this))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/layout/navbar.tsx",
-                                lineNumber: 212,
+                                lineNumber: 208,
                                 columnNumber: 25
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -664,7 +659,7 @@ function Navbar() {
                                         size: 20
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/layout/navbar.tsx",
-                                        lineNumber: 256,
+                                        lineNumber: 252,
                                         columnNumber: 29
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -672,24 +667,24 @@ function Navbar() {
                                         children: phoneNumber
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/layout/navbar.tsx",
-                                        lineNumber: 257,
+                                        lineNumber: 253,
                                         columnNumber: 29
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/layout/navbar.tsx",
-                                lineNumber: 255,
+                                lineNumber: 251,
                                 columnNumber: 25
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/layout/navbar.tsx",
-                        lineNumber: 211,
+                        lineNumber: 207,
                         columnNumber: 21
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/layout/navbar.tsx",
-                    lineNumber: 210,
+                    lineNumber: 206,
                     columnNumber: 17
                 }, this),
                 mobileMenuOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -697,21 +692,20 @@ function Navbar() {
                     onClick: handleMobileMenuToggle
                 }, void 0, false, {
                     fileName: "[project]/src/components/layout/navbar.tsx",
-                    lineNumber: 262,
+                    lineNumber: 258,
                     columnNumber: 36
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/layout/navbar.tsx",
-            lineNumber: 132,
+            lineNumber: 129,
             columnNumber: 13
         }, this)
     }, void 0, false);
 }
-_s(Navbar, "1Sy+DlWvexyDFBxYn+gn/p2wEUQ=", false, function() {
+_s(Navbar, "EU1jh9sAr9d7OgdI6V8iT214m4I=", false, function() {
     return [
-        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useParams"],
-        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$use$2d$intl$2f$dist$2f$esm$2f$development$2f$react$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useTranslations"]
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useParams"]
     ];
 });
 _c = Navbar;
@@ -733,7 +727,6 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/image.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/dist/client/app-dir/link.js [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$intl$2f$dist$2f$esm$2f$development$2f$react$2d$client$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_import__("[project]/node_modules/next-intl/dist/esm/development/react-client/index.js [app-client] (ecmascript) <locals>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/axios/lib/axios.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$facebook$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Facebook$3e$__ = __turbopack_import__("[project]/node_modules/lucide-react/dist/esm/icons/facebook.js [app-client] (ecmascript) <export default as Facebook>");
@@ -744,7 +737,6 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 ;
 var _s = __turbopack_refresh__.signature();
 "use client";
-;
 ;
 ;
 ;
@@ -765,7 +757,7 @@ function SocialIcon({ platform }) {
         size: 20
     }, void 0, false, {
         fileName: "[project]/src/components/layout/footer.tsx",
-        lineNumber: 53,
+        lineNumber: 55,
         columnNumber: 19
     }, this) : null;
 }
@@ -776,7 +768,7 @@ function FooterCard({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/src/components/layout/footer.tsx",
-        lineNumber: 58,
+        lineNumber: 60,
         columnNumber: 9
     }, this);
 }
@@ -794,12 +786,12 @@ function IconBadge({ src, alt }) {
             unoptimized: true
         }, void 0, false, {
             fileName: "[project]/src/components/layout/footer.tsx",
-            lineNumber: 67,
+            lineNumber: 69,
             columnNumber: 13
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/layout/footer.tsx",
-        lineNumber: 66,
+        lineNumber: 68,
         columnNumber: 9
     }, this);
 }
@@ -810,14 +802,13 @@ function CardTitle({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/src/components/layout/footer.tsx",
-        lineNumber: 82,
+        lineNumber: 84,
         columnNumber: 9
     }, this);
 }
 _c3 = CardTitle;
 function Footer({ locale }) {
     _s();
-    const t = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$intl$2f$dist$2f$esm$2f$development$2f$react$2d$client$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["useTranslations"])('Footer');
     const [config, setConfig] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
@@ -834,7 +825,6 @@ function Footer({ locale }) {
                         }
                     } catch (error) {
                         console.error('❌ Footer fetch error:', error);
-                    // Hata durumunda default fallback (config null kalırsa loading bloğu gösteririz)
                     } finally{
                         setLoading(false);
                     }
@@ -853,7 +843,7 @@ function Footer({ locale }) {
                 className: "container text-center text-white",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                     className: "text-sm",
-                    children: t('copyright.text')
+                    children: "© 2024 - Tüm Hakları Saklıdır"
                 }, void 0, false, {
                     fileName: "[project]/src/components/layout/footer.tsx",
                     lineNumber: 118,
@@ -880,7 +870,7 @@ function Footer({ locale }) {
                         children: [
                             config.address?.icon && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(IconBadge, {
                                 src: config.address.icon,
-                                alt: t('address.iconAlt')
+                                alt: "Adres ikonu"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/layout/footer.tsx",
                                 lineNumber: 129,
@@ -890,7 +880,7 @@ function Footer({ locale }) {
                                 className: "flex flex-col gap-2 md:gap-4 flex-1 items-center",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(CardTitle, {
-                                        children: t('address.title')
+                                        children: config.address?.title || 'Adres'
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/layout/footer.tsx",
                                         lineNumber: 132,
@@ -903,7 +893,7 @@ function Footer({ locale }) {
                                                 className: "w-[65px] h-[65px] relative",
                                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                                     src: config.address.iso_logo,
-                                                    alt: t('address.isoAlt'),
+                                                    alt: "ISO Sertifikası",
                                                     width: 65,
                                                     height: 65,
                                                     className: "w-full h-full object-cover",
@@ -949,7 +939,7 @@ function Footer({ locale }) {
                         children: [
                             config.contact?.icon && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(IconBadge, {
                                 src: config.contact.icon,
-                                alt: t('contact.iconAlt')
+                                alt: "İletişim ikonu"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/layout/footer.tsx",
                                 lineNumber: 155,
@@ -959,14 +949,14 @@ function Footer({ locale }) {
                                 className: "flex flex-col flex-1 gap-2 md:gap-4 items-center",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(CardTitle, {
-                                        children: t('contact.title')
+                                        children: config.contact?.title || 'İletişim'
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/layout/footer.tsx",
                                         lineNumber: 158,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "flex flex-col gap-2 items-center",
+                                        className: "flex flex-col gap-2 items-center hover-primary-pink",
                                         children: [
                                             config.contact?.phone && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                 className: "text-base text-gray-700 capitalize",
@@ -975,7 +965,7 @@ function Footer({ locale }) {
                                                     target: "_blank",
                                                     rel: "noopener noreferrer",
                                                     className: "text-primary-pink-light font-medium hover:text-primary-pink transition-colors",
-                                                    "aria-label": t('contact.phoneLabel'),
+                                                    "aria-label": `Telefon: ${config.contact.phone}`,
                                                     children: config.contact.phone
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/layout/footer.tsx",
@@ -992,7 +982,7 @@ function Footer({ locale }) {
                                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
                                                     href: config.contact.email_link || `mailto:${config.contact.email}`,
                                                     className: "text-primary-pink-light lowercase font-medium hover:text-primary-pink transition-colors",
-                                                    "aria-label": t('contact.emailLabel'),
+                                                    "aria-label": `E-posta: ${config.contact.email}`,
                                                     children: config.contact.email
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/layout/footer.tsx",
@@ -1053,7 +1043,7 @@ function Footer({ locale }) {
                         children: [
                             config.quick_access?.icon && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(IconBadge, {
                                 src: config.quick_access.icon,
-                                alt: t('quickAccess.iconAlt')
+                                alt: "Hızlı erişim ikonu"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/layout/footer.tsx",
                                 lineNumber: 212,
@@ -1063,7 +1053,7 @@ function Footer({ locale }) {
                                 className: "flex flex-col flex-1 gap-2 md:gap-4 items-center",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(CardTitle, {
-                                        children: t('quickAccess.title')
+                                        children: config.quick_access?.title || 'Hızlı Erişim'
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/layout/footer.tsx",
                                         lineNumber: 215,
@@ -1071,12 +1061,12 @@ function Footer({ locale }) {
                                     }, this),
                                     config.quick_access?.links?.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
                                         className: "flex flex-col gap-2 items-center",
-                                        "aria-label": t('quickAccess.navLabel'),
+                                        "aria-label": "Hızlı erişim linkleri",
                                         children: config.quick_access.links.filter((link)=>link.is_active).map((link)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                                 className: "text-base text-primary-pink-light font-medium hover:text-primary-pink transition-colors capitalize",
                                                 href: `/${locale}${link.href}`,
                                                 "aria-label": link.label,
-                                                children: t(`quickAccess.links.${link.label}.text`)
+                                                children: link.label
                                             }, link.id, false, {
                                                 fileName: "[project]/src/components/layout/footer.tsx",
                                                 lineNumber: 222,
@@ -1113,7 +1103,7 @@ function Footer({ locale }) {
                         children: config.copyright_text
                     }, void 0, false, {
                         fileName: "[project]/src/components/layout/footer.tsx",
-                        lineNumber: 240,
+                        lineNumber: 239,
                         columnNumber: 43
                     }, this),
                     config.copyright_text && config.copyright_logo && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1122,14 +1112,14 @@ function Footer({ locale }) {
                         children: "|"
                     }, void 0, false, {
                         fileName: "[project]/src/components/layout/footer.tsx",
-                        lineNumber: 242,
+                        lineNumber: 241,
                         columnNumber: 21
                     }, this),
                     config.copyright_logo && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "w-[180px] h-[18px]",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                             src: config.copyright_logo,
-                            alt: t('copyright.logoAlt'),
+                            alt: "Copyright logo",
                             width: 180,
                             height: 18,
                             className: "w-full h-full object-contain",
@@ -1137,18 +1127,18 @@ function Footer({ locale }) {
                             unoptimized: true
                         }, void 0, false, {
                             fileName: "[project]/src/components/layout/footer.tsx",
-                            lineNumber: 247,
+                            lineNumber: 246,
                             columnNumber: 25
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/layout/footer.tsx",
-                        lineNumber: 246,
+                        lineNumber: 245,
                         columnNumber: 21
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/layout/footer.tsx",
-                lineNumber: 239,
+                lineNumber: 238,
                 columnNumber: 13
             }, this)
         ]
@@ -1158,11 +1148,7 @@ function Footer({ locale }) {
         columnNumber: 9
     }, this);
 }
-_s(Footer, "JEUmqTfwjTvlYH2tKQT58aRFxrY=", false, function() {
-    return [
-        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$intl$2f$dist$2f$esm$2f$development$2f$react$2d$client$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["useTranslations"]
-    ];
-});
+_s(Footer, "RdtczVPku6I1gCZVhPcNEVu31go=");
 _c4 = Footer;
 var _c, _c1, _c2, _c3, _c4;
 __turbopack_refresh__.register(_c, "SocialIcon");

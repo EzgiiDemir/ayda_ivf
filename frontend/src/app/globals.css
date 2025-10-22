@@ -6,6 +6,7 @@
     :root {
         /* Primary Colors */
         --color-primary-pink: rgb(244 97 151);
+        --color-primary-pink-dark:#c61e5e;
     ;
         --color-primary-blue: rgb(152 224 242);
         --color-primary-pink-light: rgb(240 143 178);
@@ -31,6 +32,9 @@
     .bg-primary-pink {
         background-color: var(--color-primary-pink);
     }
+   .bg-primary-pink-dark {
+        background-color: var(--color-primary-pink);
+    }
 
     .bg-primary-blue {
         background-color: var(--color-primary-blue);
@@ -44,6 +48,9 @@
     }
     /* Text Colors */
     .text-primary-pink {
+        color: var(--color-primary-pink);
+    }
+    .text-primary-pink-dark {
         color: var(--color-primary-pink);
     }
 
@@ -63,6 +70,9 @@
     /* Hover States */
     .hover-primary-pink:hover {
         color: var(--color-primary-pink);
+    }
+    .hover-primary-pink-dark:hover {
+        color: var(--color-primary-pink-dark);
     }
 
     .hover-bg-primary-pink:hover {

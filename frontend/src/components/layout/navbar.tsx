@@ -1,3 +1,5 @@
+// src/components/navbar.tsx
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -7,7 +9,6 @@ import { useParams } from 'next/navigation';
 import { Phone, ChevronDown } from 'lucide-react';
 import { DEFAULT_NAVBAR_CONFIG } from '@/src/config/navbar.config';
 import { NavConfig } from '@/src/types/navbar.types';
-import { useTranslations } from 'use-intl';
 import axios from 'axios';
 
 export default function Navbar() {
@@ -17,24 +18,27 @@ export default function Navbar() {
     const [mobileAboutOpen, setMobileAboutOpen] = useState(false);
     const [mobileTreatmentsOpen, setMobileTreatmentsOpen] = useState(false);
     const [config, setConfig] = useState<NavConfig>(DEFAULT_NAVBAR_CONFIG);
-    const [loading, setLoading] = useState(true); // ✅ LOADING STATE
+    const [loading, setLoading] = useState(true);
 
     const params = useParams();
     const locale = (params?.locale as string) || 'tr';
-    const t = useTranslations();
 
-    // ✅ API'DEN VERİ ÇEK
+    // ✅ API'DEN VERİ ÇEK - LOCALE İLE
     useEffect(() => {
         const fetchNavbarData = async () => {
             try {
                 setLoading(true);
                 const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
+                // 🔥 ÖNEMLİ: locale parametresini URL'ye ekle
+                console.log(`🔍 Fetching navbar for locale: ${locale}`);
                 const response = await axios.get(`${apiUrl}/api/navbar?locale=${locale}`);
+
+                console.log(`✅ Navbar data received for ${locale}:`, response.data.data);
 
                 if (response.data.success && response.data.data) {
                     const apiData = response.data.data;
 
-                    // ✅ API DATA'YI CONFIG FORMATINA DÖNÜŞTÜR
                     const newConfig: NavConfig = {
                         logo: {
                             url: apiData.logo.url || DEFAULT_NAVBAR_CONFIG.logo.url,
@@ -73,11 +77,9 @@ export default function Navbar() {
                     };
 
                     setConfig(newConfig);
-                    console.log('✅ Navbar data loaded:', newConfig);
                 }
-            } catch (error) {
-                console.error('❌ Navbar fetch error:', error);
-                // Hata durumunda default config kullan
+            } catch (error: any) {
+                console.error(`❌ Navbar fetch error for ${locale}:`, error);
                 setConfig(DEFAULT_NAVBAR_CONFIG);
             } finally {
                 setLoading(false);
@@ -119,13 +121,8 @@ export default function Navbar() {
         setMobileTreatmentsOpen(false);
     };
 
-    const phoneNumber = t('phoneNumber') || config.contact.phoneNumber;
+    const phoneNumber = config.contact.phoneNumber;
     const whatsappUrl = `https://wa.me/${phoneNumber.replace(/[\s\-\(\)]/g, '')}`;
-
-    // ✅ LOADING STATE GÖSTER (Opsiyonel)
-    // if (loading) {
-    //     return <nav className="sticky top-0 shadow-md bg-white/60 backdrop-blur-[30px] h-20 z-50 border-b-2 border-primary-pink-light" />;
-    // }
 
     return (
         <>
@@ -134,7 +131,7 @@ export default function Navbar() {
                     <Link href={`/${locale}`} className="relative w-[125px] h-[65px] transition-transform duration-300 hover:scale-105">
                         <Image
                             src={config.logo.url}
-                            alt={config.logo.alt || t('logoAlt')}
+                            alt={config.logo.alt}
                             width={config.logo.width}
                             height={config.logo.height}
                             className="w-full h-full object-contain transition-all duration-300 hover:contrast-125 hover:brightness-110"
@@ -142,7 +139,6 @@ export default function Navbar() {
                             quality={90}
                             unoptimized
                         />
-
                     </Link>
 
                     <div className="hidden md:flex items-center gap-6">
@@ -151,13 +147,13 @@ export default function Navbar() {
                             {config.about.links.length > 0 && (
                                 <li className="relative" onMouseEnter={() => setAboutOpen(true)} onMouseLeave={() => setAboutOpen(false)}>
                                     <button className="flex items-center gap-1 hover-primary-pink transition-colors duration-300" aria-expanded={aboutOpen} aria-haspopup="true">
-                                        <span>{t(config.about.label)}</span>
+                                        <span>{config.about.label}</span>
                                     </button>
                                     <ul className={`absolute top-full left-0 bg-gray-light shadow-lg flex flex-col min-w-[220px] transition-all duration-300 rounded-b-md overflow-hidden ${aboutOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}>
                                         {config.about.links.map((link) => (
                                             <li key={link.id}>
                                                 <Link href={`/${locale}${link.href}`} className="block px-4 py-3 hover-bg-primary-pink hover:text-white transition-colors duration-300">
-                                                    {t(link.label)}
+                                                    {link.label}
                                                 </Link>
                                             </li>
                                         ))}
@@ -169,13 +165,13 @@ export default function Navbar() {
                             {config.treatments.links.length > 0 && (
                                 <li className="relative" onMouseEnter={() => setTreatmentsOpen(true)} onMouseLeave={() => setTreatmentsOpen(false)}>
                                     <button className="flex items-center gap-1 hover-primary-pink transition-colors duration-300" aria-expanded={treatmentsOpen} aria-haspopup="true">
-                                        <span>{t(config.treatments.label)}</span>
+                                        <span>{config.treatments.label}</span>
                                     </button>
                                     <ul className={`absolute top-full left-0 bg-gray-light shadow-lg flex flex-col min-w-[220px] transition-all duration-300 rounded-b-md overflow-hidden ${treatmentsOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'}`}>
                                         {config.treatments.links.map((link) => (
                                             <li key={link.id}>
                                                 <Link href={`/${locale}${link.href}`} className="block px-4 py-3 hover-bg-primary-pink hover:text-white transition-colors duration-300">
-                                                    {t(link.label)}
+                                                    {link.label}
                                                 </Link>
                                             </li>
                                         ))}
@@ -187,19 +183,19 @@ export default function Navbar() {
                             {config.links.map((link) => (
                                 <li key={link.id}>
                                     <Link href={`/${locale}${link.href}`} className="hover-primary-pink transition-colors duration-300">
-                                        {t(link.label)}
+                                        {link.label}
                                     </Link>
                                 </li>
                             ))}
                         </ul>
 
-                        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-md bg-primary-pink hover-bg-primary-blue transition-colors duration-300 flex justify-center items-center" aria-label={t('contactViaWhatsApp')}>
+                        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-md bg-primary-pink hover-bg-primary-blue transition-colors duration-300 flex justify-center items-center" aria-label="WhatsApp ile iletişim">
                             <Phone className="text-white" size={18} />
                         </a>
                     </div>
 
                     {/* Mobile Menu Toggle */}
-                    <button className="flex md:hidden flex-col gap-[6px] p-2 z-50" onClick={handleMobileMenuToggle}>
+                    <button className="flex md:hidden flex-col gap-[6px] p-2 z-50" onClick={handleMobileMenuToggle} aria-label="Menüyü aç/kapat">
                         <span className={`h-[2px] w-6 bg-primary-pink rounded-md transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-[8px]' : ''}`} />
                         <span className={`h-[2px] w-6 bg-primary-pink rounded-md transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : 'opacity-100'}`} />
                         <span className={`h-[2px] w-6 bg-primary-pink rounded-md transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 -translate-y-[8px]' : ''}`} />
@@ -214,13 +210,13 @@ export default function Navbar() {
                             {config.about.links.length > 0 && (
                                 <div>
                                     <button onClick={() => setMobileAboutOpen(!mobileAboutOpen)} className="flex items-center gap-1 py-2 hover-primary-pink transition-colors duration-300 w-full">
-                                        <span>{t(config.about.label)}</span>
+                                        <span>{config.about.label}</span>
                                         <ChevronDown size={16} className={`transition-transform duration-300 ${mobileAboutOpen ? 'rotate-180' : ''}`} />
                                     </button>
                                     <div className={`bg-gray-50 overflow-hidden flex flex-col transition-all duration-300 rounded-md ${mobileAboutOpen ? 'opacity-100 max-h-[500px] mt-2' : 'opacity-0 max-h-0'}`}>
                                         {config.about.links.map((link) => (
                                             <Link key={link.id} href={`/${locale}${link.href}`} onClick={handleMobileLinkClick} className="px-4 py-3 hover:bg-primary-pink-light transition-colors duration-300">
-                                                {t(link.label)}
+                                                {link.label}
                                             </Link>
                                         ))}
                                     </div>
@@ -231,13 +227,13 @@ export default function Navbar() {
                             {config.treatments.links.length > 0 && (
                                 <div>
                                     <button onClick={() => setMobileTreatmentsOpen(!mobileTreatmentsOpen)} className="flex items-center gap-1 py-2 hover-primary-pink transition-colors duration-300 w-full">
-                                        <span>{t(config.treatments.label)}</span>
+                                        <span>{config.treatments.label}</span>
                                         <ChevronDown size={16} className={`transition-transform duration-300 ${mobileTreatmentsOpen ? 'rotate-180' : ''}`} />
                                     </button>
                                     <div className={`bg-gray-50 overflow-hidden flex flex-col transition-all duration-300 rounded-md ${mobileTreatmentsOpen ? 'opacity-100 max-h-[500px] mt-2' : 'opacity-0 max-h-0'}`}>
                                         {config.treatments.links.map((link) => (
                                             <Link key={link.id} href={`/${locale}${link.href}`} onClick={handleMobileLinkClick} className="px-4 py-3 hover:bg-primary-pink-light transition-colors duration-300">
-                                                {t(link.label)}
+                                                {link.label}
                                             </Link>
                                         ))}
                                     </div>
@@ -247,7 +243,7 @@ export default function Navbar() {
                             {/* Mobile Main Links */}
                             {config.links.map((link) => (
                                 <Link key={link.id} href={`/${locale}${link.href}`} onClick={handleMobileLinkClick} className="py-2 hover-primary-pink transition-colors duration-300">
-                                    {t(link.label)}
+                                    {link.label}
                                 </Link>
                             ))}
                         </nav>

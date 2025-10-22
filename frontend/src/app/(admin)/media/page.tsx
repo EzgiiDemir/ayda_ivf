@@ -1,4 +1,3 @@
-// src/app/admin/media/page.tsx
 'use client';
 
 import { useState, useEffect, useRef, ChangeEvent } from 'react';

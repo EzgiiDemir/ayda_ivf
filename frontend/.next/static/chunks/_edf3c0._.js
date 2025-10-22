@@ -1029,7 +1029,6 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 
 var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, k: __turbopack_refresh__, m: module, z: __turbopack_require_stub__ } = __turbopack_context__;
 {
-// src/app/(admin)/admin/layout/navbar/page.tsx
 __turbopack_esm__({
     "default": (()=>NavbarEditorPage)
 });
@@ -1066,31 +1065,39 @@ var _s = __turbopack_refresh__.signature();
 ;
 ;
 ;
+const DEFAULT_LOCALE_DATA = {
+    logo_url: '',
+    logo_alt: '',
+    logo_width: 125,
+    logo_height: 65,
+    phone_number: '',
+    whatsapp_number: '',
+    email: '',
+    about: {
+        label: '',
+        links: []
+    },
+    treatments: {
+        label: '',
+        links: []
+    },
+    links: []
+};
 function NavbarEditorPage() {
     _s();
     const { toast } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$use$2d$toast$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useToast"])();
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     const [saving, setSaving] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [activeLocale, setActiveLocale] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('tr');
     const [showMediaPicker, setShowMediaPicker] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [mediaPickerTarget, setMediaPickerTarget] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
     const [navbarData, setNavbarData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
-        locale: 'tr',
-        logo_url: '',
-        logo_alt: '',
-        logo_width: 125,
-        logo_height: 65,
-        phone_number: '',
-        whatsapp_number: '',
-        email: '',
-        about: {
-            label: 'about',
-            links: []
+        tr: {
+            ...DEFAULT_LOCALE_DATA
         },
-        treatments: {
-            label: 'treatments',
-            links: []
-        },
-        links: []
+        en: {
+            ...DEFAULT_LOCALE_DATA
+        }
     });
     const [aboutOpen, setAboutOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     const [treatmentsOpen, setTreatmentsOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
@@ -1102,97 +1109,108 @@ function NavbarEditorPage() {
     const fetchData = async ()=>{
         try {
             setLoading(true);
-            const response = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get('/navbar?locale=tr');
-            if (response.data.data) {
-                const data = response.data.data;
-                setNavbarData({
-                    locale: 'tr',
-                    logo_url: data.logo.url || '',
-                    logo_alt: data.logo.alt || '',
-                    logo_width: data.logo.width || 125,
-                    logo_height: data.logo.height || 65,
-                    phone_number: data.contact.phone_number || '',
-                    whatsapp_number: data.contact.whatsapp_number || '',
-                    email: data.contact.email || '',
+            // TR ve EN verilerini paralel olarak çek
+            const [trResponse, enResponse] = await Promise.all([
+                __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get('/navbar?locale=tr'),
+                __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get('/navbar?locale=en')
+            ]);
+            const processData = (data)=>({
+                    logo_url: data.logo?.url || '',
+                    logo_alt: data.logo?.alt || '',
+                    logo_width: data.logo?.width || 125,
+                    logo_height: data.logo?.height || 65,
+                    phone_number: data.contact?.phone_number || '',
+                    whatsapp_number: data.contact?.whatsapp_number || '',
+                    email: data.contact?.email || '',
                     about: data.about || {
-                        label: 'about',
+                        label: '',
                         links: []
                     },
                     treatments: data.treatments || {
-                        label: 'treatments',
+                        label: '',
                         links: []
                     },
                     links: data.links || []
                 });
-            }
-        } catch (error) {
-            console.error('Fetch error:', error);
+            setNavbarData({
+                tr: trResponse.data.data ? processData(trResponse.data.data) : {
+                    ...DEFAULT_LOCALE_DATA
+                },
+                en: enResponse.data.data ? processData(enResponse.data.data) : {
+                    ...DEFAULT_LOCALE_DATA
+                }
+            });
             toast({
-                title: 'Hata',
-                description: 'Veriler yüklenirken bir hata oluştu',
+                title: '✅ Başarılı',
+                description: 'Navbar verileri yüklendi'
+            });
+        } catch (error) {
+            console.error('❌ Fetch error:', error);
+            toast({
+                title: '❌ Hata',
+                description: 'Veriler yüklenirken hata oluştu',
                 variant: 'destructive'
             });
         } finally{
             setLoading(false);
         }
     };
-    // ✅ VALIDATION FONKSIYONU EKLEDIM
-    const validateData = ()=>{
+    const validateLocaleData = (data, locale)=>{
         // About links validation
-        for(let i = 0; i < navbarData.about.links.length; i++){
-            const link = navbarData.about.links[i];
+        for(let i = 0; i < data.about.links.length; i++){
+            const link = data.about.links[i];
             if (!link.label || link.label.trim() === '') {
                 toast({
-                    title: 'Hata',
-                    description: `Hakkımızda menüsünde ${i + 1}. linkin etiketi boş olamaz!`,
+                    title: '❌ Hata',
+                    description: `[${locale.toUpperCase()}] Hakkımızda menüsü ${i + 1}. link: Etiket boş olamaz`,
                     variant: 'destructive'
                 });
                 return false;
             }
             if (!link.href || link.href.trim() === '') {
                 toast({
-                    title: 'Hata',
-                    description: `Hakkımızda menüsünde ${i + 1}. linkin URL'si boş olamaz!`,
+                    title: '❌ Hata',
+                    description: `[${locale.toUpperCase()}] Hakkımızda menüsü ${i + 1}. link: URL boş olamaz`,
                     variant: 'destructive'
                 });
                 return false;
             }
         }
         // Treatments links validation
-        for(let i = 0; i < navbarData.treatments.links.length; i++){
-            const link = navbarData.treatments.links[i];
+        for(let i = 0; i < data.treatments.links.length; i++){
+            const link = data.treatments.links[i];
             if (!link.label || link.label.trim() === '') {
                 toast({
-                    title: 'Hata',
-                    description: `Tedaviler menüsünde ${i + 1}. linkin etiketi boş olamaz!`,
+                    title: '❌ Hata',
+                    description: `[${locale.toUpperCase()}] Tedaviler menüsü ${i + 1}. link: Etiket boş olamaz`,
                     variant: 'destructive'
                 });
                 return false;
             }
             if (!link.href || link.href.trim() === '') {
                 toast({
-                    title: 'Hata',
-                    description: `Tedaviler menüsünde ${i + 1}. linkin URL'si boş olamaz!`,
+                    title: '❌ Hata',
+                    description: `[${locale.toUpperCase()}] Tedaviler menüsü ${i + 1}. link: URL boş olamaz`,
                     variant: 'destructive'
                 });
                 return false;
             }
         }
         // Main links validation
-        for(let i = 0; i < navbarData.links.length; i++){
-            const link = navbarData.links[i];
+        for(let i = 0; i < data.links.length; i++){
+            const link = data.links[i];
             if (!link.label || link.label.trim() === '') {
                 toast({
-                    title: 'Hata',
-                    description: `Ana menüde ${i + 1}. linkin etiketi boş olamaz!`,
+                    title: '❌ Hata',
+                    description: `[${locale.toUpperCase()}] Ana menü ${i + 1}. link: Etiket boş olamaz`,
                     variant: 'destructive'
                 });
                 return false;
             }
             if (!link.href || link.href.trim() === '') {
                 toast({
-                    title: 'Hata',
-                    description: `Ana menüde ${i + 1}. linkin URL'si boş olamaz!`,
+                    title: '❌ Hata',
+                    description: `[${locale.toUpperCase()}] Ana menü ${i + 1}. link: URL boş olamaz`,
                     variant: 'destructive'
                 });
                 return false;
@@ -1200,52 +1218,35 @@ function NavbarEditorPage() {
         }
         return true;
     };
-    // ✅ SAVE FONKSIYONUNA VALIDATION EKLEDIM
     const handleSave = async (e)=>{
         e.preventDefault();
-        // Validate before saving
-        if (!validateData()) {
+        // Her iki dili de validate et
+        if (!validateLocaleData(navbarData.tr, 'tr') || !validateLocaleData(navbarData.en, 'en')) {
             return;
         }
         setSaving(true);
         try {
-            // ✅ BOŞ LINKLERI FİLTRELE VE TRİM YAP
-            const cleanedData = {
-                ...navbarData,
-                about: {
-                    ...navbarData.about,
-                    links: navbarData.about.links.filter((link)=>link.label && link.label.trim() !== '' && link.href && link.href.trim() !== '').map((link)=>({
-                            ...link,
-                            label: link.label.trim(),
-                            href: link.href.trim()
-                        }))
-                },
-                treatments: {
-                    ...navbarData.treatments,
-                    links: navbarData.treatments.links.filter((link)=>link.label && link.label.trim() !== '' && link.href && link.href.trim() !== '').map((link)=>({
-                            ...link,
-                            label: link.label.trim(),
-                            href: link.href.trim()
-                        }))
-                },
-                links: navbarData.links.filter((link)=>link.label && link.label.trim() !== '' && link.href && link.href.trim() !== '').map((link)=>({
-                        ...link,
-                        label: link.label.trim(),
-                        href: link.href.trim()
-                    }))
-            };
-            await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].put('/navbar', cleanedData);
+            // TR ve EN verilerini paralel olarak kaydet
+            await Promise.all([
+                __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].put('/navbar', {
+                    ...navbarData.tr,
+                    locale: 'tr'
+                }),
+                __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].put('/navbar', {
+                    ...navbarData.en,
+                    locale: 'en'
+                })
+            ]);
             toast({
-                title: 'Başarılı',
-                description: 'Navbar başarıyla güncellendi'
+                title: '✅ Başarılı',
+                description: 'Navbar ayarları her iki dil için kaydedildi'
             });
-            // ✅ KAYIT SONRASI VERİYİ YENİDEN YÜKLE
             await fetchData();
         } catch (error) {
-            console.error('Save error:', error.response?.data);
+            console.error('❌ Save error:', error.response?.data);
             toast({
-                title: 'Hata',
-                description: error.response?.data?.message || 'Güncelleme başarısız',
+                title: '❌ Hata',
+                description: error.response?.data?.message || 'Kayıt sırasında hata oluştu',
                 variant: 'destructive'
             });
         } finally{
@@ -1256,7 +1257,10 @@ function NavbarEditorPage() {
         if (mediaPickerTarget === 'logo') {
             setNavbarData({
                 ...navbarData,
-                logo_url: url
+                [activeLocale]: {
+                    ...navbarData[activeLocale],
+                    logo_url: url
+                }
             });
         }
         setShowMediaPicker(false);
@@ -1266,170 +1270,57 @@ function NavbarEditorPage() {
         setMediaPickerTarget(target);
         setShowMediaPicker(true);
     };
+    const updateField = (field, value)=>{
+        setNavbarData({
+            ...navbarData,
+            [activeLocale]: {
+                ...navbarData[activeLocale],
+                [field]: value
+            }
+        });
+    };
     // About Links Functions
     const addAboutLink = ()=>{
-        setNavbarData({
-            ...navbarData,
-            about: {
-                ...navbarData.about,
-                links: [
-                    ...navbarData.about.links,
-                    {
-                        label: '',
-                        href: '',
-                        order: navbarData.about.links.length + 1,
-                        is_active: true
-                    }
-                ]
-            }
-        });
-    };
-    const updateAboutLink = (index, field, value)=>{
-        const newLinks = [
-            ...navbarData.about.links
-        ];
-        newLinks[index] = {
-            ...newLinks[index],
-            [field]: value
-        };
-        setNavbarData({
-            ...navbarData,
-            about: {
-                ...navbarData.about,
-                links: newLinks
-            }
-        });
-    };
-    const removeAboutLink = (index)=>{
-        const newLinks = navbarData.about.links.filter((_, i)=>i !== index);
-        setNavbarData({
-            ...navbarData,
-            about: {
-                ...navbarData.about,
-                links: newLinks
-            }
-        });
-    };
-    const moveAboutLink = (index, direction)=>{
-        const newLinks = [
-            ...navbarData.about.links
-        ];
-        const newIndex = direction === 'up' ? index - 1 : index + 1;
-        if (newIndex < 0 || newIndex >= newLinks.length) return;
-        [newLinks[index], newLinks[newIndex]] = [
-            newLinks[newIndex],
-            newLinks[index]
-        ];
-        newLinks.forEach((link, i)=>link.order = i + 1);
-        setNavbarData({
-            ...navbarData,
-            about: {
-                ...navbarData.about,
-                links: newLinks
-            }
-        });
-    };
-    // Treatments Links Functions
-    const addTreatmentLink = ()=>{
-        setNavbarData({
-            ...navbarData,
-            treatments: {
-                ...navbarData.treatments,
-                links: [
-                    ...navbarData.treatments.links,
-                    {
-                        label: '',
-                        href: '',
-                        order: navbarData.treatments.links.length + 1,
-                        is_active: true
-                    }
-                ]
-            }
-        });
-    };
-    const updateTreatmentLink = (index, field, value)=>{
-        const newLinks = [
-            ...navbarData.treatments.links
-        ];
-        newLinks[index] = {
-            ...newLinks[index],
-            [field]: value
-        };
-        setNavbarData({
-            ...navbarData,
-            treatments: {
-                ...navbarData.treatments,
-                links: newLinks
-            }
-        });
-    };
-    const removeTreatmentLink = (index)=>{
-        const newLinks = navbarData.treatments.links.filter((_, i)=>i !== index);
-        setNavbarData({
-            ...navbarData,
-            treatments: {
-                ...navbarData.treatments,
-                links: newLinks
-            }
-        });
-    };
-    const moveTreatmentLink = (index, direction)=>{
-        const newLinks = [
-            ...navbarData.treatments.links
-        ];
-        const newIndex = direction === 'up' ? index - 1 : index + 1;
-        if (newIndex < 0 || newIndex >= newLinks.length) return;
-        [newLinks[index], newLinks[newIndex]] = [
-            newLinks[newIndex],
-            newLinks[index]
-        ];
-        newLinks.forEach((link, i)=>link.order = i + 1);
-        setNavbarData({
-            ...navbarData,
-            treatments: {
-                ...navbarData.treatments,
-                links: newLinks
-            }
-        });
-    };
-    // Main Links Functions
-    const addMainLink = ()=>{
-        setNavbarData({
-            ...navbarData,
+        const currentData = navbarData[activeLocale];
+        updateField('about', {
+            ...currentData.about,
             links: [
-                ...navbarData.links,
+                ...currentData.about.links,
                 {
                     label: '',
                     href: '',
-                    order: navbarData.links.length + 1,
+                    order: currentData.about.links.length + 1,
                     is_active: true
                 }
             ]
         });
     };
-    const updateMainLink = (index, field, value)=>{
+    const updateAboutLink = (index, field, value)=>{
+        const currentData = navbarData[activeLocale];
         const newLinks = [
-            ...navbarData.links
+            ...currentData.about.links
         ];
         newLinks[index] = {
             ...newLinks[index],
             [field]: value
         };
-        setNavbarData({
-            ...navbarData,
+        updateField('about', {
+            ...currentData.about,
             links: newLinks
         });
     };
-    const removeMainLink = (index)=>{
-        const newLinks = navbarData.links.filter((_, i)=>i !== index);
-        setNavbarData({
-            ...navbarData,
+    const removeAboutLink = (index)=>{
+        const currentData = navbarData[activeLocale];
+        const newLinks = currentData.about.links.filter((_, i)=>i !== index);
+        updateField('about', {
+            ...currentData.about,
             links: newLinks
         });
     };
-    const moveMainLink = (index, direction)=>{
+    const moveAboutLink = (index, direction)=>{
+        const currentData = navbarData[activeLocale];
         const newLinks = [
-            ...navbarData.links
+            ...currentData.about.links
         ];
         const newIndex = direction === 'up' ? index - 1 : index + 1;
         if (newIndex < 0 || newIndex >= newLinks.length) return;
@@ -1438,10 +1329,108 @@ function NavbarEditorPage() {
             newLinks[index]
         ];
         newLinks.forEach((link, i)=>link.order = i + 1);
-        setNavbarData({
-            ...navbarData,
+        updateField('about', {
+            ...currentData.about,
             links: newLinks
         });
+    };
+    // Treatment Links Functions
+    const addTreatmentLink = ()=>{
+        const currentData = navbarData[activeLocale];
+        updateField('treatments', {
+            ...currentData.treatments,
+            links: [
+                ...currentData.treatments.links,
+                {
+                    label: '',
+                    href: '',
+                    order: currentData.treatments.links.length + 1,
+                    is_active: true
+                }
+            ]
+        });
+    };
+    const updateTreatmentLink = (index, field, value)=>{
+        const currentData = navbarData[activeLocale];
+        const newLinks = [
+            ...currentData.treatments.links
+        ];
+        newLinks[index] = {
+            ...newLinks[index],
+            [field]: value
+        };
+        updateField('treatments', {
+            ...currentData.treatments,
+            links: newLinks
+        });
+    };
+    const removeTreatmentLink = (index)=>{
+        const currentData = navbarData[activeLocale];
+        const newLinks = currentData.treatments.links.filter((_, i)=>i !== index);
+        updateField('treatments', {
+            ...currentData.treatments,
+            links: newLinks
+        });
+    };
+    const moveTreatmentLink = (index, direction)=>{
+        const currentData = navbarData[activeLocale];
+        const newLinks = [
+            ...currentData.treatments.links
+        ];
+        const newIndex = direction === 'up' ? index - 1 : index + 1;
+        if (newIndex < 0 || newIndex >= newLinks.length) return;
+        [newLinks[index], newLinks[newIndex]] = [
+            newLinks[newIndex],
+            newLinks[index]
+        ];
+        newLinks.forEach((link, i)=>link.order = i + 1);
+        updateField('treatments', {
+            ...currentData.treatments,
+            links: newLinks
+        });
+    };
+    // Main Links Functions
+    const addMainLink = ()=>{
+        const currentData = navbarData[activeLocale];
+        updateField('links', [
+            ...currentData.links,
+            {
+                label: '',
+                href: '',
+                order: currentData.links.length + 1,
+                is_active: true
+            }
+        ]);
+    };
+    const updateMainLink = (index, field, value)=>{
+        const currentData = navbarData[activeLocale];
+        const newLinks = [
+            ...currentData.links
+        ];
+        newLinks[index] = {
+            ...newLinks[index],
+            [field]: value
+        };
+        updateField('links', newLinks);
+    };
+    const removeMainLink = (index)=>{
+        const currentData = navbarData[activeLocale];
+        const newLinks = currentData.links.filter((_, i)=>i !== index);
+        updateField('links', newLinks);
+    };
+    const moveMainLink = (index, direction)=>{
+        const currentData = navbarData[activeLocale];
+        const newLinks = [
+            ...currentData.links
+        ];
+        const newIndex = direction === 'up' ? index - 1 : index + 1;
+        if (newIndex < 0 || newIndex >= newLinks.length) return;
+        [newLinks[index], newLinks[newIndex]] = [
+            newLinks[newIndex],
+            newLinks[index]
+        ];
+        newLinks.forEach((link, i)=>link.order = i + 1);
+        updateField('links', newLinks);
     };
     if (loading) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1450,45 +1439,82 @@ function NavbarEditorPage() {
                 className: "h-12 w-12 animate-spin text-primary-pink"
             }, void 0, false, {
                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                lineNumber: 351,
+                lineNumber: 357,
                 columnNumber: 17
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-            lineNumber: 350,
+            lineNumber: 356,
             columnNumber: 13
         }, this);
     }
+    const currentData = navbarData[activeLocale];
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "space-y-6",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                    className: "text-3xl font-bold text-primary-pink flex items-center gap-2",
-                    children: "Navbar"
-                }, void 0, false, {
-                    fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                    lineNumber: 360,
-                    columnNumber: 17
-                }, this)
-            }, void 0, false, {
+                className: "flex items-center justify-between",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                        className: "text-3xl font-bold text-primary-pink flex items-center gap-2",
+                        children: "Navbar"
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
+                        lineNumber: 367,
+                        columnNumber: 17
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex gap-2",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                variant: activeLocale === 'tr' ? 'default' : 'outline',
+                                onClick: ()=>setActiveLocale('tr'),
+                                className: activeLocale === 'tr' ? 'bg-primary-pink' : '',
+                                children: "🇹🇷 Türkçe"
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
+                                lineNumber: 371,
+                                columnNumber: 21
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                variant: activeLocale === 'en' ? 'default' : 'outline',
+                                onClick: ()=>setActiveLocale('en'),
+                                className: activeLocale === 'en' ? 'bg-primary-pink' : '',
+                                children: "🇬🇧 English"
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
+                                lineNumber: 378,
+                                columnNumber: 21
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
+                        lineNumber: 370,
+                        columnNumber: 17
+                    }, this)
+                ]
+            }, void 0, true, {
                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                lineNumber: 359,
+                lineNumber: 366,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardHeader"], {
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardTitle"], {
-                            children: "Navbar Ayarları"
-                        }, void 0, false, {
+                            className: "flex items-center gap-2",
+                            children: [
+                                activeLocale === 'tr' ? '🇹🇷 Türkçe' : '🇬🇧 English',
+                                " İçerik"
+                            ]
+                        }, void 0, true, {
                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                            lineNumber: 367,
+                            lineNumber: 390,
                             columnNumber: 21
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                        lineNumber: 366,
+                        lineNumber: 389,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1504,7 +1530,7 @@ function NavbarEditorPage() {
                                             children: "Logo Ayarları"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                            lineNumber: 373,
+                                            lineNumber: 398,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1514,22 +1540,19 @@ function NavbarEditorPage() {
                                                     children: "Logo URL"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                    lineNumber: 376,
+                                                    lineNumber: 401,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: "flex gap-2",
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                            value: navbarData.logo_url,
-                                                            onChange: (e)=>setNavbarData({
-                                                                    ...navbarData,
-                                                                    logo_url: e.target.value
-                                                                }),
+                                                            value: currentData.logo_url,
+                                                            onChange: (e)=>updateField('logo_url', e.target.value),
                                                             placeholder: "https://..."
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                            lineNumber: 378,
+                                                            lineNumber: 403,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1540,40 +1563,40 @@ function NavbarEditorPage() {
                                                                 className: "w-4 h-4"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                lineNumber: 384,
+                                                                lineNumber: 409,
                                                                 columnNumber: 41
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                            lineNumber: 383,
+                                                            lineNumber: 408,
                                                             columnNumber: 37
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                    lineNumber: 377,
+                                                    lineNumber: 402,
                                                     columnNumber: 33
                                                 }, this),
-                                                navbarData.logo_url && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                currentData.logo_url && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: "mt-2",
                                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                                        src: navbarData.logo_url,
+                                                        src: currentData.logo_url,
                                                         alt: "Logo Preview",
                                                         className: "h-16 object-contain"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                        lineNumber: 389,
+                                                        lineNumber: 414,
                                                         columnNumber: 41
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                    lineNumber: 388,
+                                                    lineNumber: 413,
                                                     columnNumber: 37
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                            lineNumber: 375,
+                                            lineNumber: 400,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1586,93 +1609,84 @@ function NavbarEditorPage() {
                                                             children: "Logo Alt Text"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                            lineNumber: 396,
+                                                            lineNumber: 421,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                            value: navbarData.logo_alt,
-                                                            onChange: (e)=>setNavbarData({
-                                                                    ...navbarData,
-                                                                    logo_alt: e.target.value
-                                                                }),
-                                                            placeholder: "Ayda IVF Logo"
+                                                            value: currentData.logo_alt,
+                                                            onChange: (e)=>updateField('logo_alt', e.target.value),
+                                                            placeholder: activeLocale === 'tr' ? 'Ayda IVF Logo' : 'Ayda IVF Logo'
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                            lineNumber: 397,
+                                                            lineNumber: 422,
                                                             columnNumber: 37
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                    lineNumber: 395,
+                                                    lineNumber: 420,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: "space-y-2",
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                            children: "Genişlik (px)"
+                                                            children: "Genişlik"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                            lineNumber: 404,
+                                                            lineNumber: 429,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
                                                             type: "number",
-                                                            value: navbarData.logo_width,
-                                                            onChange: (e)=>setNavbarData({
-                                                                    ...navbarData,
-                                                                    logo_width: parseInt(e.target.value)
-                                                                })
+                                                            value: currentData.logo_width,
+                                                            onChange: (e)=>updateField('logo_width', parseInt(e.target.value))
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                            lineNumber: 405,
+                                                            lineNumber: 430,
                                                             columnNumber: 37
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                    lineNumber: 403,
+                                                    lineNumber: 428,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: "space-y-2",
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                            children: "Yükseklik (px)"
+                                                            children: "Yükseklik"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                            lineNumber: 412,
+                                                            lineNumber: 437,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
                                                             type: "number",
-                                                            value: navbarData.logo_height,
-                                                            onChange: (e)=>setNavbarData({
-                                                                    ...navbarData,
-                                                                    logo_height: parseInt(e.target.value)
-                                                                })
+                                                            value: currentData.logo_height,
+                                                            onChange: (e)=>updateField('logo_height', parseInt(e.target.value))
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                            lineNumber: 413,
+                                                            lineNumber: 438,
                                                             columnNumber: 37
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                    lineNumber: 411,
+                                                    lineNumber: 436,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                            lineNumber: 394,
+                                            lineNumber: 419,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                    lineNumber: 372,
+                                    lineNumber: 397,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1683,7 +1697,7 @@ function NavbarEditorPage() {
                                             children: "İletişim Bilgileri"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                            lineNumber: 424,
+                                            lineNumber: 449,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1693,56 +1707,50 @@ function NavbarEditorPage() {
                                                     className: "space-y-2",
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                            children: "Telefon Numarası"
+                                                            children: "Telefon"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                            lineNumber: 428,
+                                                            lineNumber: 453,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                            value: navbarData.phone_number,
-                                                            onChange: (e)=>setNavbarData({
-                                                                    ...navbarData,
-                                                                    phone_number: e.target.value
-                                                                }),
+                                                            value: currentData.phone_number,
+                                                            onChange: (e)=>updateField('phone_number', e.target.value),
                                                             placeholder: "+90 533 123 4567"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                            lineNumber: 429,
+                                                            lineNumber: 454,
                                                             columnNumber: 37
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                    lineNumber: 427,
+                                                    lineNumber: 452,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: "space-y-2",
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                            children: "WhatsApp Numarası"
+                                                            children: "WhatsApp"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                            lineNumber: 436,
+                                                            lineNumber: 461,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                            value: navbarData.whatsapp_number,
-                                                            onChange: (e)=>setNavbarData({
-                                                                    ...navbarData,
-                                                                    whatsapp_number: e.target.value
-                                                                }),
+                                                            value: currentData.whatsapp_number,
+                                                            onChange: (e)=>updateField('whatsapp_number', e.target.value),
                                                             placeholder: "+90 533 123 4567"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                            lineNumber: 437,
+                                                            lineNumber: 462,
                                                             columnNumber: 37
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                    lineNumber: 435,
+                                                    lineNumber: 460,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1752,38 +1760,35 @@ function NavbarEditorPage() {
                                                             children: "E-posta"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                            lineNumber: 444,
+                                                            lineNumber: 469,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
                                                             type: "email",
-                                                            value: navbarData.email,
-                                                            onChange: (e)=>setNavbarData({
-                                                                    ...navbarData,
-                                                                    email: e.target.value
-                                                                }),
+                                                            value: currentData.email,
+                                                            onChange: (e)=>updateField('email', e.target.value),
                                                             placeholder: "info@aydaivf.com"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                            lineNumber: 445,
+                                                            lineNumber: 470,
                                                             columnNumber: 37
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                    lineNumber: 443,
+                                                    lineNumber: 468,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                            lineNumber: 426,
+                                            lineNumber: 451,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                    lineNumber: 423,
+                                    lineNumber: 448,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$collapsible$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Collapsible"], {
@@ -1805,39 +1810,40 @@ function NavbarEditorPage() {
                                                                         className: "w-5 h-5"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                        lineNumber: 462,
+                                                                        lineNumber: 487,
                                                                         columnNumber: 49
                                                                     }, this),
-                                                                    "Hakkımızda Menüsü (",
-                                                                    navbarData.about.links.length,
+                                                                    activeLocale === 'tr' ? 'Hakkımızda Menüsü' : 'About Menu',
+                                                                    " (",
+                                                                    currentData.about.links.length,
                                                                     " link)"
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                lineNumber: 461,
+                                                                lineNumber: 486,
                                                                 columnNumber: 45
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
                                                                 className: `w-5 h-5 transition-transform ${aboutOpen ? 'rotate-180' : ''}`
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                lineNumber: 465,
+                                                                lineNumber: 490,
                                                                 columnNumber: 45
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                        lineNumber: 460,
+                                                        lineNumber: 485,
                                                         columnNumber: 41
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                    lineNumber: 459,
+                                                    lineNumber: 484,
                                                     columnNumber: 37
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                lineNumber: 458,
+                                                lineNumber: 483,
                                                 columnNumber: 33
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$collapsible$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CollapsibleContent"], {
@@ -1848,31 +1854,28 @@ function NavbarEditorPage() {
                                                             className: "space-y-2",
                                                             children: [
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                    children: "Menü Başlığı (Translation Key)"
+                                                                    children: "Menü Başlığı"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                    lineNumber: 472,
+                                                                    lineNumber: 497,
                                                                     columnNumber: 45
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                    value: navbarData.about.label,
-                                                                    onChange: (e)=>setNavbarData({
-                                                                            ...navbarData,
-                                                                            about: {
-                                                                                ...navbarData.about,
-                                                                                label: e.target.value
-                                                                            }
+                                                                    value: currentData.about.label,
+                                                                    onChange: (e)=>updateField('about', {
+                                                                            ...currentData.about,
+                                                                            label: e.target.value
                                                                         }),
-                                                                    placeholder: "about"
+                                                                    placeholder: activeLocale === 'tr' ? 'Hakkımızda' : 'About'
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                    lineNumber: 473,
+                                                                    lineNumber: 498,
                                                                     columnNumber: 45
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                            lineNumber: 471,
+                                                            lineNumber: 496,
                                                             columnNumber: 41
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1882,7 +1885,7 @@ function NavbarEditorPage() {
                                                                     children: "Linkler"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                    lineNumber: 483,
+                                                                    lineNumber: 506,
                                                                     columnNumber: 45
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1895,23 +1898,23 @@ function NavbarEditorPage() {
                                                                             className: "w-4 h-4 mr-2"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                            lineNumber: 485,
+                                                                            lineNumber: 508,
                                                                             columnNumber: 49
                                                                         }, this),
-                                                                        "Yeni Link Ekle"
+                                                                        "Yeni Link"
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                    lineNumber: 484,
+                                                                    lineNumber: 507,
                                                                     columnNumber: 45
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                            lineNumber: 482,
+                                                            lineNumber: 505,
                                                             columnNumber: 41
                                                         }, this),
-                                                        navbarData.about.links.map((link, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
+                                                        currentData.about.links.map((link, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
                                                                 className: "p-4 border-2",
                                                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                     className: "space-y-3",
@@ -1927,7 +1930,7 @@ function NavbarEditorPage() {
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                    lineNumber: 494,
+                                                                                    lineNumber: 517,
                                                                                     columnNumber: 57
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1943,12 +1946,12 @@ function NavbarEditorPage() {
                                                                                                 className: "w-4 h-4"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                                lineNumber: 503,
+                                                                                                lineNumber: 526,
                                                                                                 columnNumber: 65
                                                                                             }, this)
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                            lineNumber: 496,
+                                                                                            lineNumber: 519,
                                                                                             columnNumber: 61
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1956,17 +1959,17 @@ function NavbarEditorPage() {
                                                                                             size: "sm",
                                                                                             variant: "outline",
                                                                                             onClick: ()=>moveAboutLink(index, 'down'),
-                                                                                            disabled: index === navbarData.about.links.length - 1,
+                                                                                            disabled: index === currentData.about.links.length - 1,
                                                                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
                                                                                                 className: "w-4 h-4"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                                lineNumber: 512,
+                                                                                                lineNumber: 535,
                                                                                                 columnNumber: 65
                                                                                             }, this)
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                            lineNumber: 505,
+                                                                                            lineNumber: 528,
                                                                                             columnNumber: 61
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1978,24 +1981,24 @@ function NavbarEditorPage() {
                                                                                                 className: "w-4 h-4"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                                lineNumber: 515,
+                                                                                                lineNumber: 538,
                                                                                                 columnNumber: 65
                                                                                             }, this)
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                            lineNumber: 514,
+                                                                                            lineNumber: 537,
                                                                                             columnNumber: 61
                                                                                         }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                    lineNumber: 495,
+                                                                                    lineNumber: 518,
                                                                                     columnNumber: 57
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                            lineNumber: 493,
+                                                                            lineNumber: 516,
                                                                             columnNumber: 53
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2005,35 +2008,27 @@ function NavbarEditorPage() {
                                                                                     className: "space-y-2",
                                                                                     children: [
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                                            children: "Label (Translation Key) *"
+                                                                                            children: "Etiket *"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                            lineNumber: 522,
+                                                                                            lineNumber: 545,
                                                                                             columnNumber: 61
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
                                                                                             value: link.label,
                                                                                             onChange: (e)=>updateAboutLink(index, 'label', e.target.value),
-                                                                                            placeholder: "whyUs",
+                                                                                            placeholder: activeLocale === 'tr' ? 'Neden Biz?' : 'Why Us?',
                                                                                             className: !link.label || link.label.trim() === '' ? 'border-red-500' : '',
                                                                                             required: true
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                            lineNumber: 523,
+                                                                                            lineNumber: 546,
                                                                                             columnNumber: 61
-                                                                                        }, this),
-                                                                                        !link.label || link.label.trim() === '' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                                            className: "text-red-500 text-xs",
-                                                                                            children: "Bu alan zorunludur"
-                                                                                        }, void 0, false, {
-                                                                                            fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                            lineNumber: 531,
-                                                                                            columnNumber: 65
-                                                                                        }, this) : null
+                                                                                        }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                    lineNumber: 521,
+                                                                                    lineNumber: 544,
                                                                                     columnNumber: 57
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2043,38 +2038,30 @@ function NavbarEditorPage() {
                                                                                             children: "URL *"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                            lineNumber: 535,
+                                                                                            lineNumber: 555,
                                                                                             columnNumber: 61
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
                                                                                             value: link.href,
                                                                                             onChange: (e)=>updateAboutLink(index, 'href', e.target.value),
-                                                                                            placeholder: "/why-us",
+                                                                                            placeholder: activeLocale === 'tr' ? '/neden-biz' : '/why-us',
                                                                                             className: !link.href || link.href.trim() === '' ? 'border-red-500' : '',
                                                                                             required: true
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                            lineNumber: 536,
+                                                                                            lineNumber: 556,
                                                                                             columnNumber: 61
-                                                                                        }, this),
-                                                                                        !link.href || link.href.trim() === '' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                                            className: "text-red-500 text-xs",
-                                                                                            children: "Bu alan zorunludur"
-                                                                                        }, void 0, false, {
-                                                                                            fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                            lineNumber: 544,
-                                                                                            columnNumber: 65
-                                                                                        }, this) : null
+                                                                                        }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                    lineNumber: 534,
+                                                                                    lineNumber: 554,
                                                                                     columnNumber: 57
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                            lineNumber: 520,
+                                                                            lineNumber: 543,
                                                                             columnNumber: 53
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2085,53 +2072,53 @@ function NavbarEditorPage() {
                                                                                     onCheckedChange: (checked)=>updateAboutLink(index, 'is_active', checked)
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                    lineNumber: 550,
+                                                                                    lineNumber: 567,
                                                                                     columnNumber: 57
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
                                                                                     children: "Aktif"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                    lineNumber: 554,
+                                                                                    lineNumber: 571,
                                                                                     columnNumber: 57
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                            lineNumber: 549,
+                                                                            lineNumber: 566,
                                                                             columnNumber: 53
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                    lineNumber: 492,
+                                                                    lineNumber: 515,
                                                                     columnNumber: 49
                                                                 }, this)
                                                             }, index, false, {
                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                lineNumber: 491,
+                                                                lineNumber: 514,
                                                                 columnNumber: 45
                                                             }, this))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                    lineNumber: 470,
+                                                    lineNumber: 495,
                                                     columnNumber: 37
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                lineNumber: 469,
+                                                lineNumber: 494,
                                                 columnNumber: 33
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                        lineNumber: 457,
+                                        lineNumber: 482,
                                         columnNumber: 29
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                    lineNumber: 456,
+                                    lineNumber: 481,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$collapsible$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Collapsible"], {
@@ -2153,39 +2140,40 @@ function NavbarEditorPage() {
                                                                         className: "w-5 h-5"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                        lineNumber: 571,
+                                                                        lineNumber: 588,
                                                                         columnNumber: 49
                                                                     }, this),
-                                                                    "Tedaviler Menüsü (",
-                                                                    navbarData.treatments.links.length,
+                                                                    activeLocale === 'tr' ? 'Tedaviler Menüsü' : 'Treatments Menu',
+                                                                    " (",
+                                                                    currentData.treatments.links.length,
                                                                     " link)"
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                lineNumber: 570,
+                                                                lineNumber: 587,
                                                                 columnNumber: 45
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
                                                                 className: `w-5 h-5 transition-transform ${treatmentsOpen ? 'rotate-180' : ''}`
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                lineNumber: 574,
+                                                                lineNumber: 591,
                                                                 columnNumber: 45
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                        lineNumber: 569,
+                                                        lineNumber: 586,
                                                         columnNumber: 41
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                    lineNumber: 568,
+                                                    lineNumber: 585,
                                                     columnNumber: 37
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                lineNumber: 567,
+                                                lineNumber: 584,
                                                 columnNumber: 33
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$collapsible$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CollapsibleContent"], {
@@ -2196,31 +2184,28 @@ function NavbarEditorPage() {
                                                             className: "space-y-2",
                                                             children: [
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                    children: "Menü Başlığı (Translation Key)"
+                                                                    children: "Menü Başlığı"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                    lineNumber: 581,
+                                                                    lineNumber: 598,
                                                                     columnNumber: 45
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                    value: navbarData.treatments.label,
-                                                                    onChange: (e)=>setNavbarData({
-                                                                            ...navbarData,
-                                                                            treatments: {
-                                                                                ...navbarData.treatments,
-                                                                                label: e.target.value
-                                                                            }
+                                                                    value: currentData.treatments.label,
+                                                                    onChange: (e)=>updateField('treatments', {
+                                                                            ...currentData.treatments,
+                                                                            label: e.target.value
                                                                         }),
-                                                                    placeholder: "treatments"
+                                                                    placeholder: activeLocale === 'tr' ? 'Tedaviler' : 'Treatments'
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                    lineNumber: 582,
+                                                                    lineNumber: 599,
                                                                     columnNumber: 45
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                            lineNumber: 580,
+                                                            lineNumber: 597,
                                                             columnNumber: 41
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2230,7 +2215,7 @@ function NavbarEditorPage() {
                                                                     children: "Linkler"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                    lineNumber: 595,
+                                                                    lineNumber: 607,
                                                                     columnNumber: 45
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2243,23 +2228,23 @@ function NavbarEditorPage() {
                                                                             className: "w-4 h-4 mr-2"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                            lineNumber: 597,
+                                                                            lineNumber: 609,
                                                                             columnNumber: 49
                                                                         }, this),
-                                                                        "Yeni Link Ekle"
+                                                                        "Yeni Link"
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                    lineNumber: 596,
+                                                                    lineNumber: 608,
                                                                     columnNumber: 45
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                            lineNumber: 594,
+                                                            lineNumber: 606,
                                                             columnNumber: 41
                                                         }, this),
-                                                        navbarData.treatments.links.map((link, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
+                                                        currentData.treatments.links.map((link, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
                                                                 className: "p-4 border-2",
                                                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                     className: "space-y-3",
@@ -2275,7 +2260,7 @@ function NavbarEditorPage() {
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                    lineNumber: 606,
+                                                                                    lineNumber: 618,
                                                                                     columnNumber: 57
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2291,12 +2276,12 @@ function NavbarEditorPage() {
                                                                                                 className: "w-4 h-4"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                                lineNumber: 615,
+                                                                                                lineNumber: 627,
                                                                                                 columnNumber: 65
                                                                                             }, this)
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                            lineNumber: 608,
+                                                                                            lineNumber: 620,
                                                                                             columnNumber: 61
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2304,17 +2289,17 @@ function NavbarEditorPage() {
                                                                                             size: "sm",
                                                                                             variant: "outline",
                                                                                             onClick: ()=>moveTreatmentLink(index, 'down'),
-                                                                                            disabled: index === navbarData.treatments.links.length - 1,
+                                                                                            disabled: index === currentData.treatments.links.length - 1,
                                                                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
                                                                                                 className: "w-4 h-4"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                                lineNumber: 624,
+                                                                                                lineNumber: 636,
                                                                                                 columnNumber: 65
                                                                                             }, this)
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                            lineNumber: 617,
+                                                                                            lineNumber: 629,
                                                                                             columnNumber: 61
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2326,24 +2311,24 @@ function NavbarEditorPage() {
                                                                                                 className: "w-4 h-4"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                                lineNumber: 632,
+                                                                                                lineNumber: 644,
                                                                                                 columnNumber: 65
                                                                                             }, this)
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                            lineNumber: 626,
+                                                                                            lineNumber: 638,
                                                                                             columnNumber: 61
                                                                                         }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                    lineNumber: 607,
+                                                                                    lineNumber: 619,
                                                                                     columnNumber: 57
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                            lineNumber: 605,
+                                                                            lineNumber: 617,
                                                                             columnNumber: 53
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2353,35 +2338,27 @@ function NavbarEditorPage() {
                                                                                     className: "space-y-2",
                                                                                     children: [
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                                            children: "Label (Translation Key) *"
+                                                                                            children: "Etiket *"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                            lineNumber: 639,
+                                                                                            lineNumber: 651,
                                                                                             columnNumber: 61
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
                                                                                             value: link.label,
                                                                                             onChange: (e)=>updateTreatmentLink(index, 'label', e.target.value),
-                                                                                            placeholder: "ivfIcsi",
+                                                                                            placeholder: activeLocale === 'tr' ? 'Tüp Bebek (IVF)' : 'IVF Treatment',
                                                                                             className: !link.label || link.label.trim() === '' ? 'border-red-500' : '',
                                                                                             required: true
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                            lineNumber: 640,
+                                                                                            lineNumber: 652,
                                                                                             columnNumber: 61
-                                                                                        }, this),
-                                                                                        !link.label || link.label.trim() === '' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                                            className: "text-red-500 text-xs",
-                                                                                            children: "Bu alan zorunludur"
-                                                                                        }, void 0, false, {
-                                                                                            fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                            lineNumber: 648,
-                                                                                            columnNumber: 65
-                                                                                        }, this) : null
+                                                                                        }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                    lineNumber: 638,
+                                                                                    lineNumber: 650,
                                                                                     columnNumber: 57
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2391,38 +2368,30 @@ function NavbarEditorPage() {
                                                                                             children: "URL *"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                            lineNumber: 652,
+                                                                                            lineNumber: 661,
                                                                                             columnNumber: 61
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
                                                                                             value: link.href,
                                                                                             onChange: (e)=>updateTreatmentLink(index, 'href', e.target.value),
-                                                                                            placeholder: "/ivf-icsi",
+                                                                                            placeholder: activeLocale === 'tr' ? '/tedaviler/tup-bebek' : '/treatments/ivf',
                                                                                             className: !link.href || link.href.trim() === '' ? 'border-red-500' : '',
                                                                                             required: true
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                            lineNumber: 653,
+                                                                                            lineNumber: 662,
                                                                                             columnNumber: 61
-                                                                                        }, this),
-                                                                                        !link.href || link.href.trim() === '' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                                            className: "text-red-500 text-xs",
-                                                                                            children: "Bu alan zorunludur"
-                                                                                        }, void 0, false, {
-                                                                                            fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                            lineNumber: 661,
-                                                                                            columnNumber: 65
-                                                                                        }, this) : null
+                                                                                        }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                    lineNumber: 651,
+                                                                                    lineNumber: 660,
                                                                                     columnNumber: 57
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                            lineNumber: 637,
+                                                                            lineNumber: 649,
                                                                             columnNumber: 53
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2433,53 +2402,53 @@ function NavbarEditorPage() {
                                                                                     onCheckedChange: (checked)=>updateTreatmentLink(index, 'is_active', checked)
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                    lineNumber: 667,
+                                                                                    lineNumber: 673,
                                                                                     columnNumber: 57
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
                                                                                     children: "Aktif"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                    lineNumber: 671,
+                                                                                    lineNumber: 677,
                                                                                     columnNumber: 57
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                            lineNumber: 666,
+                                                                            lineNumber: 672,
                                                                             columnNumber: 53
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                    lineNumber: 604,
+                                                                    lineNumber: 616,
                                                                     columnNumber: 49
                                                                 }, this)
                                                             }, index, false, {
                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                lineNumber: 603,
+                                                                lineNumber: 615,
                                                                 columnNumber: 45
                                                             }, this))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                    lineNumber: 579,
+                                                    lineNumber: 596,
                                                     columnNumber: 37
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                lineNumber: 578,
+                                                lineNumber: 595,
                                                 columnNumber: 33
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                        lineNumber: 566,
+                                        lineNumber: 583,
                                         columnNumber: 29
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                    lineNumber: 565,
+                                    lineNumber: 582,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -2490,13 +2459,14 @@ function NavbarEditorPage() {
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardTitle"], {
                                                         children: [
-                                                            "Ana Menü Linkleri (",
-                                                            navbarData.links.length,
+                                                            activeLocale === 'tr' ? 'Ana Menü Linkleri' : 'Main Menu Links',
+                                                            " (",
+                                                            currentData.links.length,
                                                             " link)"
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                        lineNumber: 685,
+                                                        lineNumber: 691,
                                                         columnNumber: 37
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2509,30 +2479,30 @@ function NavbarEditorPage() {
                                                                 className: "w-4 h-4 mr-2"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                lineNumber: 687,
+                                                                lineNumber: 695,
                                                                 columnNumber: 41
                                                             }, this),
-                                                            "Yeni Link Ekle"
+                                                            "Yeni Link"
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                        lineNumber: 686,
+                                                        lineNumber: 694,
                                                         columnNumber: 37
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                lineNumber: 684,
+                                                lineNumber: 690,
                                                 columnNumber: 33
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                            lineNumber: 683,
+                                            lineNumber: 689,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
                                             className: "space-y-4",
-                                            children: navbarData.links.map((link, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
+                                            children: currentData.links.map((link, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
                                                     className: "p-4 border-2",
                                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         className: "space-y-3",
@@ -2548,7 +2518,7 @@ function NavbarEditorPage() {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                        lineNumber: 697,
+                                                                        lineNumber: 705,
                                                                         columnNumber: 49
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2564,12 +2534,12 @@ function NavbarEditorPage() {
                                                                                     className: "w-4 h-4"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                    lineNumber: 706,
+                                                                                    lineNumber: 714,
                                                                                     columnNumber: 57
                                                                                 }, this)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                lineNumber: 699,
+                                                                                lineNumber: 707,
                                                                                 columnNumber: 53
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2577,17 +2547,17 @@ function NavbarEditorPage() {
                                                                                 size: "sm",
                                                                                 variant: "outline",
                                                                                 onClick: ()=>moveMainLink(index, 'down'),
-                                                                                disabled: index === navbarData.links.length - 1,
+                                                                                disabled: index === currentData.links.length - 1,
                                                                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
                                                                                     className: "w-4 h-4"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                    lineNumber: 715,
+                                                                                    lineNumber: 723,
                                                                                     columnNumber: 57
                                                                                 }, this)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                lineNumber: 708,
+                                                                                lineNumber: 716,
                                                                                 columnNumber: 53
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2599,24 +2569,24 @@ function NavbarEditorPage() {
                                                                                     className: "w-4 h-4"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                    lineNumber: 718,
+                                                                                    lineNumber: 726,
                                                                                     columnNumber: 57
                                                                                 }, this)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                lineNumber: 717,
+                                                                                lineNumber: 725,
                                                                                 columnNumber: 53
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                        lineNumber: 698,
+                                                                        lineNumber: 706,
                                                                         columnNumber: 49
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                lineNumber: 696,
+                                                                lineNumber: 704,
                                                                 columnNumber: 45
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2626,35 +2596,27 @@ function NavbarEditorPage() {
                                                                         className: "space-y-2",
                                                                         children: [
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                                children: "Label (Translation Key) *"
+                                                                                children: "Etiket *"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                lineNumber: 724,
+                                                                                lineNumber: 732,
                                                                                 columnNumber: 53
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
                                                                                 value: link.label,
                                                                                 onChange: (e)=>updateMainLink(index, 'label', e.target.value),
-                                                                                placeholder: "faq",
+                                                                                placeholder: activeLocale === 'tr' ? 'SSS' : 'FAQ',
                                                                                 className: !link.label || link.label.trim() === '' ? 'border-red-500' : '',
                                                                                 required: true
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                lineNumber: 725,
-                                                                                columnNumber: 53
-                                                                            }, this),
-                                                                            !link.label || link.label.trim() === '' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                                className: "text-red-500 text-xs",
-                                                                                children: "Bu alan zorunludur"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
                                                                                 lineNumber: 733,
-                                                                                columnNumber: 57
-                                                                            }, this) : null
+                                                                                columnNumber: 53
+                                                                            }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                        lineNumber: 723,
+                                                                        lineNumber: 731,
                                                                         columnNumber: 49
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2664,38 +2626,30 @@ function NavbarEditorPage() {
                                                                                 children: "URL *"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                lineNumber: 737,
+                                                                                lineNumber: 742,
                                                                                 columnNumber: 53
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
                                                                                 value: link.href,
                                                                                 onChange: (e)=>updateMainLink(index, 'href', e.target.value),
-                                                                                placeholder: "/faq",
+                                                                                placeholder: activeLocale === 'tr' ? '/sss' : '/faq',
                                                                                 className: !link.href || link.href.trim() === '' ? 'border-red-500' : '',
                                                                                 required: true
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                lineNumber: 738,
+                                                                                lineNumber: 743,
                                                                                 columnNumber: 53
-                                                                            }, this),
-                                                                            !link.href || link.href.trim() === '' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                                className: "text-red-500 text-xs",
-                                                                                children: "Bu alan zorunludur"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                                lineNumber: 746,
-                                                                                columnNumber: 57
-                                                                            }, this) : null
+                                                                            }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                        lineNumber: 736,
+                                                                        lineNumber: 741,
                                                                         columnNumber: 49
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                lineNumber: 722,
+                                                                lineNumber: 730,
                                                                 columnNumber: 45
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2706,98 +2660,138 @@ function NavbarEditorPage() {
                                                                         onCheckedChange: (checked)=>updateMainLink(index, 'is_active', checked)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                        lineNumber: 752,
+                                                                        lineNumber: 754,
                                                                         columnNumber: 49
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
                                                                         children: "Aktif"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                        lineNumber: 756,
+                                                                        lineNumber: 758,
                                                                         columnNumber: 49
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                                lineNumber: 751,
+                                                                lineNumber: 753,
                                                                 columnNumber: 45
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                        lineNumber: 695,
+                                                        lineNumber: 703,
                                                         columnNumber: 41
                                                     }, this)
                                                 }, index, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                    lineNumber: 694,
+                                                    lineNumber: 702,
                                                     columnNumber: 37
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                            lineNumber: 692,
+                                            lineNumber: 700,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                    lineNumber: 682,
+                                    lineNumber: 688,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "pt-4 border-t",
-                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                        type: "submit",
-                                        disabled: saving,
-                                        className: "bg-primary-pink hover:bg-pink-700",
-                                        children: saving ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                    className: "pt-4 border-t flex gap-4",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                            type: "submit",
+                                            disabled: saving,
+                                            className: "bg-primary-pink hover:bg-pink-700",
+                                            children: saving ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
+                                                        className: "w-4 h-4 mr-2 animate-spin"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
+                                                        lineNumber: 770,
+                                                        columnNumber: 41
+                                                    }, this),
+                                                    "Kaydediliyor..."
+                                                ]
+                                            }, void 0, true) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$save$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Save$3e$__["Save"], {
+                                                        className: "w-4 h-4 mr-2"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
+                                                        lineNumber: 775,
+                                                        columnNumber: 41
+                                                    }, this),
+                                                    "Her İki Dili Kaydet"
+                                                ]
+                                            }, void 0, true)
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
+                                            lineNumber: 767,
+                                            columnNumber: 29
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex items-center gap-2 text-sm text-gray-600",
                                             children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
-                                                    className: "w-4 h-4 mr-2 animate-spin"
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    children: [
+                                                        "🇹🇷 TR: ",
+                                                        navbarData.tr.about.links.length + navbarData.tr.treatments.links.length + navbarData.tr.links.length,
+                                                        " link"
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
+                                                    lineNumber: 782,
+                                                    columnNumber: 33
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    children: "•"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                    lineNumber: 769,
-                                                    columnNumber: 41
+                                                    lineNumber: 783,
+                                                    columnNumber: 33
                                                 }, this),
-                                                "Kaydediliyor..."
-                                            ]
-                                        }, void 0, true) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                                            children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$save$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Save$3e$__["Save"], {
-                                                    className: "w-4 h-4 mr-2"
-                                                }, void 0, false, {
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    children: [
+                                                        "🇬🇧 EN: ",
+                                                        navbarData.en.about.links.length + navbarData.en.treatments.links.length + navbarData.en.links.length,
+                                                        " link"
+                                                    ]
+                                                }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                                    lineNumber: 774,
-                                                    columnNumber: 41
-                                                }, this),
-                                                "Kaydet"
+                                                    lineNumber: 784,
+                                                    columnNumber: 33
+                                                }, this)
                                             ]
-                                        }, void 0, true)
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                        lineNumber: 766,
-                                        columnNumber: 29
-                                    }, this)
-                                }, void 0, false, {
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
+                                            lineNumber: 781,
+                                            columnNumber: 29
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
                                     fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                                    lineNumber: 765,
+                                    lineNumber: 766,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                            lineNumber: 370,
+                            lineNumber: 395,
                             columnNumber: 21
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                        lineNumber: 369,
+                        lineNumber: 394,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                lineNumber: 365,
+                lineNumber: 388,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$MediaPicker$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -2806,17 +2800,17 @@ function NavbarEditorPage() {
                 onSelect: handleMediaSelect
             }, void 0, false, {
                 fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-                lineNumber: 785,
+                lineNumber: 791,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/(admin)/admin/layout/navbar/page.tsx",
-        lineNumber: 357,
+        lineNumber: 365,
         columnNumber: 9
     }, this);
 }
-_s(NavbarEditorPage, "uiendebXg8dzKcqVQ1DNKNVa1KI=", false, function() {
+_s(NavbarEditorPage, "pm/bCV4ds6hv0/eNIhiYahCgT8Y=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$use$2d$toast$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useToast"]
     ];

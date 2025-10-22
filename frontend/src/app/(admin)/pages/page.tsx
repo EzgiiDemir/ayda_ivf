@@ -329,7 +329,7 @@ export default function PagesListPage() {
                         className="border-primary-pink text-primary-pink hover:bg-pink-50"
                     >
                         <Zap className="w-4 h-4 mr-2" />
-                        Toplu Oluştur ({NAVBAR_PAGES.length})
+                        {t('bulkCreate')} ({NAVBAR_PAGES.length})
                     </Button>
                     <Button asChild className="bg-primary-pink hover:bg-pink-700">
                         <Link href="/pages/create">

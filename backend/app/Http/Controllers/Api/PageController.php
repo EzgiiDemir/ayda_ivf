@@ -6,15 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PageController extends Controller
 {
     /**
-     * PUBLIC: Frontend için slug ile sayfa getir
+     * PUBLIC: Frontend için slug ile sayfa getir (locale ile)
+     * GET /api/pages/slug/{slug}?locale=tr
      */
-    public function getBySlug($slug)
+    public function getBySlug(Request $request, $slug)
     {
+        $locale = $request->get('locale', 'tr');
+
         $page = Page::where('slug', $slug)
+            ->where('locale', $locale)
             ->where('status', 'published')
             ->with('author:id,name,email')
             ->first();
@@ -33,12 +39,16 @@ class PageController extends Controller
     }
 
     /**
-     * PUBLIC: Tüm published sayfaları listele
+     * PUBLIC: Tüm published sayfaları listele (locale ile)
+     * GET /api/pages?locale=tr
      */
-    public function getAllPages()
+    public function getAllPages(Request $request)
     {
+        $locale = $request->get('locale', 'tr');
+
         $pages = Page::where('status', 'published')
-            ->select('id', 'title', 'slug', 'subtitle')
+            ->where('locale', $locale)
+            ->select('id', 'title', 'slug', 'subtitle', 'locale')
             ->orderBy('created_at', 'asc')
             ->get();
 
@@ -49,13 +59,14 @@ class PageController extends Controller
     }
 
     /**
-     * ADMIN: Sayfa listesi (pagination, search, filter)
+     * ADMIN: Sayfa listesi
+     * GET /api/admin/pages
      */
     public function index(Request $request)
     {
-        $query = Page::with('author:id,name,email');
+        $query = Page::with('author:id,name,email')
+            ->whereNull('parent_id'); // Only show parent pages
 
-        // Search
         if ($request->has('search') && $request->search) {
             $query->where(function($q) use ($request) {
                 $q->where('title', 'like', "%{$request->search}%")
@@ -64,17 +75,14 @@ class PageController extends Controller
             });
         }
 
-        // Filter by status
         if ($request->has('status') && $request->status !== 'all') {
             $query->where('status', $request->status);
         }
 
-        // Filter by author
         if ($request->has('author_id')) {
             $query->where('author_id', $request->author_id);
         }
 
-        // Sorting
         $sortBy = $request->get('sortBy', 'updated_at');
         $sortOrder = $request->get('sortOrder', 'desc');
         $query->orderBy($sortBy, $sortOrder);
@@ -89,24 +97,58 @@ class PageController extends Controller
                 'perPage' => $pages->perPage(),
                 'currentPage' => $pages->currentPage(),
                 'lastPage' => $pages->lastPage(),
-                'from' => $pages->firstItem(),
-                'to' => $pages->lastItem(),
-            ],
-            'links' => [
-                'first' => $pages->url(1),
-                'last' => $pages->url($pages->lastPage()),
-                'prev' => $pages->previousPageUrl(),
-                'next' => $pages->nextPageUrl(),
             ],
         ]);
     }
 
     /**
-     * ADMIN: Tek sayfa detayı
+     * ADMIN: Tek sayfa detayı (locale bazlı)
+     * GET /api/admin/pages/{id}?locale=tr
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $page = Page::with('author:id,name,email')->findOrFail($id);
+        $locale = $request->get('locale', 'tr');
+
+        Log::info("🔍 Fetching page", ['id' => $id, 'locale' => $locale]);
+
+        // First try to find by ID and locale
+        $page = Page::where('id', $id)
+            ->where('locale', $locale)
+            ->with('author:id,name,email')
+            ->first();
+
+        // If not found, try to find translation of parent
+        if (!$page) {
+            $parent = Page::find($id);
+            if ($parent && $parent->locale !== $locale) {
+                $page = Page::where('parent_id', $parent->parent_id ?: $parent->id)
+                    ->where('locale', $locale)
+                    ->first();
+            }
+        }
+
+        // If still not found, return default structure
+        if (!$page) {
+            Log::warning("⚠️ Page not found for locale", ['id' => $id, 'locale' => $locale]);
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'id' => $id,
+                    'locale' => $locale,
+                    'title' => '',
+                    'subtitle' => '',
+                    'slug' => '',
+                    'content' => '',
+                    'heroImage' => '',
+                    'metaTitle' => '',
+                    'metaDescription' => '',
+                    'status' => 'draft',
+                ],
+            ]);
+        }
+
+        Log::info("✅ Page found", ['id' => $page->id, 'locale' => $page->locale, 'title' => $page->title]);
 
         return response()->json([
             'success' => true,
@@ -115,14 +157,16 @@ class PageController extends Controller
     }
 
     /**
-     * ADMIN: Yeni sayfa oluştur
+     * ADMIN: Yeni sayfa oluştur (multi-language)
+     * POST /api/admin/pages
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'locale' => 'required|string|size:2',
             'title' => 'required|string|max:255',
             'subtitle' => 'required|string|max:500',
-            'slug' => 'nullable|string|unique:pages,slug',
+            'slug' => 'nullable|string',
             'content' => 'required',
             'heroImage' => 'required|string',
             'metaTitle' => 'nullable|string|max:60',
@@ -130,15 +174,24 @@ class PageController extends Controller
             'status' => 'required|in:published,draft',
         ]);
 
-        // Generate slug if not provided
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['title']);
         }
 
-        // Author ID
+        // Check if slug exists for this locale
+        $existingPage = Page::where('slug', $validated['slug'])
+            ->where('locale', $validated['locale'])
+            ->first();
+
+        if ($existingPage) {
+            $validated['slug'] = $validated['slug'] . '-' . time();
+        }
+
         $validated['author_id'] = $request->user()->id;
 
         $page = Page::create($validated);
+
+        Log::info("✅ Page created", ['id' => $page->id, 'locale' => $page->locale]);
 
         return response()->json([
             'success' => true,
@@ -148,16 +201,16 @@ class PageController extends Controller
     }
 
     /**
-     * ADMIN: Sayfayı güncelle
+     * ADMIN: Sayfayı güncelle (multi-language)
+     * PUT /api/admin/pages/{id}
      */
     public function update(Request $request, $id)
     {
-        $page = Page::findOrFail($id);
-
         $validated = $request->validate([
+            'locale' => 'required|string|size:2',
             'title' => 'required|string|max:255',
             'subtitle' => 'required|string|max:500',
-            'slug' => 'nullable|string|unique:pages,slug,' . $id,
+            'slug' => 'nullable|string',
             'content' => 'required',
             'heroImage' => 'required|string',
             'metaTitle' => 'nullable|string|max:60',
@@ -165,49 +218,100 @@ class PageController extends Controller
             'status' => 'required|in:published,draft',
         ]);
 
-        // Generate slug if not provided
+        $locale = $validated['locale'];
+
+        Log::info("🔥 Updating page", ['id' => $id, 'locale' => $locale]);
+
+        // Find page by ID and locale, or create new
+        $page = Page::where('id', $id)
+            ->where('locale', $locale)
+            ->first();
+
+        // If not found with this locale, find translation
+        if (!$page) {
+            $parent = Page::find($id);
+
+            if ($parent) {
+                // Find translation
+                $page = Page::where('parent_id', $parent->parent_id ?: $parent->id)
+                    ->where('locale', $locale)
+                    ->first();
+
+                // If translation doesn't exist, create it
+                if (!$page) {
+                    $validated['parent_id'] = $parent->parent_id ?: $parent->id;
+                    $validated['author_id'] = $request->user()->id;
+
+                    if (empty($validated['slug'])) {
+                        $validated['slug'] = Str::slug($validated['title']);
+                    }
+
+                    $page = Page::create($validated);
+
+                    Log::info("✅ Translation created", ['id' => $page->id, 'locale' => $locale, 'parent_id' => $validated['parent_id']]);
+
+                    return response()->json([
+                        'success' => true,
+                        'message' => "Sayfa çevirisi oluşturuldu (locale: {$locale})",
+                        'data' => $page->load('author'),
+                    ]);
+                }
+            }
+        }
+
+        if (!$page) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sayfa bulunamadı',
+            ], 404);
+        }
+
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['title']);
         }
 
+        // Check unique slug for this locale (except current page)
+        $existingPage = Page::where('slug', $validated['slug'])
+            ->where('locale', $locale)
+            ->where('id', '!=', $page->id)
+            ->first();
+
+        if ($existingPage) {
+            $validated['slug'] = $validated['slug'] . '-' . time();
+        }
+
         $page->update($validated);
+
+        Log::info("✅ Page updated", ['id' => $page->id, 'locale' => $locale]);
 
         return response()->json([
             'success' => true,
-            'message' => 'Sayfa başarıyla güncellendi',
+            'message' => "Sayfa güncellendi (locale: {$locale})",
             'data' => $page->load('author'),
         ]);
     }
 
     /**
-     * ADMIN: Sayfayı sil
+     * ADMIN: Sayfayı sil (tüm dilleri)
+     * DELETE /api/admin/pages/{id}
      */
     public function destroy($id)
     {
         $page = Page::findOrFail($id);
-        $page->delete();
+
+        // Delete all translations
+        if ($page->parent_id) {
+            // This is a translation, delete only this
+            $page->delete();
+        } else {
+            // This is parent, delete all translations
+            Page::where('parent_id', $page->id)->delete();
+            $page->delete();
+        }
 
         return response()->json([
             'success' => true,
             'message' => 'Sayfa başarıyla silindi',
-        ]);
-    }
-
-    /**
-     * ADMIN: Toplu silme
-     */
-    public function bulkDelete(Request $request)
-    {
-        $request->validate([
-            'ids' => 'required|array',
-            'ids.*' => 'required|integer|exists:pages,id',
-        ]);
-
-        Page::whereIn('id', $request->ids)->delete();
-
-        return response()->json([
-            'success' => true,
-            'message' => count($request->ids) . ' sayfa başarıyla silindi',
         ]);
     }
 }

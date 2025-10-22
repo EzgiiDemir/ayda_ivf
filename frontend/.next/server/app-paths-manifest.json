@@ -14,5 +14,6 @@
   "/(admin)/admin/layout/navbar/page": "app/(admin)/admin/layout/navbar/page.js",
   "/(admin)/admin/layout/footer/page": "app/(admin)/admin/layout/footer/page.js",
   "/[locale]/contact/page": "app/[locale]/contact/page.js",
-  "/[locale]/[slug]/page": "app/[locale]/[slug]/page.js"
+  "/[locale]/[slug]/page": "app/[locale]/[slug]/page.js",
+  "/(admin)/pages/[id]/edit/page": "app/(admin)/pages/[id]/edit/page.js"
 }

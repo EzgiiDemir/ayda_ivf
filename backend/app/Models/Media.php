@@ -29,7 +29,7 @@ class Media extends Model
         'updated_at' => 'datetime',
     ];
 
-    protected $appends = ['url', 'formatted_size'];
+    protected $appends = ['url', 'formatted_size', 'type']; // ← 'type' eklendi
 
     public function uploader()
     {
@@ -53,9 +53,52 @@ class Media extends Model
         return round($bytes, 2) . ' ' . $units[$i];
     }
 
+    // ✅ YENİ: Type accessor eklendi
+    public function getTypeAttribute()
+    {
+        $mime = $this->mime_type;
+
+        if (str_starts_with($mime, 'image/')) {
+            return 'image';
+        } elseif (str_starts_with($mime, 'video/')) {
+            return 'video';
+        } elseif (in_array($mime, [
+            'application/pdf',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.ms-excel',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'text/plain',
+            'text/csv',
+        ])) {
+            return 'document';
+        }
+
+        return 'other';
+    }
+
     public function scopeImages($query)
     {
         return $query->where('mime_type', 'like', 'image/%');
+    }
+
+    public function scopeVideos($query)
+    {
+        return $query->where('mime_type', 'like', 'video/%');
+    }
+
+    public function scopeDocuments($query)
+    {
+        return $query->whereIn('mime_type', [
+            'application/pdf',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.ms-excel',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'text/plain',
+            'text/csv',
+        ])
+            ->orWhere('mime_type', 'like', 'text/%');
     }
 
     public function scopeSearch($query, $term)
@@ -74,5 +117,4 @@ class Media extends Model
 
         return parent::delete();
     }
-
 }

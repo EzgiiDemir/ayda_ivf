@@ -45,11 +45,9 @@ export default function LoginPage() {
                 throw new Error(data.message || 'Giriş başarısız');
             }
 
-            // Token'ı localStorage'a kaydet
             localStorage.setItem('token', data.token);
             localStorage.setItem('user', JSON.stringify(data.user));
 
-            // Dashboard'a yönlendir
             router.push('/dashboard');
         } catch (err: any) {
             console.error('Login error:', err);

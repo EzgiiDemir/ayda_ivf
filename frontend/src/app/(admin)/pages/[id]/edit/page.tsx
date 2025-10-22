@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
-import { useTranslations } from 'next-intl'
 import axios from '@/src/lib/axios'
 import Image from 'next/image'
 import {
@@ -14,7 +13,8 @@ import {
     X,
     Trash2,
     Eye,
-    Image as ImageIcon
+    Image as ImageIcon,
+    Languages
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -48,7 +48,6 @@ import { useToast } from '@/src/components/ui/use-toast'
 import dynamic from 'next/dynamic'
 import MediaPicker from '@/src/components/MediaPicker'
 
-// TipTap dynamic import
 const Tiptap = dynamic(() => import('@/src/components/Tiptap'), {
     ssr: false,
     loading: () => (
@@ -58,18 +57,32 @@ const Tiptap = dynamic(() => import('@/src/components/Tiptap'), {
     )
 })
 
-interface PageFormData {
+interface PageLocaleData {
     title: string
     subtitle: string
     slug: string
     content: string
     metaTitle: string
     metaDescription: string
-    status: 'published' | 'draft'
     heroImage: string
 }
 
-// Slug generator
+interface PageData {
+    status: 'published' | 'draft'
+    tr: PageLocaleData
+    en: PageLocaleData
+}
+
+const DEFAULT_LOCALE_DATA: PageLocaleData = {
+    title: '',
+    subtitle: '',
+    slug: '',
+    content: '',
+    metaTitle: '',
+    metaDescription: '',
+    heroImage: '',
+}
+
 const generateSlug = (title: string): string => {
     const turkishMap: { [key: string]: string } = {
         ç: 'c', ğ: 'g', ı: 'i', ö: 'o', ş: 's', ü: 'u',
@@ -87,37 +100,29 @@ const generateSlug = (title: string): string => {
 export default function EditPagePage() {
     const router = useRouter()
     const params = useParams()
-    const t = useTranslations('pages')
-    const tCommon = useTranslations('common')
     const { toast } = useToast()
     const pageId = params.id as string
 
-    const [formData, setFormData] = useState<PageFormData>({
-        title: '',
-        subtitle: '',
-        slug: '',
-        content: '',
-        metaTitle: '',
-        metaDescription: '',
+    const [activeLocale, setActiveLocale] = useState<'tr' | 'en'>('tr')
+    const [pageData, setPageData] = useState<PageData>({
         status: 'draft',
-        heroImage: '',
+        tr: { ...DEFAULT_LOCALE_DATA },
+        en: { ...DEFAULT_LOCALE_DATA },
     })
 
     const [loading, setLoading] = useState(true)
     const [saving, setSaving] = useState(false)
-    const [errors, setErrors] = useState<Partial<PageFormData>>({})
+    const [errors, setErrors] = useState<Partial<PageLocaleData>>({})
     const [showDeleteDialog, setShowDeleteDialog] = useState(false)
     const [showPreview, setShowPreview] = useState(false)
     const [showMediaPicker, setShowMediaPicker] = useState(false)
     const [isMounted, setIsMounted] = useState(false)
     const [editorKey, setEditorKey] = useState(0)
 
-    // Client-side mount check
     useEffect(() => {
         setIsMounted(true)
     }, [])
 
-    // Fetch page data
     useEffect(() => {
         if (isMounted && pageId) {
             fetchPage()
@@ -127,29 +132,42 @@ export default function EditPagePage() {
     const fetchPage = async () => {
         try {
             setLoading(true)
-            const response = await axios.get(`/pages/${pageId}`)
-            const pageData = response.data.data || response.data
 
-            console.log('Fetched page data:', pageData)
+            const [trResponse, enResponse] = await Promise.all([
+                axios.get(`/pages/${pageId}?locale=tr`),
+                axios.get(`/pages/${pageId}?locale=en`),
+            ])
 
-            const newFormData = {
-                title: pageData.title || '',
-                subtitle: pageData.subtitle || '',
-                slug: pageData.slug || '',
-                content: pageData.content || '',
-                metaTitle: pageData.metaTitle || pageData.meta_title || '',
-                metaDescription: pageData.metaDescription || pageData.meta_description || '',
-                status: pageData.status || 'draft',
-                heroImage: pageData.heroImage || pageData.hero_image || '',
-            }
+            const processData = (data: any): PageLocaleData => ({
+                title: data.title || '',
+                subtitle: data.subtitle || '',
+                slug: data.slug || '',
+                content: data.content || '',
+                metaTitle: data.metaTitle || data.meta_title || '',
+                metaDescription: data.metaDescription || data.meta_description || '',
+                heroImage: data.heroImage || data.hero_image || '',
+            })
 
-            setFormData(newFormData)
+            const trData = trResponse.data.data || trResponse.data
+            const enData = enResponse.data.data || enResponse.data
+
+            setPageData({
+                status: trData.status || 'draft',
+                tr: processData(trData),
+                en: processData(enData),
+            })
+
             setEditorKey(prev => prev + 1)
-        } catch (error: any) {
-            console.error('Page fetch error:', error)
+
             toast({
-                title: tCommon('error'),
-                description: error.response?.data?.message || tCommon('error'),
+                title: '✅ Başarılı',
+                description: 'Sayfa verileri yüklendi',
+            })
+        } catch (error: any) {
+            console.error('❌ Page fetch error:', error)
+            toast({
+                title: '❌ Hata',
+                description: error.response?.data?.message || 'Veriler yüklenirken hata oluştu',
                 variant: 'destructive',
             })
         } finally {
@@ -157,83 +175,206 @@ export default function EditPagePage() {
         }
     }
 
+    const updateField = (field: keyof PageLocaleData, value: any) => {
+        setPageData({
+            ...pageData,
+            [activeLocale]: { ...pageData[activeLocale], [field]: value },
+        })
+    }
+
     const handleTitleChange = (title: string) => {
-        setFormData(prev => ({
-            ...prev,
-            title,
-            slug: generateSlug(title),
-            metaTitle: title
-        }))
+        const currentData = pageData[activeLocale]
+        setPageData({
+            ...pageData,
+            [activeLocale]: {
+                ...currentData,
+                title,
+                slug: generateSlug(title),
+                metaTitle: title
+            }
+        })
     }
 
     const handleContentChange = (content: string) => {
-        console.log('Content updated:', content.substring(0, 100))
-        setFormData(prev => ({
-            ...prev,
-            content
-        }))
+        console.log('✅ Content updated:', content.substring(0, 100))
+        updateField('content', content)
     }
 
     const validateForm = (): boolean => {
-        const newErrors: Partial<PageFormData> = {}
-        if (!formData.title.trim()) newErrors.title = t('validation.titleRequired')
-        if (!formData.subtitle.trim()) newErrors.subtitle = t('validation.subtitleRequired')
-        if (!formData.slug.trim()) newErrors.slug = t('validation.slugRequired')
-        if (!formData.content.trim()) newErrors.content = t('validation.contentRequired')
-        if (!formData.heroImage.trim()) newErrors.heroImage = t('validation.heroImageRequired')
+        const currentData = pageData[activeLocale]
+        const newErrors: Partial<PageLocaleData> = {}
+
+        // Required fields
+        if (!currentData.title?.trim()) {
+            newErrors.title = 'Başlık zorunludur'
+        }
+
+        if (!currentData.subtitle?.trim()) {
+            newErrors.subtitle = 'Alt başlık zorunludur'
+        }
+
+        if (!currentData.slug?.trim()) {
+            newErrors.slug = 'Slug zorunludur'
+        }
+
+        if (!currentData.content?.trim()) {
+            newErrors.content = 'İçerik zorunludur'
+        }
+
+        if (!currentData.heroImage?.trim()) {
+            newErrors.heroImage = 'Hero görsel zorunludur'
+        }
+
+        // Validate both locales before submitting
+        const otherLocale = activeLocale === 'tr' ? 'en' : 'tr'
+        const otherData = pageData[otherLocale]
+
+        const hasMissingOtherLocale =
+            !otherData.title?.trim() ||
+            !otherData.subtitle?.trim() ||
+            !otherData.slug?.trim() ||
+            !otherData.content?.trim() ||
+            !otherData.heroImage?.trim()
+
+        if (hasMissingOtherLocale) {
+            toast({
+                title: '⚠️ Dikkat',
+                description: `${otherLocale.toUpperCase()} dilinde eksik alanlar var!`,
+                variant: 'destructive',
+            })
+        }
+
         setErrors(newErrors)
         return Object.keys(newErrors).length === 0
     }
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
+
         if (!validateForm()) {
             toast({
-                title: tCommon('error'),
-                description: 'Lütfen tüm zorunlu alanları doldurun',
+                title: '❌ Hata',
+                description: `[${activeLocale.toUpperCase()}] Lütfen tüm zorunlu alanları doldurun`,
                 variant: 'destructive',
             })
             return
         }
 
         setSaving(true)
+
         try {
-            console.log('Submitting data:', formData)
-            await axios.put(`/pages/${pageId}`, formData)
-            toast({ title: tCommon('success'), description: t('updateSuccess') })
-            router.push('/pages')
-        } catch (error: any) {
-            console.error('Update error:', error)
+            // ✅ TR Payload
+            const trPayload = {
+                locale: 'tr',
+                title: pageData.tr.title.trim(),
+                subtitle: pageData.tr.subtitle.trim(),
+                slug: pageData.tr.slug.trim(),
+                content: pageData.tr.content.trim(),
+                heroImage: pageData.tr.heroImage.trim(),
+                metaTitle: pageData.tr.metaTitle.trim() || pageData.tr.title.trim(),
+                metaDescription: pageData.tr.metaDescription.trim() || pageData.tr.subtitle.trim(),
+                status: pageData.status,
+            }
+
+            // ✅ EN Payload
+            const enPayload = {
+                locale: 'en',
+                title: pageData.en.title.trim(),
+                subtitle: pageData.en.subtitle.trim(),
+                slug: pageData.en.slug.trim(),
+                content: pageData.en.content.trim(),
+                heroImage: pageData.en.heroImage.trim(),
+                metaTitle: pageData.en.metaTitle.trim() || pageData.en.title.trim(),
+                metaDescription: pageData.en.metaDescription.trim() || pageData.en.subtitle.trim(),
+                status: pageData.status,
+            }
+
+            console.log('📤 Sending TR:', trPayload)
+            console.log('📤 Sending EN:', enPayload)
+
+            // ✅ Send requests sequentially to see which one fails
+            console.log('🔄 Updating TR...')
+            await axios.put(`/pages/${pageId}`, trPayload)
+            console.log('✅ TR Updated')
+
+            console.log('🔄 Updating EN...')
+            await axios.put(`/pages/${pageId}`, enPayload)
+            console.log('✅ EN Updated')
+
             toast({
-                title: tCommon('error'),
-                description: error.response?.data?.message || tCommon('error'),
-                variant: 'destructive',
+                title: '✅ Başarılı',
+                description: 'Sayfa her iki dil için güncellendi',
             })
+
+            router.push('/pages')
+
+        } catch (error: any) {
+            console.error('❌ Update error:', error)
+            console.error('❌ Response:', error.response)
+            console.error('❌ Response data:', error.response?.data)
+
+            // ✅ Handle 422 Validation Errors
+            if (error.response?.status === 422) {
+                const errors = error.response.data?.errors || {}
+                const errorMessages = Object.entries(errors)
+                    .map(([field, messages]) => {
+                        const msgs = Array.isArray(messages) ? messages : [messages]
+                        return `• ${field}: ${msgs.join(', ')}`
+                    })
+                    .join('\n')
+
+                console.error('❌ Validation Errors:', errors)
+
+                toast({
+                    title: '❌ Validation Hatası',
+                    description: errorMessages || 'Lütfen formu kontrol edin',
+                    variant: 'destructive',
+                })
+            } else if (error.response?.status === 401) {
+                toast({
+                    title: '❌ Oturum Hatası',
+                    description: 'Lütfen tekrar giriş yapın',
+                    variant: 'destructive',
+                })
+            } else if (error.response?.status === 404) {
+                toast({
+                    title: '❌ Sayfa Bulunamadı',
+                    description: 'Güncellenecek sayfa bulunamadı',
+                    variant: 'destructive',
+                })
+            } else {
+                toast({
+                    title: '❌ Hata',
+                    description: error.response?.data?.message || error.message || 'Güncelleme sırasında hata oluştu',
+                    variant: 'destructive',
+                })
+            }
         } finally {
             setSaving(false)
         }
     }
-
     const handleDelete = async () => {
         try {
             await axios.delete(`/pages/${pageId}`)
-            toast({ title: tCommon('success'), description: t('deleteSuccess') })
+            toast({
+                title: '✅ Başarılı',
+                description: 'Sayfa silindi',
+            })
             router.push('/pages')
         } catch (error: any) {
             toast({
-                title: tCommon('error'),
-                description: error.response?.data?.message || tCommon('error'),
+                title: '❌ Hata',
+                description: error.response?.data?.message || 'Silme sırasında hata oluştu',
                 variant: 'destructive',
             })
         }
     }
 
     const handleMediaSelect = (url: string) => {
-        setFormData(prev => ({ ...prev, heroImage: url }))
+        updateField('heroImage', url)
         setShowMediaPicker(false)
         toast({
-            title: tCommon('success'),
-            description: t('imageSelected'),
+            title: '✅ Başarılı',
+            description: 'Görsel seçildi',
         })
     }
 
@@ -245,21 +386,37 @@ export default function EditPagePage() {
         )
     }
 
+    const currentData = pageData[activeLocale]
+
     return (
         <div className="w-full space-y-4 sm:space-y-6 px-2 sm:px-4 lg:px-0">
-            {/* Header - Responsive */}
+            {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                <h1 className="text-2xl sm:text-3xl font-bold text-primary-pink">
-                    {t('edit.title')}
+                <h1 className="text-2xl sm:text-3xl font-bold text-primary-pink flex items-center gap-2">
+                    Page Edit
                 </h1>
                 <div className="flex flex-wrap items-center gap-2">
+                    <Button
+                        variant={activeLocale === 'tr' ? 'default' : 'outline'}
+                        onClick={() => setActiveLocale('tr')}
+                        className={`flex-1 sm:flex-none text-xs sm:text-sm ${activeLocale === 'tr' ? 'bg-primary-pink' : ''}`}
+                    >
+                        🇹🇷 Türkçe
+                    </Button>
+                    <Button
+                        variant={activeLocale === 'en' ? 'default' : 'outline'}
+                        onClick={() => setActiveLocale('en')}
+                        className={`flex-1 sm:flex-none text-xs sm:text-sm ${activeLocale === 'en' ? 'bg-primary-pink' : ''}`}
+                    >
+                        🇬🇧 English
+                    </Button>
                     <Button
                         variant="outline"
                         onClick={() => setShowPreview(true)}
                         className="flex-1 sm:flex-none text-xs sm:text-sm"
                     >
                         <Eye className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                        {t('preview')}
+                        Önizle
                     </Button>
                     <Button
                         variant="destructive"
@@ -267,7 +424,7 @@ export default function EditPagePage() {
                         className="flex-1 sm:flex-none text-xs sm:text-sm"
                     >
                         <Trash2 className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                        {tCommon('delete')}
+                        Sil
                     </Button>
                     <Button
                         variant="outline"
@@ -275,7 +432,7 @@ export default function EditPagePage() {
                         className="flex-1 sm:flex-none text-xs sm:text-sm"
                     >
                         <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                        {tCommon('back')}
+                        Geri
                     </Button>
                 </div>
             </div>
@@ -288,14 +445,14 @@ export default function EditPagePage() {
                         <CardHeader className="p-4 sm:p-6">
                             <CardTitle className="flex items-center text-base sm:text-lg">
                                 <ImageIcon className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                                {t('form.heroImage')} *
+                                Hero Görsel * ({activeLocale === 'tr' ? '🇹🇷' : '🇬🇧'})
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="p-4 sm:p-6 pt-0">
-                            {formData.heroImage ? (
+                            {currentData.heroImage ? (
                                 <div className="relative w-full h-[200px] sm:h-[250px] md:h-[300px] rounded-lg overflow-hidden group">
                                     <Image
-                                        src={formData.heroImage}
+                                        src={currentData.heroImage}
                                         alt="Hero"
                                         fill
                                         className="object-cover"
@@ -310,17 +467,17 @@ export default function EditPagePage() {
                                             className="text-xs sm:text-sm"
                                         >
                                             <Upload className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                                            {t('changeImage')}
+                                            Değiştir
                                         </Button>
                                         <Button
                                             type="button"
                                             variant="destructive"
                                             size="sm"
-                                            onClick={() => setFormData(prev => ({ ...prev, heroImage: '' }))}
+                                            onClick={() => updateField('heroImage', '')}
                                             className="text-xs sm:text-sm"
                                         >
                                             <X className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                                            {tCommon('delete')}
+                                            Sil
                                         </Button>
                                     </div>
                                 </div>
@@ -331,7 +488,7 @@ export default function EditPagePage() {
                                     className="w-full h-[200px] sm:h-[250px] md:h-[300px] border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center hover:border-primary-pink hover:bg-pink-50 transition"
                                 >
                                     <Upload className="h-12 w-12 sm:h-16 sm:w-16 text-gray-400 mb-2 sm:mb-4" />
-                                    <p className="text-xs sm:text-sm text-gray-600">{t('form.selectHeroImage')}</p>
+                                    <p className="text-xs sm:text-sm text-gray-600">Hero görsel seçin</p>
                                     <p className="text-xs text-gray-400 mt-1 sm:mt-2">Önerilen: 1920x1080</p>
                                 </button>
                             )}
@@ -346,13 +503,13 @@ export default function EditPagePage() {
                         <CardContent className="pt-4 sm:pt-6 p-4 sm:p-6">
                             <div className="space-y-2">
                                 <Label htmlFor="title" className="text-sm sm:text-base">
-                                    {t('form.title')} *
+                                    Başlık * ({activeLocale === 'tr' ? '🇹🇷' : '🇬🇧'})
                                 </Label>
                                 <Input
                                     id="title"
-                                    value={formData.title}
+                                    value={currentData.title}
                                     onChange={(e) => handleTitleChange(e.target.value)}
-                                    placeholder={t('placeholders.title')}
+                                    placeholder={activeLocale === 'tr' ? 'Sayfa başlığı' : 'Page title'}
                                     className={`text-sm sm:text-base ${errors.title ? 'border-red-500' : ''}`}
                                 />
                                 {errors.title && (
@@ -367,13 +524,13 @@ export default function EditPagePage() {
                         <CardContent className="pt-4 sm:pt-6 p-4 sm:p-6">
                             <div className="space-y-2">
                                 <Label htmlFor="subtitle" className="text-sm sm:text-base">
-                                    {t('form.subtitle')} *
+                                    Alt Başlık * ({activeLocale === 'tr' ? '🇹🇷' : '🇬🇧'})
                                 </Label>
                                 <Input
                                     id="subtitle"
-                                    value={formData.subtitle}
-                                    onChange={(e) => setFormData(prev => ({ ...prev, subtitle: e.target.value }))}
-                                    placeholder={t('placeholders.subtitle')}
+                                    value={currentData.subtitle}
+                                    onChange={(e) => updateField('subtitle', e.target.value)}
+                                    placeholder={activeLocale === 'tr' ? 'Sayfa alt başlığı' : 'Page subtitle'}
                                     className={`text-sm sm:text-base ${errors.subtitle ? 'border-red-500' : ''}`}
                                 />
                                 {errors.subtitle && (
@@ -388,19 +545,17 @@ export default function EditPagePage() {
                         <CardContent className="pt-4 sm:pt-6 p-4 sm:p-6">
                             <div className="space-y-2">
                                 <Label htmlFor="slug" className="text-sm sm:text-base">
-                                    {t('form.slug')} *
+                                    Slug * ({activeLocale === 'tr' ? '🇹🇷' : '🇬🇧'})
                                 </Label>
                                 <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                                     <span className="text-gray-500 text-xs sm:text-sm whitespace-nowrap">
-                                        yoursite.com/
+                                        yoursite.com/{activeLocale}/
                                     </span>
                                     <Input
                                         id="slug"
-                                        value={formData.slug}
-                                        onChange={(e) =>
-                                            setFormData(prev => ({ ...prev, slug: e.target.value }))
-                                        }
-                                        placeholder={t('placeholders.slug')}
+                                        value={currentData.slug}
+                                        onChange={(e) => updateField('slug', e.target.value)}
+                                        placeholder={activeLocale === 'tr' ? 'sayfa-slug' : 'page-slug'}
                                         className={`text-sm sm:text-base ${errors.slug ? 'border-red-500' : ''}`}
                                     />
                                 </div>
@@ -415,14 +570,14 @@ export default function EditPagePage() {
                     <Card>
                         <CardHeader className="p-4 sm:p-6">
                             <CardTitle className="text-base sm:text-lg">
-                                {t('form.content')} *
+                                İçerik * ({activeLocale === 'tr' ? '🇹🇷' : '🇬🇧'})
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="p-4 sm:p-6 pt-0">
                             <div className="space-y-2">
                                 <Tiptap
-                                    key={editorKey}
-                                    content={formData.content}
+                                    key={`${editorKey}-${activeLocale}`}
+                                    content={currentData.content}
                                     onChange={handleContentChange}
                                 />
                                 {errors.content && (
@@ -437,44 +592,40 @@ export default function EditPagePage() {
                         <CardHeader className="p-4 sm:p-6">
                             <CardTitle className="flex items-center text-base sm:text-lg">
                                 <Search className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                                {t('form.seoSettings')}
+                                SEO Ayarları ({activeLocale === 'tr' ? '🇹🇷' : '🇬🇧'})
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4 p-4 sm:p-6 pt-0">
                             <div className="space-y-2">
                                 <Label htmlFor="metaTitle" className="text-sm sm:text-base">
-                                    {t('form.metaTitle')}
+                                    Meta Başlık
                                 </Label>
                                 <Input
                                     id="metaTitle"
-                                    value={formData.metaTitle}
-                                    onChange={(e) =>
-                                        setFormData(prev => ({ ...prev, metaTitle: e.target.value }))
-                                    }
-                                    placeholder={t('placeholders.metaTitle')}
+                                    value={currentData.metaTitle}
+                                    onChange={(e) => updateField('metaTitle', e.target.value)}
+                                    placeholder={activeLocale === 'tr' ? 'Meta başlık' : 'Meta title'}
                                     className="text-sm sm:text-base"
                                 />
                                 <p className="text-xs text-gray-500">
-                                    {formData.metaTitle.length}/60 {t('meta.titleLength')}
+                                    {currentData.metaTitle.length}/60 karakter
                                 </p>
                             </div>
 
                             <div className="space-y-2">
                                 <Label htmlFor="metaDescription" className="text-sm sm:text-base">
-                                    {t('form.metaDescription')}
+                                    Meta Açıklama
                                 </Label>
                                 <Textarea
                                     id="metaDescription"
-                                    value={formData.metaDescription}
-                                    onChange={(e) =>
-                                        setFormData(prev => ({ ...prev, metaDescription: e.target.value }))
-                                    }
+                                    value={currentData.metaDescription}
+                                    onChange={(e) => updateField('metaDescription', e.target.value)}
                                     rows={3}
-                                    placeholder={t('placeholders.metaDescription')}
+                                    placeholder={activeLocale === 'tr' ? 'Meta açıklama' : 'Meta description'}
                                     className="text-sm sm:text-base"
                                 />
                                 <p className="text-xs text-gray-500">
-                                    {formData.metaDescription.length}/160 {t('meta.descriptionLength')}
+                                    {currentData.metaDescription.length}/160 karakter
                                 </p>
                             </div>
                         </CardContent>
@@ -487,18 +638,18 @@ export default function EditPagePage() {
                     <Card>
                         <CardHeader className="p-4 sm:p-6">
                             <CardTitle className="text-base sm:text-lg">
-                                {t('form.publish')}
+                                Yayınlama
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4 p-4 sm:p-6 pt-0">
                             <div className="space-y-2">
                                 <Label htmlFor="status" className="text-sm sm:text-base">
-                                    {t('form.status')}
+                                    Durum
                                 </Label>
                                 <Select
-                                    value={formData.status}
+                                    value={pageData.status}
                                     onValueChange={(value) =>
-                                        setFormData(prev => ({ ...prev, status: value as 'published' | 'draft' }))
+                                        setPageData({ ...pageData, status: value as 'published' | 'draft' })
                                     }
                                 >
                                     <SelectTrigger className="text-sm sm:text-base">
@@ -506,10 +657,10 @@ export default function EditPagePage() {
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="draft" className="text-sm sm:text-base">
-                                            {t('status.draft')}
+                                            Taslak
                                         </SelectItem>
                                         <SelectItem value="published" className="text-sm sm:text-base">
-                                            {t('status.published')}
+                                            Yayında
                                         </SelectItem>
                                     </SelectContent>
                                 </Select>
@@ -524,12 +675,12 @@ export default function EditPagePage() {
                                     {saving ? (
                                         <>
                                             <Loader2 className="w-3 h-3 sm:w-4 sm:h-4 mr-2 animate-spin" />
-                                            {t('edit.saving')}
+                                            Kaydediliyor...
                                         </>
                                     ) : (
                                         <>
                                             <Check className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
-                                            {t('edit.save')}
+                                            Her İki Dili Kaydet
                                         </>
                                     )}
                                 </Button>
@@ -541,21 +692,28 @@ export default function EditPagePage() {
                     <Card>
                         <CardHeader className="p-4 sm:p-6">
                             <CardTitle className="text-sm sm:text-base">
-                                {t('pageInfo')}
+                                Sayfa Bilgisi
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-2 text-xs sm:text-sm p-4 sm:p-6 pt-0">
                             <div className="flex justify-between">
-                                <span className="text-gray-600">{t('wordCount')}:</span>
+                                <span className="text-gray-600">Kelime:</span>
                                 <span className="font-medium">
-                                    {formData.content.replace(/<[^>]*>/g, '').split(/\s+/).filter(Boolean).length}
+                                    {currentData.content.replace(/<[^>]*>/g, '').split(/\s+/).filter(Boolean).length}
                                 </span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-gray-600">{t('charCount')}:</span>
+                                <span className="text-gray-600">Karakter:</span>
                                 <span className="font-medium">
-                                    {formData.content.replace(/<[^>]*>/g, '').length}
+                                    {currentData.content.replace(/<[^>]*>/g, '').length}
                                 </span>
+                            </div>
+                            <div className="pt-2 border-t">
+                                <div className="flex items-center gap-2 text-xs text-gray-600">
+                                    <span>🇹🇷 TR: {pageData.tr.content.length > 0 ? '✓' : '○'}</span>
+                                    <span>•</span>
+                                    <span>🇬🇧 EN: {pageData.en.content.length > 0 ? '✓' : '○'}</span>
+                                </div>
                             </div>
                         </CardContent>
                     </Card>
@@ -567,24 +725,23 @@ export default function EditPagePage() {
                 open={showMediaPicker}
                 onOpenChange={setShowMediaPicker}
                 onSelect={handleMediaSelect}
-                selectedUrl={formData.heroImage}
+                selectedUrl={currentData.heroImage}
             />
 
-            {/* Preview Dialog - Responsive */}
+            {/* Preview Dialog */}
             <Dialog open={showPreview} onOpenChange={setShowPreview}>
                 <DialogContent className="max-w-[95vw] sm:max-w-6xl h-[90vh] p-4 sm:p-6">
                     <DialogHeader>
                         <DialogTitle className="text-base sm:text-lg">
-                            {t('preview')}: {formData.title}
+                            Önizleme ({activeLocale === 'tr' ? '🇹🇷 Türkçe' : '🇬🇧 English'}): {currentData.title}
                         </DialogTitle>
                     </DialogHeader>
                     <div className="overflow-auto h-full">
-                        {/* Hero Section Preview */}
                         <section className="w-full relative h-[30vh] sm:h-[40vh] mb-4 sm:mb-8">
-                            {formData.heroImage ? (
+                            {currentData.heroImage ? (
                                 <Image
-                                    src={formData.heroImage}
-                                    alt={formData.title}
+                                    src={currentData.heroImage}
+                                    alt={currentData.title}
                                     fill
                                     className="object-cover"
                                     unoptimized
@@ -596,20 +753,19 @@ export default function EditPagePage() {
                             )}
                             <div className="absolute inset-0 bg-black/30 flex flex-col justify-center items-center text-white p-4">
                                 <h1 className="text-xl sm:text-3xl md:text-5xl font-bold mb-1 sm:mb-2 text-center">
-                                    {formData.title || 'Başlık'}
+                                    {currentData.title || 'Başlık'}
                                 </h1>
                                 <p className="text-sm sm:text-lg md:text-2xl text-center">
-                                    {formData.subtitle || 'Alt başlık'}
+                                    {currentData.subtitle || 'Alt başlık'}
                                 </p>
                             </div>
                         </section>
 
-                        {/* Content Preview */}
                         <section className="max-w-5xl mx-auto px-2 sm:px-4 py-4 sm:py-8">
                             <div
                                 className="prose prose-sm sm:prose-base lg:prose-lg max-w-none"
                                 dangerouslySetInnerHTML={{
-                                    __html: formData.content || '<p>İçerik burada görünecek...</p>'
+                                    __html: currentData.content || '<p>İçerik burada görünecek...</p>'
                                 }}
                             />
                         </section>
@@ -622,21 +778,21 @@ export default function EditPagePage() {
                 <AlertDialogContent className="max-w-[90vw] sm:max-w-md">
                     <AlertDialogHeader>
                         <AlertDialogTitle className="text-base sm:text-lg">
-                            {t('edit.delete')}
+                            Sayfayı Sil
                         </AlertDialogTitle>
                         <AlertDialogDescription className="text-xs sm:text-sm">
-                            {t('edit.deleteConfirm')}
+                            Bu işlem geri alınamaz. Sayfa her iki dilde de silinecek.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter className="flex-col sm:flex-row gap-2">
                         <AlertDialogCancel className="text-xs sm:text-sm">
-                            {tCommon('cancel')}
+                            İptal
                         </AlertDialogCancel>
                         <AlertDialogAction
                             onClick={handleDelete}
                             className="bg-red-600 hover:bg-red-700 text-xs sm:text-sm"
                         >
-                            {t('edit.delete')}
+                            Sil
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
@@ -644,5 +800,3 @@ export default function EditPagePage() {
         </div>
     )
 }
-
-

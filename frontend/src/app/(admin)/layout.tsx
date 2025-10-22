@@ -18,7 +18,8 @@ import {
     ChevronDown,
     Mail,
     HelpCircle,
-    FileType, Layout,
+    FileType,
+    Layout,
 } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -47,6 +48,7 @@ interface User {
 
 interface SubMenuItem {
     name: string;
+    translationKey?: string;
     icon: ReactNode;
     href: string;
 }
@@ -63,13 +65,12 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
     const router = useRouter();
     const pathname = usePathname();
     const t = useTranslations('admin');
-    const tCommon = useTranslations('common');
 
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [currentLocale, setCurrentLocale] = useState('tr');
-    const [openMenus, setOpenMenus] = useState<string[]>(['pages']); // Default open
+    const [openMenus, setOpenMenus] = useState<string[]>(['pages']);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -123,11 +124,13 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
             submenu: [
                 {
                     name: 'Navbar',
+                    translationKey: 'navbar',
                     icon: <Menu className="w-4 h-4" />,
                     href: '/admin/layout/navbar',
                 },
                 {
                     name: 'Footer',
+                    translationKey: 'footer',
                     icon: <Layout className="w-4 h-4" />,
                     href: '/admin/layout/footer',
                 },
@@ -146,11 +149,13 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
             submenu: [
                 {
                     name: 'Tüm Sayfalar',
+                    translationKey: 'allPages',
                     icon: <FileType className="w-4 h-4" />,
                     href: '/pages',
                 },
                 {
                     name: 'Özel Sayfalar',
+                    translationKey: 'specialPages',
                     icon: <ChevronRight className="w-4 h-4" />,
                     href: '#special',
                 },
@@ -173,11 +178,13 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
     const specialPages: SubMenuItem[] = [
         {
             name: 'İletişim',
+            translationKey: 'contact',
             icon: <Mail className="w-4 h-4" />,
             href: '/admin/pages/contact',
         },
         {
             name: 'FAQ',
+            translationKey: 'faq',
             icon: <HelpCircle className="w-4 h-4" />,
             href: '/admin/pages/faq',
         },
@@ -229,7 +236,8 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
                     <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
                         {menuItems.map((item) => {
                             if (item.submenu) {
-                                const isAnySubmenuActive = item.submenu.some(sub => pathname === sub.href) ||
+                                const isAnySubmenuActive =
+                                    item.submenu.some(sub => pathname === sub.href) ||
                                     specialPages.some(sp => pathname === sp.href);
                                 const isOpen = openMenus.includes(item.translationKey);
 
@@ -276,11 +284,10 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
                                             <CollapsibleContent className="mt-1 space-y-1">
                                                 {item.submenu.map((subItem) => {
                                                     if (subItem.href === '#special') {
-                                                        // Özel sayfalar alt menüsü
                                                         return (
                                                             <div key={subItem.href} className="ml-4">
                                                                 <div className="text-xs font-semibold text-gray-400 uppercase px-3 py-2">
-                                                                    {subItem.name}
+                                                                    {t(subItem.translationKey as any)}
                                                                 </div>
                                                                 {specialPages.map((specialPage) => {
                                                                     const isActive = pathname === specialPage.href;
@@ -294,10 +301,18 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
                                                                                     : 'text-gray-600 hover:bg-gray-50'
                                                                             }`}
                                                                         >
-                                                                            <span className={isActive ? 'text-primary-pink' : 'text-gray-400'}>
+                                                                            <span
+                                                                                className={
+                                                                                    isActive
+                                                                                        ? 'text-primary-pink'
+                                                                                        : 'text-gray-400'
+                                                                                }
+                                                                            >
                                                                                 {specialPage.icon}
                                                                             </span>
-                                                                            <span className="ml-2 text-sm">{specialPage.name}</span>
+                                                                            <span className="ml-2 text-sm">
+                                                                                {t(specialPage.translationKey as any)}
+                                                                            </span>
                                                                         </Link>
                                                                     );
                                                                 })}
@@ -316,10 +331,18 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
                                                                     : 'text-gray-600 hover:bg-gray-50'
                                                             }`}
                                                         >
-                                                            <span className={isActive ? 'text-primary-pink' : 'text-gray-400'}>
+                                                            <span
+                                                                className={
+                                                                    isActive
+                                                                        ? 'text-primary-pink'
+                                                                        : 'text-gray-400'
+                                                                }
+                                                            >
                                                                 {subItem.icon}
                                                             </span>
-                                                            <span className="ml-2 text-sm">{subItem.name}</span>
+                                                            <span className="ml-2 text-sm">
+                                                                {t(subItem.translationKey as any)}
+                                                            </span>
                                                         </Link>
                                                     );
                                                 })}
@@ -329,7 +352,6 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
                                 );
                             }
 
-                            // Normal menu items
                             const isActive = pathname === item.href;
                             return (
                                 <Link
@@ -346,7 +368,9 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
                                 >
                                     <span
                                         className={`${
-                                            isActive ? 'text-primary-pink' : 'text-gray-400 group-hover:text-gray-600'
+                                            isActive
+                                                ? 'text-primary-pink'
+                                                : 'text-gray-400 group-hover:text-gray-600'
                                         }`}
                                     >
                                         {item.icon}
@@ -371,7 +395,9 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
                                         </AvatarFallback>
                                     </Avatar>
                                     <div className="ml-3 flex-1 min-w-0">
-                                        <p className="text-sm font-semibold text-gray-800 truncate">{user?.name}</p>
+                                        <p className="text-sm font-semibold text-gray-800 truncate">
+                                            {user?.name}
+                                        </p>
                                         <p className="text-xs text-gray-500 truncate">{user?.email}</p>
                                     </div>
                                 </div>

@@ -1417,7 +1417,6 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$u
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$shared$2f$lib$2f$app$2d$dynamic$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/dist/shared/lib/app-dynamic.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$MediaPicker$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/components/MediaPicker.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__ = __turbopack_import__("[project]/node_modules/lucide-react/dist/esm/icons/loader-circle.js [app-ssr] (ecmascript) <export default as Loader2>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$intl$2f$dist$2f$esm$2f$development$2f$react$2d$client$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_import__("[project]/node_modules/next-intl/dist/esm/development/react-client/index.js [app-ssr] (ecmascript) <locals>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$eye$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Eye$3e$__ = __turbopack_import__("[project]/node_modules/lucide-react/dist/esm/icons/eye.js [app-ssr] (ecmascript) <export default as Eye>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trash$2d$2$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Trash2$3e$__ = __turbopack_import__("[project]/node_modules/lucide-react/dist/esm/icons/trash-2.js [app-ssr] (ecmascript) <export default as Trash2>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$left$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowLeft$3e$__ = __turbopack_import__("[project]/node_modules/lucide-react/dist/esm/icons/arrow-left.js [app-ssr] (ecmascript) <export default as ArrowLeft>");
@@ -1444,8 +1443,6 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 ;
 ;
 ;
-;
-// TipTap dynamic import
 const Tiptap = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$shared$2f$lib$2f$app$2d$dynamic$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])(async ()=>{
     typeof require.resolveWeak !== "undefined" && require.resolveWeak("@/src/components/Tiptap");
 }, {
@@ -1461,16 +1458,24 @@ const Tiptap = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$
                 className: "w-6 h-6 animate-spin text-gray-400"
             }, void 0, false, {
                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                lineNumber: 56,
+                lineNumber: 55,
                 columnNumber: 13
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-            lineNumber: 55,
+            lineNumber: 54,
             columnNumber: 9
         }, this)
 });
-// Slug generator
+const DEFAULT_LOCALE_DATA = {
+    title: '',
+    subtitle: '',
+    slug: '',
+    content: '',
+    metaTitle: '',
+    metaDescription: '',
+    heroImage: ''
+};
 const generateSlug = (title)=>{
     const turkishMap = {
         ç: 'c',
@@ -1491,19 +1496,17 @@ const generateSlug = (title)=>{
 function EditPagePage() {
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRouter"])();
     const params = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useParams"])();
-    const t = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$intl$2f$dist$2f$esm$2f$development$2f$react$2d$client$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["useTranslations"])('pages');
-    const tCommon = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$intl$2f$dist$2f$esm$2f$development$2f$react$2d$client$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["useTranslations"])('common');
     const { toast } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$use$2d$toast$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useToast"])();
     const pageId = params.id;
-    const [formData, setFormData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])({
-        title: '',
-        subtitle: '',
-        slug: '',
-        content: '',
-        metaTitle: '',
-        metaDescription: '',
+    const [activeLocale, setActiveLocale] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('tr');
+    const [pageData, setPageData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])({
         status: 'draft',
-        heroImage: ''
+        tr: {
+            ...DEFAULT_LOCALE_DATA
+        },
+        en: {
+            ...DEFAULT_LOCALE_DATA
+        }
     });
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(true);
     const [saving, setSaving] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
@@ -1513,11 +1516,9 @@ function EditPagePage() {
     const [showMediaPicker, setShowMediaPicker] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [isMounted, setIsMounted] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [editorKey, setEditorKey] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(0);
-    // Client-side mount check
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         setIsMounted(true);
     }, []);
-    // Fetch page data
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         if (isMounted && pageId) {
             fetchPage();
@@ -1529,54 +1530,97 @@ function EditPagePage() {
     const fetchPage = async ()=>{
         try {
             setLoading(true);
-            const response = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].get(`/pages/${pageId}`);
-            const pageData = response.data.data || response.data;
-            console.log('Fetched page data:', pageData);
-            const newFormData = {
-                title: pageData.title || '',
-                subtitle: pageData.subtitle || '',
-                slug: pageData.slug || '',
-                content: pageData.content || '',
-                metaTitle: pageData.metaTitle || pageData.meta_title || '',
-                metaDescription: pageData.metaDescription || pageData.meta_description || '',
-                status: pageData.status || 'draft',
-                heroImage: pageData.heroImage || pageData.hero_image || ''
-            };
-            setFormData(newFormData);
+            const [trResponse, enResponse] = await Promise.all([
+                __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].get(`/pages/${pageId}?locale=tr`),
+                __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].get(`/pages/${pageId}?locale=en`)
+            ]);
+            const processData = (data)=>({
+                    title: data.title || '',
+                    subtitle: data.subtitle || '',
+                    slug: data.slug || '',
+                    content: data.content || '',
+                    metaTitle: data.metaTitle || data.meta_title || '',
+                    metaDescription: data.metaDescription || data.meta_description || '',
+                    heroImage: data.heroImage || data.hero_image || ''
+                });
+            const trData = trResponse.data.data || trResponse.data;
+            const enData = enResponse.data.data || enResponse.data;
+            setPageData({
+                status: trData.status || 'draft',
+                tr: processData(trData),
+                en: processData(enData)
+            });
             setEditorKey((prev)=>prev + 1);
-        } catch (error) {
-            console.error('Page fetch error:', error);
             toast({
-                title: tCommon('error'),
-                description: error.response?.data?.message || tCommon('error'),
+                title: '✅ Başarılı',
+                description: 'Sayfa verileri yüklendi'
+            });
+        } catch (error) {
+            console.error('❌ Page fetch error:', error);
+            toast({
+                title: '❌ Hata',
+                description: error.response?.data?.message || 'Veriler yüklenirken hata oluştu',
                 variant: 'destructive'
             });
         } finally{
             setLoading(false);
         }
     };
+    const updateField = (field, value)=>{
+        setPageData({
+            ...pageData,
+            [activeLocale]: {
+                ...pageData[activeLocale],
+                [field]: value
+            }
+        });
+    };
     const handleTitleChange = (title)=>{
-        setFormData((prev)=>({
-                ...prev,
+        const currentData = pageData[activeLocale];
+        setPageData({
+            ...pageData,
+            [activeLocale]: {
+                ...currentData,
                 title,
                 slug: generateSlug(title),
                 metaTitle: title
-            }));
+            }
+        });
     };
     const handleContentChange = (content)=>{
-        console.log('Content updated:', content.substring(0, 100));
-        setFormData((prev)=>({
-                ...prev,
-                content
-            }));
+        console.log('✅ Content updated:', content.substring(0, 100));
+        updateField('content', content);
     };
     const validateForm = ()=>{
+        const currentData = pageData[activeLocale];
         const newErrors = {};
-        if (!formData.title.trim()) newErrors.title = t('validation.titleRequired');
-        if (!formData.subtitle.trim()) newErrors.subtitle = t('validation.subtitleRequired');
-        if (!formData.slug.trim()) newErrors.slug = t('validation.slugRequired');
-        if (!formData.content.trim()) newErrors.content = t('validation.contentRequired');
-        if (!formData.heroImage.trim()) newErrors.heroImage = t('validation.heroImageRequired');
+        // Required fields
+        if (!currentData.title?.trim()) {
+            newErrors.title = 'Başlık zorunludur';
+        }
+        if (!currentData.subtitle?.trim()) {
+            newErrors.subtitle = 'Alt başlık zorunludur';
+        }
+        if (!currentData.slug?.trim()) {
+            newErrors.slug = 'Slug zorunludur';
+        }
+        if (!currentData.content?.trim()) {
+            newErrors.content = 'İçerik zorunludur';
+        }
+        if (!currentData.heroImage?.trim()) {
+            newErrors.heroImage = 'Hero görsel zorunludur';
+        }
+        // Validate both locales before submitting
+        const otherLocale = activeLocale === 'tr' ? 'en' : 'tr';
+        const otherData = pageData[otherLocale];
+        const hasMissingOtherLocale = !otherData.title?.trim() || !otherData.subtitle?.trim() || !otherData.slug?.trim() || !otherData.content?.trim() || !otherData.heroImage?.trim();
+        if (hasMissingOtherLocale) {
+            toast({
+                title: '⚠️ Dikkat',
+                description: `${otherLocale.toUpperCase()} dilinde eksik alanlar var!`,
+                variant: 'destructive'
+            });
+        }
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -1584,28 +1628,90 @@ function EditPagePage() {
         e.preventDefault();
         if (!validateForm()) {
             toast({
-                title: tCommon('error'),
-                description: 'Lütfen tüm zorunlu alanları doldurun',
+                title: '❌ Hata',
+                description: `[${activeLocale.toUpperCase()}] Lütfen tüm zorunlu alanları doldurun`,
                 variant: 'destructive'
             });
             return;
         }
         setSaving(true);
         try {
-            console.log('Submitting data:', formData);
-            await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].put(`/pages/${pageId}`, formData);
+            // ✅ TR Payload
+            const trPayload = {
+                locale: 'tr',
+                title: pageData.tr.title.trim(),
+                subtitle: pageData.tr.subtitle.trim(),
+                slug: pageData.tr.slug.trim(),
+                content: pageData.tr.content.trim(),
+                heroImage: pageData.tr.heroImage.trim(),
+                metaTitle: pageData.tr.metaTitle.trim() || pageData.tr.title.trim(),
+                metaDescription: pageData.tr.metaDescription.trim() || pageData.tr.subtitle.trim(),
+                status: pageData.status
+            };
+            // ✅ EN Payload
+            const enPayload = {
+                locale: 'en',
+                title: pageData.en.title.trim(),
+                subtitle: pageData.en.subtitle.trim(),
+                slug: pageData.en.slug.trim(),
+                content: pageData.en.content.trim(),
+                heroImage: pageData.en.heroImage.trim(),
+                metaTitle: pageData.en.metaTitle.trim() || pageData.en.title.trim(),
+                metaDescription: pageData.en.metaDescription.trim() || pageData.en.subtitle.trim(),
+                status: pageData.status
+            };
+            console.log('📤 Sending TR:', trPayload);
+            console.log('📤 Sending EN:', enPayload);
+            // ✅ Send requests sequentially to see which one fails
+            console.log('🔄 Updating TR...');
+            await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].put(`/pages/${pageId}`, trPayload);
+            console.log('✅ TR Updated');
+            console.log('🔄 Updating EN...');
+            await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].put(`/pages/${pageId}`, enPayload);
+            console.log('✅ EN Updated');
             toast({
-                title: tCommon('success'),
-                description: t('updateSuccess')
+                title: '✅ Başarılı',
+                description: 'Sayfa her iki dil için güncellendi'
             });
             router.push('/pages');
         } catch (error) {
-            console.error('Update error:', error);
-            toast({
-                title: tCommon('error'),
-                description: error.response?.data?.message || tCommon('error'),
-                variant: 'destructive'
-            });
+            console.error('❌ Update error:', error);
+            console.error('❌ Response:', error.response);
+            console.error('❌ Response data:', error.response?.data);
+            // ✅ Handle 422 Validation Errors
+            if (error.response?.status === 422) {
+                const errors = error.response.data?.errors || {};
+                const errorMessages = Object.entries(errors).map(([field, messages])=>{
+                    const msgs = Array.isArray(messages) ? messages : [
+                        messages
+                    ];
+                    return `• ${field}: ${msgs.join(', ')}`;
+                }).join('\n');
+                console.error('❌ Validation Errors:', errors);
+                toast({
+                    title: '❌ Validation Hatası',
+                    description: errorMessages || 'Lütfen formu kontrol edin',
+                    variant: 'destructive'
+                });
+            } else if (error.response?.status === 401) {
+                toast({
+                    title: '❌ Oturum Hatası',
+                    description: 'Lütfen tekrar giriş yapın',
+                    variant: 'destructive'
+                });
+            } else if (error.response?.status === 404) {
+                toast({
+                    title: '❌ Sayfa Bulunamadı',
+                    description: 'Güncellenecek sayfa bulunamadı',
+                    variant: 'destructive'
+                });
+            } else {
+                toast({
+                    title: '❌ Hata',
+                    description: error.response?.data?.message || error.message || 'Güncelleme sırasında hata oluştu',
+                    variant: 'destructive'
+                });
+            }
         } finally{
             setSaving(false);
         }
@@ -1614,27 +1720,24 @@ function EditPagePage() {
         try {
             await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].delete(`/pages/${pageId}`);
             toast({
-                title: tCommon('success'),
-                description: t('deleteSuccess')
+                title: '✅ Başarılı',
+                description: 'Sayfa silindi'
             });
             router.push('/pages');
         } catch (error) {
             toast({
-                title: tCommon('error'),
-                description: error.response?.data?.message || tCommon('error'),
+                title: '❌ Hata',
+                description: error.response?.data?.message || 'Silme sırasında hata oluştu',
                 variant: 'destructive'
             });
         }
     };
     const handleMediaSelect = (url)=>{
-        setFormData((prev)=>({
-                ...prev,
-                heroImage: url
-            }));
+        updateField('heroImage', url);
         setShowMediaPicker(false);
         toast({
-            title: tCommon('success'),
-            description: t('imageSelected')
+            title: '✅ Başarılı',
+            description: 'Görsel seçildi'
         });
     };
     if (!isMounted || loading) {
@@ -1644,15 +1747,16 @@ function EditPagePage() {
                 className: "h-12 w-12 animate-spin text-primary-pink"
             }, void 0, false, {
                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                lineNumber: 243,
+                lineNumber: 384,
                 columnNumber: 17
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-            lineNumber: 242,
+            lineNumber: 383,
             columnNumber: 13
         }, this);
     }
+    const currentData = pageData[activeLocale];
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "w-full space-y-4 sm:space-y-6 px-2 sm:px-4 lg:px-0",
         children: [
@@ -1660,16 +1764,36 @@ function EditPagePage() {
                 className: "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                        className: "text-2xl sm:text-3xl font-bold text-primary-pink",
-                        children: t('edit.title')
+                        className: "text-2xl sm:text-3xl font-bold text-primary-pink flex items-center gap-2",
+                        children: "Page Edit"
                     }, void 0, false, {
                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                        lineNumber: 252,
+                        lineNumber: 395,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "flex flex-wrap items-center gap-2",
                         children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
+                                variant: activeLocale === 'tr' ? 'default' : 'outline',
+                                onClick: ()=>setActiveLocale('tr'),
+                                className: `flex-1 sm:flex-none text-xs sm:text-sm ${activeLocale === 'tr' ? 'bg-primary-pink' : ''}`,
+                                children: "🇹🇷 Türkçe"
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
+                                lineNumber: 399,
+                                columnNumber: 21
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
+                                variant: activeLocale === 'en' ? 'default' : 'outline',
+                                onClick: ()=>setActiveLocale('en'),
+                                className: `flex-1 sm:flex-none text-xs sm:text-sm ${activeLocale === 'en' ? 'bg-primary-pink' : ''}`,
+                                children: "🇬🇧 English"
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
+                                lineNumber: 406,
+                                columnNumber: 21
+                            }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
                                 variant: "outline",
                                 onClick: ()=>setShowPreview(true),
@@ -1679,14 +1803,14 @@ function EditPagePage() {
                                         className: "w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                        lineNumber: 261,
+                                        lineNumber: 418,
                                         columnNumber: 25
                                     }, this),
-                                    t('preview')
+                                    "Önizle"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                lineNumber: 256,
+                                lineNumber: 413,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1698,14 +1822,14 @@ function EditPagePage() {
                                         className: "w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                        lineNumber: 269,
+                                        lineNumber: 426,
                                         columnNumber: 25
                                     }, this),
-                                    tCommon('delete')
+                                    "Sil"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                lineNumber: 264,
+                                lineNumber: 421,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1717,26 +1841,26 @@ function EditPagePage() {
                                         className: "w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                        lineNumber: 277,
+                                        lineNumber: 434,
                                         columnNumber: 25
                                     }, this),
-                                    tCommon('back')
+                                    "Geri"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                lineNumber: 272,
+                                lineNumber: 429,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                        lineNumber: 255,
+                        lineNumber: 398,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                lineNumber: 251,
+                lineNumber: 394,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -1757,37 +1881,38 @@ function EditPagePage() {
                                                     className: "w-4 h-4 sm:w-5 sm:h-5 mr-2"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                    lineNumber: 290,
+                                                    lineNumber: 447,
                                                     columnNumber: 33
                                                 }, this),
-                                                t('form.heroImage'),
-                                                " *"
+                                                "Hero Görsel * (",
+                                                activeLocale === 'tr' ? '🇹🇷' : '🇬🇧',
+                                                ")"
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                            lineNumber: 289,
+                                            lineNumber: 446,
                                             columnNumber: 29
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                        lineNumber: 288,
+                                        lineNumber: 445,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
                                         className: "p-4 sm:p-6 pt-0",
                                         children: [
-                                            formData.heroImage ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            currentData.heroImage ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "relative w-full h-[200px] sm:h-[250px] md:h-[300px] rounded-lg overflow-hidden group",
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                                        src: formData.heroImage,
+                                                        src: currentData.heroImage,
                                                         alt: "Hero",
                                                         fill: true,
                                                         className: "object-cover",
                                                         unoptimized: true
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                        lineNumber: 297,
+                                                        lineNumber: 454,
                                                         columnNumber: 37
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1804,50 +1929,47 @@ function EditPagePage() {
                                                                         className: "w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                                        lineNumber: 312,
+                                                                        lineNumber: 469,
                                                                         columnNumber: 45
                                                                     }, this),
-                                                                    t('changeImage')
+                                                                    "Değiştir"
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                                lineNumber: 305,
+                                                                lineNumber: 462,
                                                                 columnNumber: 41
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
                                                                 type: "button",
                                                                 variant: "destructive",
                                                                 size: "sm",
-                                                                onClick: ()=>setFormData((prev)=>({
-                                                                            ...prev,
-                                                                            heroImage: ''
-                                                                        })),
+                                                                onClick: ()=>updateField('heroImage', ''),
                                                                 className: "text-xs sm:text-sm",
                                                                 children: [
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$x$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__X$3e$__["X"], {
                                                                         className: "w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                                        lineNumber: 322,
+                                                                        lineNumber: 479,
                                                                         columnNumber: 45
                                                                     }, this),
-                                                                    tCommon('delete')
+                                                                    "Sil"
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                                lineNumber: 315,
+                                                                lineNumber: 472,
                                                                 columnNumber: 41
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                        lineNumber: 304,
+                                                        lineNumber: 461,
                                                         columnNumber: 37
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                lineNumber: 296,
+                                                lineNumber: 453,
                                                 columnNumber: 33
                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                 type: "button",
@@ -1858,15 +1980,15 @@ function EditPagePage() {
                                                         className: "h-12 w-12 sm:h-16 sm:w-16 text-gray-400 mb-2 sm:mb-4"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                        lineNumber: 333,
+                                                        lineNumber: 490,
                                                         columnNumber: 37
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                         className: "text-xs sm:text-sm text-gray-600",
-                                                        children: t('form.selectHeroImage')
+                                                        children: "Hero görsel seçin"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                        lineNumber: 334,
+                                                        lineNumber: 491,
                                                         columnNumber: 37
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1874,13 +1996,13 @@ function EditPagePage() {
                                                         children: "Önerilen: 1920x1080"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                        lineNumber: 335,
+                                                        lineNumber: 492,
                                                         columnNumber: 37
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                lineNumber: 328,
+                                                lineNumber: 485,
                                                 columnNumber: 33
                                             }, this),
                                             errors.heroImage && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1888,19 +2010,19 @@ function EditPagePage() {
                                                 children: errors.heroImage
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                lineNumber: 339,
+                                                lineNumber: 496,
                                                 columnNumber: 33
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                        lineNumber: 294,
+                                        lineNumber: 451,
                                         columnNumber: 25
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                lineNumber: 287,
+                                lineNumber: 444,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -1913,23 +2035,24 @@ function EditPagePage() {
                                                 htmlFor: "title",
                                                 className: "text-sm sm:text-base",
                                                 children: [
-                                                    t('form.title'),
-                                                    " *"
+                                                    "Başlık * (",
+                                                    activeLocale === 'tr' ? '🇹🇷' : '🇬🇧',
+                                                    ")"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                lineNumber: 348,
+                                                lineNumber: 505,
                                                 columnNumber: 33
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
                                                 id: "title",
-                                                value: formData.title,
+                                                value: currentData.title,
                                                 onChange: (e)=>handleTitleChange(e.target.value),
-                                                placeholder: t('placeholders.title'),
+                                                placeholder: activeLocale === 'tr' ? 'Sayfa başlığı' : 'Page title',
                                                 className: `text-sm sm:text-base ${errors.title ? 'border-red-500' : ''}`
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                lineNumber: 351,
+                                                lineNumber: 508,
                                                 columnNumber: 33
                                             }, this),
                                             errors.title && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1937,23 +2060,23 @@ function EditPagePage() {
                                                 children: errors.title
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                lineNumber: 359,
+                                                lineNumber: 516,
                                                 columnNumber: 37
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                        lineNumber: 347,
+                                        lineNumber: 504,
                                         columnNumber: 29
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                    lineNumber: 346,
+                                    lineNumber: 503,
                                     columnNumber: 25
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                lineNumber: 345,
+                                lineNumber: 502,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -1966,26 +2089,24 @@ function EditPagePage() {
                                                 htmlFor: "subtitle",
                                                 className: "text-sm sm:text-base",
                                                 children: [
-                                                    t('form.subtitle'),
-                                                    " *"
+                                                    "Alt Başlık * (",
+                                                    activeLocale === 'tr' ? '🇹🇷' : '🇬🇧',
+                                                    ")"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                lineNumber: 369,
+                                                lineNumber: 526,
                                                 columnNumber: 33
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
                                                 id: "subtitle",
-                                                value: formData.subtitle,
-                                                onChange: (e)=>setFormData((prev)=>({
-                                                            ...prev,
-                                                            subtitle: e.target.value
-                                                        })),
-                                                placeholder: t('placeholders.subtitle'),
+                                                value: currentData.subtitle,
+                                                onChange: (e)=>updateField('subtitle', e.target.value),
+                                                placeholder: activeLocale === 'tr' ? 'Sayfa alt başlığı' : 'Page subtitle',
                                                 className: `text-sm sm:text-base ${errors.subtitle ? 'border-red-500' : ''}`
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                lineNumber: 372,
+                                                lineNumber: 529,
                                                 columnNumber: 33
                                             }, this),
                                             errors.subtitle && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1993,23 +2114,23 @@ function EditPagePage() {
                                                 children: errors.subtitle
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                lineNumber: 380,
+                                                lineNumber: 537,
                                                 columnNumber: 37
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                        lineNumber: 368,
+                                        lineNumber: 525,
                                         columnNumber: 29
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                    lineNumber: 367,
+                                    lineNumber: 524,
                                     columnNumber: 25
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                lineNumber: 366,
+                                lineNumber: 523,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -2022,12 +2143,13 @@ function EditPagePage() {
                                                 htmlFor: "slug",
                                                 className: "text-sm sm:text-base",
                                                 children: [
-                                                    t('form.slug'),
-                                                    " *"
+                                                    "Slug * (",
+                                                    activeLocale === 'tr' ? '🇹🇷' : '🇬🇧',
+                                                    ")"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                lineNumber: 390,
+                                                lineNumber: 547,
                                                 columnNumber: 33
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2035,30 +2157,31 @@ function EditPagePage() {
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         className: "text-gray-500 text-xs sm:text-sm whitespace-nowrap",
-                                                        children: "yoursite.com/"
-                                                    }, void 0, false, {
+                                                        children: [
+                                                            "yoursite.com/",
+                                                            activeLocale,
+                                                            "/"
+                                                        ]
+                                                    }, void 0, true, {
                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                        lineNumber: 394,
+                                                        lineNumber: 551,
                                                         columnNumber: 37
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
                                                         id: "slug",
-                                                        value: formData.slug,
-                                                        onChange: (e)=>setFormData((prev)=>({
-                                                                    ...prev,
-                                                                    slug: e.target.value
-                                                                })),
-                                                        placeholder: t('placeholders.slug'),
+                                                        value: currentData.slug,
+                                                        onChange: (e)=>updateField('slug', e.target.value),
+                                                        placeholder: activeLocale === 'tr' ? 'sayfa-slug' : 'page-slug',
                                                         className: `text-sm sm:text-base ${errors.slug ? 'border-red-500' : ''}`
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                        lineNumber: 397,
+                                                        lineNumber: 554,
                                                         columnNumber: 37
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                lineNumber: 393,
+                                                lineNumber: 550,
                                                 columnNumber: 33
                                             }, this),
                                             errors.slug && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2066,23 +2189,23 @@ function EditPagePage() {
                                                 children: errors.slug
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                lineNumber: 408,
+                                                lineNumber: 563,
                                                 columnNumber: 37
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                        lineNumber: 389,
+                                        lineNumber: 546,
                                         columnNumber: 29
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                    lineNumber: 388,
+                                    lineNumber: 545,
                                     columnNumber: 25
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                lineNumber: 387,
+                                lineNumber: 544,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -2092,17 +2215,18 @@ function EditPagePage() {
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardTitle"], {
                                             className: "text-base sm:text-lg",
                                             children: [
-                                                t('form.content'),
-                                                " *"
+                                                "İçerik * (",
+                                                activeLocale === 'tr' ? '🇹🇷' : '🇬🇧',
+                                                ")"
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                            lineNumber: 417,
+                                            lineNumber: 572,
                                             columnNumber: 29
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                        lineNumber: 416,
+                                        lineNumber: 571,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -2111,11 +2235,11 @@ function EditPagePage() {
                                             className: "space-y-2",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Tiptap, {
-                                                    content: formData.content,
+                                                    content: currentData.content,
                                                     onChange: handleContentChange
-                                                }, editorKey, false, {
+                                                }, `${editorKey}-${activeLocale}`, false, {
                                                     fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                    lineNumber: 423,
+                                                    lineNumber: 578,
                                                     columnNumber: 33
                                                 }, this),
                                                 errors.content && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2123,24 +2247,24 @@ function EditPagePage() {
                                                     children: errors.content
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                    lineNumber: 429,
+                                                    lineNumber: 584,
                                                     columnNumber: 37
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                            lineNumber: 422,
+                                            lineNumber: 577,
                                             columnNumber: 29
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                        lineNumber: 421,
+                                        lineNumber: 576,
                                         columnNumber: 25
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                lineNumber: 415,
+                                lineNumber: 570,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -2154,19 +2278,21 @@ function EditPagePage() {
                                                     className: "w-4 h-4 sm:w-5 sm:h-5 mr-2"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                    lineNumber: 439,
+                                                    lineNumber: 594,
                                                     columnNumber: 33
                                                 }, this),
-                                                t('form.seoSettings')
+                                                "SEO Ayarları (",
+                                                activeLocale === 'tr' ? '🇹🇷' : '🇬🇧',
+                                                ")"
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                            lineNumber: 438,
+                                            lineNumber: 593,
                                             columnNumber: 29
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                        lineNumber: 437,
+                                        lineNumber: 592,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -2178,42 +2304,38 @@ function EditPagePage() {
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
                                                         htmlFor: "metaTitle",
                                                         className: "text-sm sm:text-base",
-                                                        children: t('form.metaTitle')
+                                                        children: "Meta Başlık"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                        lineNumber: 445,
+                                                        lineNumber: 600,
                                                         columnNumber: 33
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
                                                         id: "metaTitle",
-                                                        value: formData.metaTitle,
-                                                        onChange: (e)=>setFormData((prev)=>({
-                                                                    ...prev,
-                                                                    metaTitle: e.target.value
-                                                                })),
-                                                        placeholder: t('placeholders.metaTitle'),
+                                                        value: currentData.metaTitle,
+                                                        onChange: (e)=>updateField('metaTitle', e.target.value),
+                                                        placeholder: activeLocale === 'tr' ? 'Meta başlık' : 'Meta title',
                                                         className: "text-sm sm:text-base"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                        lineNumber: 448,
+                                                        lineNumber: 603,
                                                         columnNumber: 33
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                         className: "text-xs text-gray-500",
                                                         children: [
-                                                            formData.metaTitle.length,
-                                                            "/60 ",
-                                                            t('meta.titleLength')
+                                                            currentData.metaTitle.length,
+                                                            "/60 karakter"
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                        lineNumber: 457,
+                                                        lineNumber: 610,
                                                         columnNumber: 33
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                lineNumber: 444,
+                                                lineNumber: 599,
                                                 columnNumber: 29
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2222,61 +2344,57 @@ function EditPagePage() {
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
                                                         htmlFor: "metaDescription",
                                                         className: "text-sm sm:text-base",
-                                                        children: t('form.metaDescription')
+                                                        children: "Meta Açıklama"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                        lineNumber: 463,
+                                                        lineNumber: 616,
                                                         columnNumber: 33
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Textarea"], {
                                                         id: "metaDescription",
-                                                        value: formData.metaDescription,
-                                                        onChange: (e)=>setFormData((prev)=>({
-                                                                    ...prev,
-                                                                    metaDescription: e.target.value
-                                                                })),
+                                                        value: currentData.metaDescription,
+                                                        onChange: (e)=>updateField('metaDescription', e.target.value),
                                                         rows: 3,
-                                                        placeholder: t('placeholders.metaDescription'),
+                                                        placeholder: activeLocale === 'tr' ? 'Meta açıklama' : 'Meta description',
                                                         className: "text-sm sm:text-base"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                        lineNumber: 466,
+                                                        lineNumber: 619,
                                                         columnNumber: 33
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                         className: "text-xs text-gray-500",
                                                         children: [
-                                                            formData.metaDescription.length,
-                                                            "/160 ",
-                                                            t('meta.descriptionLength')
+                                                            currentData.metaDescription.length,
+                                                            "/160 karakter"
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                        lineNumber: 476,
+                                                        lineNumber: 627,
                                                         columnNumber: 33
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                lineNumber: 462,
+                                                lineNumber: 615,
                                                 columnNumber: 29
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                        lineNumber: 443,
+                                        lineNumber: 598,
                                         columnNumber: 25
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                lineNumber: 436,
+                                lineNumber: 591,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                        lineNumber: 285,
+                        lineNumber: 442,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2288,15 +2406,15 @@ function EditPagePage() {
                                         className: "p-4 sm:p-6",
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardTitle"], {
                                             className: "text-base sm:text-lg",
-                                            children: t('form.publish')
+                                            children: "Yayınlama"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                            lineNumber: 489,
+                                            lineNumber: 640,
                                             columnNumber: 29
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                        lineNumber: 488,
+                                        lineNumber: 639,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -2308,29 +2426,29 @@ function EditPagePage() {
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
                                                         htmlFor: "status",
                                                         className: "text-sm sm:text-base",
-                                                        children: t('form.status')
+                                                        children: "Durum"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                        lineNumber: 495,
+                                                        lineNumber: 646,
                                                         columnNumber: 33
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Select"], {
-                                                        value: formData.status,
-                                                        onValueChange: (value)=>setFormData((prev)=>({
-                                                                    ...prev,
-                                                                    status: value
-                                                                })),
+                                                        value: pageData.status,
+                                                        onValueChange: (value)=>setPageData({
+                                                                ...pageData,
+                                                                status: value
+                                                            }),
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectTrigger"], {
                                                                 className: "text-sm sm:text-base",
                                                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectValue"], {}, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                                    lineNumber: 505,
+                                                                    lineNumber: 656,
                                                                     columnNumber: 41
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                                lineNumber: 504,
+                                                                lineNumber: 655,
                                                                 columnNumber: 37
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -2338,37 +2456,37 @@ function EditPagePage() {
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
                                                                         value: "draft",
                                                                         className: "text-sm sm:text-base",
-                                                                        children: t('status.draft')
+                                                                        children: "Taslak"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                                        lineNumber: 508,
+                                                                        lineNumber: 659,
                                                                         columnNumber: 41
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
                                                                         value: "published",
                                                                         className: "text-sm sm:text-base",
-                                                                        children: t('status.published')
+                                                                        children: "Yayında"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                                        lineNumber: 511,
+                                                                        lineNumber: 662,
                                                                         columnNumber: 41
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                                lineNumber: 507,
+                                                                lineNumber: 658,
                                                                 columnNumber: 37
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                        lineNumber: 498,
+                                                        lineNumber: 649,
                                                         columnNumber: 33
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                lineNumber: 494,
+                                                lineNumber: 645,
                                                 columnNumber: 29
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2383,10 +2501,10 @@ function EditPagePage() {
                                                                 className: "w-3 h-3 sm:w-4 sm:h-4 mr-2 animate-spin"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                                lineNumber: 526,
+                                                                lineNumber: 677,
                                                                 columnNumber: 45
                                                             }, this),
-                                                            t('edit.saving')
+                                                            "Kaydediliyor..."
                                                         ]
                                                     }, void 0, true) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
                                                         children: [
@@ -2394,32 +2512,32 @@ function EditPagePage() {
                                                                 className: "w-3 h-3 sm:w-4 sm:h-4 mr-2"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                                lineNumber: 531,
+                                                                lineNumber: 682,
                                                                 columnNumber: 45
                                                             }, this),
-                                                            t('edit.save')
+                                                            "Her İki Dili Kaydet"
                                                         ]
                                                     }, void 0, true)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                    lineNumber: 519,
+                                                    lineNumber: 670,
                                                     columnNumber: 33
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                lineNumber: 518,
+                                                lineNumber: 669,
                                                 columnNumber: 29
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                        lineNumber: 493,
+                                        lineNumber: 644,
                                         columnNumber: 25
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                lineNumber: 487,
+                                lineNumber: 638,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -2428,15 +2546,15 @@ function EditPagePage() {
                                         className: "p-4 sm:p-6",
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardTitle"], {
                                             className: "text-sm sm:text-base",
-                                            children: t('pageInfo')
+                                            children: "Sayfa Bilgisi"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                            lineNumber: 543,
+                                            lineNumber: 694,
                                             columnNumber: 29
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                        lineNumber: 542,
+                                        lineNumber: 693,
                                         columnNumber: 25
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -2447,27 +2565,24 @@ function EditPagePage() {
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         className: "text-gray-600",
-                                                        children: [
-                                                            t('wordCount'),
-                                                            ":"
-                                                        ]
-                                                    }, void 0, true, {
+                                                        children: "Kelime:"
+                                                    }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                        lineNumber: 549,
+                                                        lineNumber: 700,
                                                         columnNumber: 33
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         className: "font-medium",
-                                                        children: formData.content.replace(/<[^>]*>/g, '').split(/\s+/).filter(Boolean).length
+                                                        children: currentData.content.replace(/<[^>]*>/g, '').split(/\s+/).filter(Boolean).length
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                        lineNumber: 550,
+                                                        lineNumber: 701,
                                                         columnNumber: 33
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                lineNumber: 548,
+                                                lineNumber: 699,
                                                 columnNumber: 29
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2475,61 +2590,101 @@ function EditPagePage() {
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         className: "text-gray-600",
-                                                        children: [
-                                                            t('charCount'),
-                                                            ":"
-                                                        ]
-                                                    }, void 0, true, {
+                                                        children: "Karakter:"
+                                                    }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                        lineNumber: 555,
+                                                        lineNumber: 706,
                                                         columnNumber: 33
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                         className: "font-medium",
-                                                        children: formData.content.replace(/<[^>]*>/g, '').length
+                                                        children: currentData.content.replace(/<[^>]*>/g, '').length
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                        lineNumber: 556,
+                                                        lineNumber: 707,
                                                         columnNumber: 33
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                lineNumber: 554,
+                                                lineNumber: 705,
+                                                columnNumber: 29
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "pt-2 border-t",
+                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "flex items-center gap-2 text-xs text-gray-600",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            children: [
+                                                                "🇹🇷 TR: ",
+                                                                pageData.tr.content.length > 0 ? '✓' : '○'
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
+                                                            lineNumber: 713,
+                                                            columnNumber: 37
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            children: "•"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
+                                                            lineNumber: 714,
+                                                            columnNumber: 37
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            children: [
+                                                                "🇬🇧 EN: ",
+                                                                pageData.en.content.length > 0 ? '✓' : '○'
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
+                                                            lineNumber: 715,
+                                                            columnNumber: 37
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
+                                                    lineNumber: 712,
+                                                    columnNumber: 33
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
+                                                lineNumber: 711,
                                                 columnNumber: 29
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                        lineNumber: 547,
+                                        lineNumber: 698,
                                         columnNumber: 25
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                lineNumber: 541,
+                                lineNumber: 692,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                        lineNumber: 485,
+                        lineNumber: 636,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                lineNumber: 283,
+                lineNumber: 440,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$MediaPicker$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                 open: showMediaPicker,
                 onOpenChange: setShowMediaPicker,
                 onSelect: handleMediaSelect,
-                selectedUrl: formData.heroImage
+                selectedUrl: currentData.heroImage
             }, void 0, false, {
                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                lineNumber: 566,
+                lineNumber: 724,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Dialog"], {
@@ -2542,18 +2697,19 @@ function EditPagePage() {
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DialogTitle"], {
                                 className: "text-base sm:text-lg",
                                 children: [
-                                    t('preview'),
-                                    ": ",
-                                    formData.title
+                                    "Önizleme (",
+                                    activeLocale === 'tr' ? '🇹🇷 Türkçe' : '🇬🇧 English',
+                                    "): ",
+                                    currentData.title
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                lineNumber: 577,
+                                lineNumber: 735,
                                 columnNumber: 25
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                            lineNumber: 576,
+                            lineNumber: 734,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2562,15 +2718,15 @@ function EditPagePage() {
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
                                     className: "w-full relative h-[30vh] sm:h-[40vh] mb-4 sm:mb-8",
                                     children: [
-                                        formData.heroImage ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                            src: formData.heroImage,
-                                            alt: formData.title,
+                                        currentData.heroImage ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                                            src: currentData.heroImage,
+                                            alt: currentData.title,
                                             fill: true,
                                             className: "object-cover",
                                             unoptimized: true
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                            lineNumber: 585,
+                                            lineNumber: 742,
                                             columnNumber: 33
                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "w-full h-full bg-gray-200 flex items-center justify-center",
@@ -2578,12 +2734,12 @@ function EditPagePage() {
                                                 className: "w-12 h-12 sm:w-16 sm:h-16 text-gray-400"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                lineNumber: 594,
+                                                lineNumber: 751,
                                                 columnNumber: 37
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                            lineNumber: 593,
+                                            lineNumber: 750,
                                             columnNumber: 33
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2591,30 +2747,30 @@ function EditPagePage() {
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
                                                     className: "text-xl sm:text-3xl md:text-5xl font-bold mb-1 sm:mb-2 text-center",
-                                                    children: formData.title || 'Başlık'
+                                                    children: currentData.title || 'Başlık'
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                    lineNumber: 598,
+                                                    lineNumber: 755,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                     className: "text-sm sm:text-lg md:text-2xl text-center",
-                                                    children: formData.subtitle || 'Alt başlık'
+                                                    children: currentData.subtitle || 'Alt başlık'
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                                    lineNumber: 601,
+                                                    lineNumber: 758,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                            lineNumber: 597,
+                                            lineNumber: 754,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                    lineNumber: 583,
+                                    lineNumber: 740,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -2622,33 +2778,33 @@ function EditPagePage() {
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "prose prose-sm sm:prose-base lg:prose-lg max-w-none",
                                         dangerouslySetInnerHTML: {
-                                            __html: formData.content || '<p>İçerik burada görünecek...</p>'
+                                            __html: currentData.content || '<p>İçerik burada görünecek...</p>'
                                         }
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                        lineNumber: 609,
+                                        lineNumber: 765,
                                         columnNumber: 29
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                    lineNumber: 608,
+                                    lineNumber: 764,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                            lineNumber: 581,
+                            lineNumber: 739,
                             columnNumber: 21
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                    lineNumber: 575,
+                    lineNumber: 733,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                lineNumber: 574,
+                lineNumber: 732,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$alert$2d$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AlertDialog"], {
@@ -2661,24 +2817,24 @@ function EditPagePage() {
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$alert$2d$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AlertDialogTitle"], {
                                     className: "text-base sm:text-lg",
-                                    children: t('edit.delete')
+                                    children: "Sayfayı Sil"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                    lineNumber: 624,
+                                    lineNumber: 780,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$alert$2d$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AlertDialogDescription"], {
                                     className: "text-xs sm:text-sm",
-                                    children: t('edit.deleteConfirm')
+                                    children: "Bu işlem geri alınamaz. Sayfa her iki dilde de silinecek."
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                    lineNumber: 627,
+                                    lineNumber: 783,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                            lineNumber: 623,
+                            lineNumber: 779,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$alert$2d$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AlertDialogFooter"], {
@@ -2686,42 +2842,42 @@ function EditPagePage() {
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$alert$2d$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AlertDialogCancel"], {
                                     className: "text-xs sm:text-sm",
-                                    children: tCommon('cancel')
+                                    children: "İptal"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                    lineNumber: 632,
+                                    lineNumber: 788,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$alert$2d$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AlertDialogAction"], {
                                     onClick: handleDelete,
                                     className: "bg-red-600 hover:bg-red-700 text-xs sm:text-sm",
-                                    children: t('edit.delete')
+                                    children: "Sil"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                                    lineNumber: 635,
+                                    lineNumber: 791,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                            lineNumber: 631,
+                            lineNumber: 787,
                             columnNumber: 21
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                    lineNumber: 622,
+                    lineNumber: 778,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-                lineNumber: 621,
+                lineNumber: 777,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/(admin)/pages/[id]/edit/page.tsx",
-        lineNumber: 249,
+        lineNumber: 392,
         columnNumber: 9
     }, this);
 }

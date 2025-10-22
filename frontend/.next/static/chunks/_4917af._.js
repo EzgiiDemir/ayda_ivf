@@ -1156,6 +1156,8 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Image$3e$__ = __turbopack_import__("[project]/node_modules/lucide-react/dist/esm/icons/image.js [app-client] (ecmascript) <export default as Image>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$save$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Save$3e$__ = __turbopack_import__("[project]/node_modules/lucide-react/dist/esm/icons/save.js [app-client] (ecmascript) <export default as Save>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__ = __turbopack_import__("[project]/node_modules/lucide-react/dist/esm/icons/loader-circle.js [app-client] (ecmascript) <export default as Loader2>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$up$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronUp$3e$__ = __turbopack_import__("[project]/node_modules/lucide-react/dist/esm/icons/chevron-up.js [app-client] (ecmascript) <export default as ChevronUp>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__ = __turbopack_import__("[project]/node_modules/lucide-react/dist/esm/icons/chevron-down.js [app-client] (ecmascript) <export default as ChevronDown>");
 ;
 var _s = __turbopack_refresh__.signature();
 'use client';
@@ -1171,69 +1173,87 @@ var _s = __turbopack_refresh__.signature();
 ;
 ;
 ;
+const DEFAULT_HERO = {
+    slides: [],
+    dots_pattern: '',
+    auto_play: true,
+    auto_play_interval: 5000,
+    show_indicators: true,
+    right_text: '',
+    bottom_text: ''
+};
+const DEFAULT_WELCOME = {
+    image: {
+        url: '',
+        alt: '',
+        width: 400,
+        height: 400
+    },
+    gradient: {
+        from: '#F7DFE6',
+        via: '#FFFFFF',
+        to: '#FFFFFF'
+    },
+    title_top: '',
+    title: '',
+    paragraphs: [
+        '',
+        '',
+        '',
+        '',
+        ''
+    ],
+    signature_name: '',
+    signature_title: ''
+};
+const DEFAULT_TREATMENTS = {
+    background_logo: '',
+    treatments: [],
+    top_title: '',
+    title: '',
+    description1: '',
+    description2: '',
+    contact_button_text: ''
+};
 function HomeEditorPage() {
     _s();
     const { toast } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$use$2d$toast$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useToast"])();
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     const [saving, setSaving] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [activeTab, setActiveTab] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('hero');
-    // Media Picker
+    const [activeLocale, setActiveLocale] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('tr');
     const [showMediaPicker, setShowMediaPicker] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [mediaTarget, setMediaTarget] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
-    // Hero State
-    const [heroData, setHeroData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
-        locale: 'tr',
-        slides: [],
-        dots_pattern: '',
-        auto_play: true,
-        auto_play_interval: 5000,
-        show_indicators: true,
-        right_text: '',
-        bottom_text: ''
-    });
-    // Welcome State
-    const [welcomeData, setWelcomeData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
-        locale: 'tr',
-        image: {
-            url: '',
-            alt: '',
-            width: 400,
-            height: 400
+    const [homeData, setHomeData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
+        hero: {
+            tr: {
+                ...DEFAULT_HERO
+            },
+            en: {
+                ...DEFAULT_HERO
+            }
         },
-        gradient: {
-            from: '#F7DFE6',
-            via: '#FFFFFF',
-            to: '#FFFFFF'
+        welcome: {
+            tr: {
+                ...DEFAULT_WELCOME
+            },
+            en: {
+                ...DEFAULT_WELCOME
+            }
         },
-        title_top: '',
-        title: '',
-        paragraphs: [
-            '',
-            '',
-            '',
-            '',
-            ''
-        ],
-        signature_name: '',
-        signature_title: ''
-    });
-    // Treatments State
-    const [treatmentsData, setTreatmentsData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
-        locale: 'tr',
-        background_logo: '',
-        treatments: [],
-        top_title: '',
-        title: '',
-        description1: '',
-        description2: '',
-        contact_button_text: ''
-    });
-    // Contact Map State
-    const [contactMapData, setContactMapData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
-        locale: 'tr',
-        show_iframe: true,
-        map_url: '',
-        image: ''
+        treatments: {
+            tr: {
+                ...DEFAULT_TREATMENTS
+            },
+            en: {
+                ...DEFAULT_TREATMENTS
+            }
+        },
+        contactMap: {
+            show_iframe: true,
+            map_url: '',
+            image: ''
+        }
     });
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "HomeEditorPage.useEffect": ()=>{
@@ -1243,8 +1263,13 @@ function HomeEditorPage() {
     const fetchData = async ()=>{
         try {
             setLoading(true);
-            const [heroRes, welcomeRes, treatmentsRes, contactMapRes] = await Promise.all([
+            const [heroTr, heroEn, welcomeTr, welcomeEn, treatmentsTr, treatmentsEn, contactMap] = await Promise.all([
                 __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get('/hero?locale=tr').catch(()=>({
+                        data: {
+                            data: null
+                        }
+                    })),
+                __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get('/hero?locale=en').catch(()=>({
                         data: {
                             data: null
                         }
@@ -1254,222 +1279,234 @@ function HomeEditorPage() {
                             data: null
                         }
                     })),
+                __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get('/welcome?locale=en').catch(()=>({
+                        data: {
+                            data: null
+                        }
+                    })),
                 __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get('/treatments?locale=tr').catch(()=>({
                         data: {
                             data: null
                         }
                     })),
-                __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get('/contact-map?locale=tr').catch(()=>({
+                __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get('/treatments?locale=en').catch(()=>({
+                        data: {
+                            data: null
+                        }
+                    })),
+                __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get('/contact-map').catch(()=>({
                         data: {
                             data: null
                         }
                     }))
             ]);
-            // Hero Data
-            if (heroRes.data.data) {
-                setHeroData({
-                    ...heroData,
-                    ...heroRes.data.data,
-                    slides: heroRes.data.data.slides || []
-                });
-            }
-            // Welcome Data
-            if (welcomeRes.data.data) {
-                setWelcomeData({
-                    ...welcomeData,
-                    ...welcomeRes.data.data,
-                    paragraphs: welcomeRes.data.data.paragraphs || [
-                        '',
-                        '',
-                        '',
-                        '',
-                        ''
-                    ],
-                    image: welcomeRes.data.data.image || {
-                        url: '',
-                        alt: '',
-                        width: 400,
-                        height: 400
+            setHomeData({
+                hero: {
+                    tr: heroTr.data.data || {
+                        ...DEFAULT_HERO
                     },
-                    gradient: welcomeRes.data.data.gradient || {
-                        from: '#F7DFE6',
-                        via: '#FFFFFF',
-                        to: '#FFFFFF'
+                    en: heroEn.data.data || {
+                        ...DEFAULT_HERO
                     }
-                });
-            }
-            // Treatments Data
-            if (treatmentsRes.data.data) {
-                setTreatmentsData({
-                    ...treatmentsData,
-                    ...treatmentsRes.data.data,
-                    treatments: treatmentsRes.data.data.treatments || []
-                });
-            }
-            // Contact Map Data
-            if (contactMapRes.data.data) {
-                setContactMapData({
-                    ...contactMapData,
-                    ...contactMapRes.data.data
-                });
-            }
+                },
+                welcome: {
+                    tr: welcomeTr.data.data || {
+                        ...DEFAULT_WELCOME
+                    },
+                    en: welcomeEn.data.data || {
+                        ...DEFAULT_WELCOME
+                    }
+                },
+                treatments: {
+                    tr: treatmentsTr.data.data || {
+                        ...DEFAULT_TREATMENTS
+                    },
+                    en: treatmentsEn.data.data || {
+                        ...DEFAULT_TREATMENTS
+                    }
+                },
+                contactMap: contactMap.data.data || {
+                    show_iframe: true,
+                    map_url: '',
+                    image: ''
+                }
+            });
+            toast({
+                title: '✅ Başarılı',
+                description: 'Ana sayfa verileri yüklendi'
+            });
         } catch (error) {
-            console.error('Fetch error:', error);
+            console.error('❌ Fetch error:', error);
+            toast({
+                title: '❌ Hata',
+                description: 'Veriler yüklenirken hata oluştu',
+                variant: 'destructive'
+            });
         } finally{
             setLoading(false);
         }
     };
-    const handleSaveHero = async (e)=>{
-        e.preventDefault();
+    const handleSave = async (section)=>{
         setSaving(true);
         try {
-            console.log('Sending hero data:', JSON.stringify(heroData, null, 2));
-            await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].put('/hero', heroData);
+            if (section === 'contactMap') {
+                await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].put('/contact-map', homeData.contactMap);
+            } else {
+                await Promise.all([
+                    __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].put(`/${section}`, {
+                        ...homeData[section].tr,
+                        locale: 'tr'
+                    }),
+                    __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].put(`/${section}`, {
+                        ...homeData[section].en,
+                        locale: 'en'
+                    })
+                ]);
+            }
             toast({
-                title: 'Başarılı',
-                description: 'Hero section güncellendi'
+                title: '✅ Başarılı',
+                description: `${section} bölümü her iki dil için kaydedildi`
             });
         } catch (error) {
-            console.error('Hero save error:', error.response?.data);
+            console.error('❌ Save error:', error);
             toast({
-                title: 'Hata',
-                description: error.response?.data?.message || 'Güncelleme başarısız',
+                title: '❌ Hata',
+                description: 'Kayıt başarısız',
                 variant: 'destructive'
             });
         } finally{
             setSaving(false);
         }
     };
-    const handleSaveWelcome = async (e)=>{
-        e.preventDefault();
-        setSaving(true);
-        try {
-            await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].put('/welcome', welcomeData);
-            toast({
-                title: 'Başarılı',
-                description: 'Welcome section güncellendi'
-            });
-        } catch (error) {
-            toast({
-                title: 'Hata',
-                description: error.response?.data?.message || 'Güncelleme başarısız',
-                variant: 'destructive'
-            });
-        } finally{
-            setSaving(false);
-        }
-    };
-    const handleSaveTreatments = async (e)=>{
-        e.preventDefault();
-        setSaving(true);
-        try {
-            await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].put('/treatments', treatmentsData);
-            toast({
-                title: 'Başarılı',
-                description: 'Treatments section güncellendi'
-            });
-        } catch (error) {
-            toast({
-                title: 'Hata',
-                description: error.response?.data?.message || 'Güncelleme başarısız',
-                variant: 'destructive'
-            });
-        } finally{
-            setSaving(false);
-        }
-    };
-    const handleSaveContactMap = async (e)=>{
-        e.preventDefault();
-        setSaving(true);
-        try {
-            await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].put('/contact-map', contactMapData);
-            toast({
-                title: 'Başarılı',
-                description: 'Contact Map section güncellendi'
-            });
-        } catch (error) {
-            toast({
-                title: 'Hata',
-                description: error.response?.data?.message || 'Güncelleme başarısız',
-                variant: 'destructive'
-            });
-        } finally{
-            setSaving(false);
-        }
-    };
-    // Hero: Add Slide
+    // Hero Functions
     const addSlide = ()=>{
-        setHeroData({
-            ...heroData,
-            slides: [
-                ...heroData.slides,
-                {
-                    image: {
-                        url: '',
-                        alt: ''
-                    }
+        const current = homeData.hero[activeLocale];
+        setHomeData({
+            ...homeData,
+            hero: {
+                ...homeData.hero,
+                [activeLocale]: {
+                    ...current,
+                    slides: [
+                        ...current.slides,
+                        {
+                            image: {
+                                url: '',
+                                alt: ''
+                            }
+                        }
+                    ]
                 }
-            ]
+            }
         });
     };
-    // Hero: Remove Slide
     const removeSlide = (index)=>{
-        setHeroData({
-            ...heroData,
-            slides: heroData.slides.filter((_, i)=>i !== index)
-        });
-    };
-    // Hero: Update Slide
-    const updateSlide = (index, field, value)=>{
-        const newSlides = [
-            ...heroData.slides
-        ];
-        if (field === 'url') {
-            newSlides[index].image.url = value;
-        } else if (field === 'alt') {
-            newSlides[index].image.alt = value;
-        } else if (field === 'title') {
-            newSlides[index].title = value;
-        } else if (field === 'subtitle') {
-            newSlides[index].subtitle = value;
-        }
-        setHeroData({
-            ...heroData,
-            slides: newSlides
-        });
-    };
-    // Treatments: Add Treatment
-    const addTreatment = ()=>{
-        setTreatmentsData({
-            ...treatmentsData,
-            treatments: [
-                ...treatmentsData.treatments,
-                {
-                    id: '',
-                    href: '',
-                    label: '',
-                    order: treatmentsData.treatments.length + 1,
-                    isActive: true
+        const current = homeData.hero[activeLocale];
+        setHomeData({
+            ...homeData,
+            hero: {
+                ...homeData.hero,
+                [activeLocale]: {
+                    ...current,
+                    slides: current.slides.filter((_, i)=>i !== index)
                 }
-            ]
+            }
         });
     };
-    // Treatments: Remove Treatment
+    const updateSlide = (index, field, value)=>{
+        const current = homeData.hero[activeLocale];
+        const newSlides = [
+            ...current.slides
+        ];
+        if (field === 'url') newSlides[index].image.url = value;
+        else if (field === 'alt') newSlides[index].image.alt = value;
+        else if (field === 'title') newSlides[index].title = value;
+        else if (field === 'subtitle') newSlides[index].subtitle = value;
+        setHomeData({
+            ...homeData,
+            hero: {
+                ...homeData.hero,
+                [activeLocale]: {
+                    ...current,
+                    slides: newSlides
+                }
+            }
+        });
+    };
+    // Treatment Functions
+    const addTreatment = ()=>{
+        const current = homeData.treatments[activeLocale];
+        setHomeData({
+            ...homeData,
+            treatments: {
+                ...homeData.treatments,
+                [activeLocale]: {
+                    ...current,
+                    treatments: [
+                        ...current.treatments,
+                        {
+                            id: '',
+                            href: '',
+                            label: '',
+                            order: current.treatments.length + 1,
+                            isActive: true
+                        }
+                    ]
+                }
+            }
+        });
+    };
     const removeTreatment = (index)=>{
-        setTreatmentsData({
-            ...treatmentsData,
-            treatments: treatmentsData.treatments.filter((_, i)=>i !== index)
+        const current = homeData.treatments[activeLocale];
+        setHomeData({
+            ...homeData,
+            treatments: {
+                ...homeData.treatments,
+                [activeLocale]: {
+                    ...current,
+                    treatments: current.treatments.filter((_, i)=>i !== index)
+                }
+            }
         });
     };
-    // Treatments: Update Treatment
     const updateTreatment = (index, field, value)=>{
+        const current = homeData.treatments[activeLocale];
         const newTreatments = [
-            ...treatmentsData.treatments
+            ...current.treatments
         ];
         newTreatments[index][field] = value;
-        setTreatmentsData({
-            ...treatmentsData,
-            treatments: newTreatments
+        setHomeData({
+            ...homeData,
+            treatments: {
+                ...homeData.treatments,
+                [activeLocale]: {
+                    ...current,
+                    treatments: newTreatments
+                }
+            }
+        });
+    };
+    const moveTreatment = (index, direction)=>{
+        const current = homeData.treatments[activeLocale];
+        const newTreatments = [
+            ...current.treatments
+        ];
+        const newIndex = direction === 'up' ? index - 1 : index + 1;
+        if (newIndex < 0 || newIndex >= newTreatments.length) return;
+        [newTreatments[index], newTreatments[newIndex]] = [
+            newTreatments[newIndex],
+            newTreatments[index]
+        ];
+        newTreatments.forEach((t, i)=>t.order = i + 1);
+        setHomeData({
+            ...homeData,
+            treatments: {
+                ...homeData.treatments,
+                [activeLocale]: {
+                    ...current,
+                    treatments: newTreatments
+                }
+            }
         });
     };
     // Media Picker Handler
@@ -1478,27 +1515,51 @@ function HomeEditorPage() {
             const index = parseInt(mediaTarget.replace('hero-slide-', ''));
             updateSlide(index, 'url', url);
         } else if (mediaTarget === 'hero-dots') {
-            setHeroData({
-                ...heroData,
-                dots_pattern: url
+            const current = homeData.hero[activeLocale];
+            setHomeData({
+                ...homeData,
+                hero: {
+                    ...homeData.hero,
+                    [activeLocale]: {
+                        ...current,
+                        dots_pattern: url
+                    }
+                }
             });
         } else if (mediaTarget === 'welcome-image') {
-            setWelcomeData({
-                ...welcomeData,
-                image: {
-                    ...welcomeData.image,
-                    url
+            const current = homeData.welcome[activeLocale];
+            setHomeData({
+                ...homeData,
+                welcome: {
+                    ...homeData.welcome,
+                    [activeLocale]: {
+                        ...current,
+                        image: {
+                            ...current.image,
+                            url
+                        }
+                    }
                 }
             });
         } else if (mediaTarget === 'treatments-logo') {
-            setTreatmentsData({
-                ...treatmentsData,
-                background_logo: url
+            const current = homeData.treatments[activeLocale];
+            setHomeData({
+                ...homeData,
+                treatments: {
+                    ...homeData.treatments,
+                    [activeLocale]: {
+                        ...current,
+                        background_logo: url
+                    }
+                }
             });
         } else if (mediaTarget === 'contact-image') {
-            setContactMapData({
-                ...contactMapData,
-                image: url
+            setHomeData({
+                ...homeData,
+                contactMap: {
+                    ...homeData.contactMap,
+                    image: url
+                }
             });
         }
         setShowMediaPicker(false);
@@ -1511,30 +1572,65 @@ function HomeEditorPage() {
                 className: "h-12 w-12 animate-spin text-primary-pink"
             }, void 0, false, {
                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                lineNumber: 340,
+                lineNumber: 300,
                 columnNumber: 17
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/(admin)/home/page.tsx",
-            lineNumber: 339,
+            lineNumber: 299,
             columnNumber: 13
         }, this);
     }
+    const currentHero = homeData.hero[activeLocale];
+    const currentWelcome = homeData.welcome[activeLocale];
+    const currentTreatments = homeData.treatments[activeLocale];
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "space-y-6",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                    className: "text-3xl font-bold text-primary-pink flex items-center gap-2",
-                    children: "Ana Sayfa"
-                }, void 0, false, {
-                    fileName: "[project]/src/app/(admin)/home/page.tsx",
-                    lineNumber: 349,
-                    columnNumber: 17
-                }, this)
-            }, void 0, false, {
+                className: "flex items-center justify-between",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                        className: "text-3xl font-bold text-primary-pink flex items-center gap-2",
+                        children: "Home"
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/(admin)/home/page.tsx",
+                        lineNumber: 312,
+                        columnNumber: 17
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex gap-2",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                variant: activeLocale === 'tr' ? 'default' : 'outline',
+                                onClick: ()=>setActiveLocale('tr'),
+                                className: activeLocale === 'tr' ? 'bg-primary-pink' : '',
+                                children: "🇹🇷 Türkçe"
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                lineNumber: 316,
+                                columnNumber: 21
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                variant: activeLocale === 'en' ? 'default' : 'outline',
+                                onClick: ()=>setActiveLocale('en'),
+                                className: activeLocale === 'en' ? 'bg-primary-pink' : '',
+                                children: "🇬🇧 English"
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                lineNumber: 323,
+                                columnNumber: 21
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/app/(admin)/home/page.tsx",
+                        lineNumber: 315,
+                        columnNumber: 17
+                    }, this)
+                ]
+            }, void 0, true, {
                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                lineNumber: 348,
+                lineNumber: 311,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Tabs"], {
@@ -1550,7 +1646,7 @@ function HomeEditorPage() {
                                 children: "Hero"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                lineNumber: 356,
+                                lineNumber: 335,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -1558,7 +1654,7 @@ function HomeEditorPage() {
                                 children: "Welcome"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                lineNumber: 357,
+                                lineNumber: 336,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -1566,7 +1662,7 @@ function HomeEditorPage() {
                                 children: "Treatments"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                lineNumber: 358,
+                                lineNumber: 337,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -1574,13 +1670,13 @@ function HomeEditorPage() {
                                 children: "Contact Map"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                lineNumber: 359,
+                                lineNumber: 338,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                        lineNumber: 355,
+                        lineNumber: 334,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -1589,20 +1685,28 @@ function HomeEditorPage() {
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardHeader"], {
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardTitle"], {
-                                        children: "Hero Section"
-                                    }, void 0, false, {
+                                        className: "flex items-center gap-2",
+                                        children: [
+                                            "Hero Section (",
+                                            activeLocale === 'tr' ? '🇹🇷 Türkçe' : '🇬🇧 English',
+                                            ")"
+                                        ]
+                                    }, void 0, true, {
                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                        lineNumber: 366,
+                                        lineNumber: 345,
                                         columnNumber: 29
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                    lineNumber: 365,
+                                    lineNumber: 344,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
-                                        onSubmit: handleSaveHero,
+                                        onSubmit: (e)=>{
+                                            e.preventDefault();
+                                            handleSave('hero');
+                                        },
                                         className: "space-y-6",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1615,7 +1719,7 @@ function HomeEditorPage() {
                                                                 children: "Slides *"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 373,
+                                                                lineNumber: 353,
                                                                 columnNumber: 41
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1628,23 +1732,23 @@ function HomeEditorPage() {
                                                                         className: "w-4 h-4 mr-2"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                        lineNumber: 375,
+                                                                        lineNumber: 355,
                                                                         columnNumber: 45
                                                                     }, this),
                                                                     "Slide Ekle"
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 374,
+                                                                lineNumber: 354,
                                                                 columnNumber: 41
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 372,
+                                                        lineNumber: 352,
                                                         columnNumber: 37
                                                     }, this),
-                                                    heroData.slides.map((slide, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
+                                                    currentHero.slides.map((slide, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
                                                             className: "p-4",
                                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                 className: "space-y-3",
@@ -1659,7 +1763,7 @@ function HomeEditorPage() {
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                lineNumber: 384,
+                                                                                lineNumber: 364,
                                                                                 columnNumber: 53
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1671,18 +1775,18 @@ function HomeEditorPage() {
                                                                                     className: "w-4 h-4"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                    lineNumber: 391,
+                                                                                    lineNumber: 366,
                                                                                     columnNumber: 57
                                                                                 }, this)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                lineNumber: 385,
+                                                                                lineNumber: 365,
                                                                                 columnNumber: 53
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                        lineNumber: 383,
+                                                                        lineNumber: 363,
                                                                         columnNumber: 49
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1692,19 +1796,19 @@ function HomeEditorPage() {
                                                                                 children: "Görsel URL"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                lineNumber: 396,
+                                                                                lineNumber: 371,
                                                                                 columnNumber: 53
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                                 className: "flex gap-2",
                                                                                 children: [
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                                        value: slide.image.url || '',
+                                                                                        value: slide.image.url,
                                                                                         onChange: (e)=>updateSlide(index, 'url', e.target.value),
                                                                                         placeholder: "https://..."
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                        lineNumber: 398,
+                                                                                        lineNumber: 373,
                                                                                         columnNumber: 57
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1718,116 +1822,68 @@ function HomeEditorPage() {
                                                                                             className: "w-4 h-4"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                            lineNumber: 411,
+                                                                                            lineNumber: 383,
                                                                                             columnNumber: 61
                                                                                         }, this)
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                        lineNumber: 403,
+                                                                                        lineNumber: 378,
                                                                                         columnNumber: 57
                                                                                     }, this)
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                lineNumber: 397,
+                                                                                lineNumber: 372,
                                                                                 columnNumber: 53
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                        lineNumber: 395,
+                                                                        lineNumber: 370,
                                                                         columnNumber: 49
                                                                     }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                        className: "space-y-2",
-                                                                        children: [
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                                children: "Alt Text"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                lineNumber: 417,
-                                                                                columnNumber: 53
-                                                                            }, this),
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                                value: slide.image.alt || '',
-                                                                                onChange: (e)=>updateSlide(index, 'alt', e.target.value),
-                                                                                placeholder: "Görsel açıklaması"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                lineNumber: 418,
-                                                                                columnNumber: 53
-                                                                            }, this)
-                                                                        ]
-                                                                    }, void 0, true, {
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                                        value: slide.image.alt,
+                                                                        onChange: (e)=>updateSlide(index, 'alt', e.target.value),
+                                                                        placeholder: "Alt text"
+                                                                    }, void 0, false, {
                                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                        lineNumber: 416,
+                                                                        lineNumber: 388,
                                                                         columnNumber: 49
                                                                     }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                        className: "space-y-2",
-                                                                        children: [
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                                children: "Merkez Başlık (Opsiyonel)"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                lineNumber: 426,
-                                                                                columnNumber: 53
-                                                                            }, this),
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                                value: slide.title || '',
-                                                                                onChange: (e)=>updateSlide(index, 'title', e.target.value),
-                                                                                placeholder: "Ana başlık"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                lineNumber: 427,
-                                                                                columnNumber: 53
-                                                                            }, this)
-                                                                        ]
-                                                                    }, void 0, true, {
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                                        value: slide.title || '',
+                                                                        onChange: (e)=>updateSlide(index, 'title', e.target.value),
+                                                                        placeholder: activeLocale === 'tr' ? 'Merkez Başlık' : 'Center Title'
+                                                                    }, void 0, false, {
                                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                        lineNumber: 425,
+                                                                        lineNumber: 394,
                                                                         columnNumber: 49
                                                                     }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                        className: "space-y-2",
-                                                                        children: [
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                                children: "Merkez Alt Başlık (Opsiyonel)"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                lineNumber: 435,
-                                                                                columnNumber: 53
-                                                                            }, this),
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                                value: slide.subtitle || '',
-                                                                                onChange: (e)=>updateSlide(index, 'subtitle', e.target.value),
-                                                                                placeholder: "Alt başlık"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                lineNumber: 436,
-                                                                                columnNumber: 53
-                                                                            }, this)
-                                                                        ]
-                                                                    }, void 0, true, {
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                                        value: slide.subtitle || '',
+                                                                        onChange: (e)=>updateSlide(index, 'subtitle', e.target.value),
+                                                                        placeholder: activeLocale === 'tr' ? 'Alt Başlık' : 'Subtitle'
+                                                                    }, void 0, false, {
                                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                        lineNumber: 434,
+                                                                        lineNumber: 400,
                                                                         columnNumber: 49
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 382,
+                                                                lineNumber: 362,
                                                                 columnNumber: 45
                                                             }, this)
                                                         }, index, false, {
                                                             fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                            lineNumber: 381,
+                                                            lineNumber: 361,
                                                             columnNumber: 41
                                                         }, this))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                lineNumber: 371,
+                                                lineNumber: 351,
                                                 columnNumber: 33
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1837,22 +1893,27 @@ function HomeEditorPage() {
                                                         children: "Dots Pattern URL"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 449,
+                                                        lineNumber: 411,
                                                         columnNumber: 37
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         className: "flex gap-2",
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                value: heroData.dots_pattern || '',
-                                                                onChange: (e)=>setHeroData({
-                                                                        ...heroData,
-                                                                        dots_pattern: e.target.value
-                                                                    }),
-                                                                placeholder: "https://..."
+                                                                value: currentHero.dots_pattern,
+                                                                onChange: (e)=>setHomeData({
+                                                                        ...homeData,
+                                                                        hero: {
+                                                                            ...homeData.hero,
+                                                                            [activeLocale]: {
+                                                                                ...currentHero,
+                                                                                dots_pattern: e.target.value
+                                                                            }
+                                                                        }
+                                                                    })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 451,
+                                                                lineNumber: 413,
                                                                 columnNumber: 41
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1866,83 +1927,63 @@ function HomeEditorPage() {
                                                                     className: "w-4 h-4"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                    lineNumber: 464,
+                                                                    lineNumber: 418,
                                                                     columnNumber: 45
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 456,
+                                                                lineNumber: 417,
                                                                 columnNumber: 41
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 450,
+                                                        lineNumber: 412,
                                                         columnNumber: 37
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                lineNumber: 448,
+                                                lineNumber: 410,
                                                 columnNumber: 33
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "grid grid-cols-2 gap-4",
                                                 children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "space-y-2",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                children: "Sağ Taraf Yazısı"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 472,
-                                                                columnNumber: 41
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                value: heroData.right_text || '',
-                                                                onChange: (e)=>setHeroData({
-                                                                        ...heroData,
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                        value: currentHero.right_text,
+                                                        onChange: (e)=>setHomeData({
+                                                                ...homeData,
+                                                                hero: {
+                                                                    ...homeData.hero,
+                                                                    [activeLocale]: {
+                                                                        ...currentHero,
                                                                         right_text: e.target.value
-                                                                    }),
-                                                                placeholder: "FERTILITY CLINIC"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 473,
-                                                                columnNumber: 41
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
+                                                                    }
+                                                                }
+                                                            }),
+                                                        placeholder: activeLocale === 'tr' ? 'Sağ Yazı' : 'Right Text'
+                                                    }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 471,
+                                                        lineNumber: 424,
                                                         columnNumber: 37
                                                     }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "space-y-2",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                children: "Alt Yazı"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 481,
-                                                                columnNumber: 41
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                value: heroData.bottom_text || '',
-                                                                onChange: (e)=>setHeroData({
-                                                                        ...heroData,
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                        value: currentHero.bottom_text,
+                                                        onChange: (e)=>setHomeData({
+                                                                ...homeData,
+                                                                hero: {
+                                                                    ...homeData.hero,
+                                                                    [activeLocale]: {
+                                                                        ...currentHero,
                                                                         bottom_text: e.target.value
-                                                                    }),
-                                                                placeholder: "creating miracles"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 482,
-                                                                columnNumber: 41
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
+                                                                    }
+                                                                }
+                                                            }),
+                                                        placeholder: activeLocale === 'tr' ? 'Alt Yazı' : 'Bottom Text'
+                                                    }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 480,
+                                                        lineNumber: 430,
                                                         columnNumber: 37
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1952,148 +1993,110 @@ function HomeEditorPage() {
                                                                 children: "Otomatik Oynat"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 490,
+                                                                lineNumber: 437,
                                                                 columnNumber: 41
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$switch$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Switch"], {
-                                                                checked: heroData.auto_play,
-                                                                onCheckedChange: (checked)=>setHeroData({
-                                                                        ...heroData,
-                                                                        auto_play: checked
+                                                                checked: currentHero.auto_play,
+                                                                onCheckedChange: (checked)=>setHomeData({
+                                                                        ...homeData,
+                                                                        hero: {
+                                                                            ...homeData.hero,
+                                                                            [activeLocale]: {
+                                                                                ...currentHero,
+                                                                                auto_play: checked
+                                                                            }
+                                                                        }
                                                                     })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 491,
+                                                                lineNumber: 438,
                                                                 columnNumber: 41
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 489,
+                                                        lineNumber: 436,
                                                         columnNumber: 37
                                                     }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "space-y-2",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                children: "Oynatma Süresi (ms)"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 498,
-                                                                columnNumber: 41
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                type: "number",
-                                                                value: heroData.auto_play_interval || 5000,
-                                                                onChange: (e)=>setHeroData({
-                                                                        ...heroData,
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                        type: "number",
+                                                        value: currentHero.auto_play_interval,
+                                                        onChange: (e)=>setHomeData({
+                                                                ...homeData,
+                                                                hero: {
+                                                                    ...homeData.hero,
+                                                                    [activeLocale]: {
+                                                                        ...currentHero,
                                                                         auto_play_interval: parseInt(e.target.value) || 5000
-                                                                    }),
-                                                                min: "1000",
-                                                                step: "1000"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 499,
-                                                                columnNumber: 41
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
+                                                                    }
+                                                                }
+                                                            }),
+                                                        min: "1000",
+                                                        step: "1000"
+                                                    }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 497,
-                                                        columnNumber: 37
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "flex items-center justify-between",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                children: "Göstergeleri Göster"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 509,
-                                                                columnNumber: 41
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$switch$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Switch"], {
-                                                                checked: heroData.show_indicators,
-                                                                onCheckedChange: (checked)=>setHeroData({
-                                                                        ...heroData,
-                                                                        show_indicators: checked
-                                                                    })
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 510,
-                                                                columnNumber: 41
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 508,
+                                                        lineNumber: 444,
                                                         columnNumber: 37
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                lineNumber: 470,
+                                                lineNumber: 423,
                                                 columnNumber: 33
                                             }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "pt-4 border-t",
-                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                                    type: "submit",
-                                                    disabled: saving,
-                                                    className: "bg-primary-pink hover:bg-pink-700",
-                                                    children: saving ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
-                                                                className: "w-4 h-4 mr-2 animate-spin"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 521,
-                                                                columnNumber: 49
-                                                            }, this),
-                                                            "Kaydediliyor..."
-                                                        ]
-                                                    }, void 0, true) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$save$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Save$3e$__["Save"], {
-                                                                className: "w-4 h-4 mr-2"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 526,
-                                                                columnNumber: 49
-                                                            }, this),
-                                                            "Kaydet"
-                                                        ]
-                                                    }, void 0, true)
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                    lineNumber: 518,
-                                                    columnNumber: 37
-                                                }, this)
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                type: "submit",
+                                                disabled: saving,
+                                                className: "bg-primary-pink hover:bg-pink-700",
+                                                children: saving ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
+                                                            className: "w-4 h-4 mr-2 animate-spin"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                                            lineNumber: 454,
+                                                            columnNumber: 49
+                                                        }, this),
+                                                        "Kaydediliyor..."
+                                                    ]
+                                                }, void 0, true) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$save$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Save$3e$__["Save"], {
+                                                            className: "w-4 h-4 mr-2"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                                            lineNumber: 454,
+                                                            columnNumber: 121
+                                                        }, this),
+                                                        "Her İki Dili Kaydet"
+                                                    ]
+                                                }, void 0, true)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                lineNumber: 517,
+                                                lineNumber: 453,
                                                 columnNumber: 33
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                        lineNumber: 369,
+                                        lineNumber: 350,
                                         columnNumber: 29
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                    lineNumber: 368,
+                                    lineNumber: 349,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(admin)/home/page.tsx",
-                            lineNumber: 364,
+                            lineNumber: 343,
                             columnNumber: 21
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                        lineNumber: 363,
+                        lineNumber: 342,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -2102,449 +2105,237 @@ function HomeEditorPage() {
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardHeader"], {
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardTitle"], {
-                                        children: "Welcome Section"
-                                    }, void 0, false, {
+                                        className: "flex items-center gap-2",
+                                        children: [
+                                            "Welcome Section (",
+                                            activeLocale === 'tr' ? '🇹🇷 Türkçe' : '🇬🇧 English',
+                                            ")"
+                                        ]
+                                    }, void 0, true, {
                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                        lineNumber: 541,
+                                        lineNumber: 465,
                                         columnNumber: 29
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                    lineNumber: 540,
+                                    lineNumber: 464,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
-                                        onSubmit: handleSaveWelcome,
+                                        onSubmit: (e)=>{
+                                            e.preventDefault();
+                                            handleSave('welcome');
+                                        },
                                         className: "space-y-4",
                                         children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "space-y-4 p-4 bg-gray-50 rounded-lg",
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                                        className: "font-semibold",
-                                                        children: "Yazı İçerikleri"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 547,
-                                                        columnNumber: 37
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "space-y-2",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                children: "Üst Başlık"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 550,
-                                                                columnNumber: 41
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                value: welcomeData.title_top || '',
-                                                                onChange: (e)=>setWelcomeData({
-                                                                        ...welcomeData,
-                                                                        title_top: e.target.value
-                                                                    }),
-                                                                placeholder: "HOŞGELDİNİZ"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 551,
-                                                                columnNumber: 41
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 549,
-                                                        columnNumber: 37
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "space-y-2",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                children: "Ana Başlık"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 559,
-                                                                columnNumber: 41
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                value: welcomeData.title || '',
-                                                                onChange: (e)=>setWelcomeData({
-                                                                        ...welcomeData,
-                                                                        title: e.target.value
-                                                                    }),
-                                                                placeholder: "AYDA IVF"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 560,
-                                                                columnNumber: 41
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 558,
-                                                        columnNumber: 37
-                                                    }, this),
-                                                    welcomeData.paragraphs.map((p, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "space-y-2",
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                    children: [
-                                                                        "Paragraf ",
-                                                                        index + 1
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                    lineNumber: 569,
-                                                                    columnNumber: 45
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
-                                                                    value: p || '',
-                                                                    onChange: (e)=>{
-                                                                        const newParagraphs = [
-                                                                            ...welcomeData.paragraphs
-                                                                        ];
-                                                                        newParagraphs[index] = e.target.value;
-                                                                        setWelcomeData({
-                                                                            ...welcomeData,
-                                                                            paragraphs: newParagraphs
-                                                                        });
-                                                                    },
-                                                                    placeholder: `Paragraf ${index + 1} içeriği...`,
-                                                                    rows: 2
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                    lineNumber: 570,
-                                                                    columnNumber: 45
-                                                                }, this)
-                                                            ]
-                                                        }, index, true, {
-                                                            fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                            lineNumber: 568,
-                                                            columnNumber: 41
-                                                        }, this)),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "grid grid-cols-2 gap-4",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "space-y-2",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                        children: "İmza - İsim"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                        lineNumber: 585,
-                                                                        columnNumber: 45
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                        value: welcomeData.signature_name || '',
-                                                                        onChange: (e)=>setWelcomeData({
-                                                                                ...welcomeData,
-                                                                                signature_name: e.target.value
-                                                                            }),
-                                                                        placeholder: "Dr. Ayda Yılmaz"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                        lineNumber: 586,
-                                                                        columnNumber: 45
-                                                                    }, this)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 584,
-                                                                columnNumber: 41
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "space-y-2",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                        children: "İmza - Ünvan"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                        lineNumber: 594,
-                                                                        columnNumber: 45
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                        value: welcomeData.signature_title || '',
-                                                                        onChange: (e)=>setWelcomeData({
-                                                                                ...welcomeData,
-                                                                                signature_title: e.target.value
-                                                                            }),
-                                                                        placeholder: "Kurucu Doktor"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                        lineNumber: 595,
-                                                                        columnNumber: 45
-                                                                    }, this)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 593,
-                                                                columnNumber: 41
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 583,
-                                                        columnNumber: 37
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                value: currentWelcome.title_top,
+                                                onChange: (e)=>setHomeData({
+                                                        ...homeData,
+                                                        welcome: {
+                                                            ...homeData.welcome,
+                                                            [activeLocale]: {
+                                                                ...currentWelcome,
+                                                                title_top: e.target.value
+                                                            }
+                                                        }
+                                                    }),
+                                                placeholder: activeLocale === 'tr' ? 'Üst Başlık' : 'Top Title'
+                                            }, void 0, false, {
                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                lineNumber: 546,
+                                                lineNumber: 471,
                                                 columnNumber: 33
                                             }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "space-y-2",
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                        children: "Görsel URL"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 605,
-                                                        columnNumber: 37
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "flex gap-2",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                value: welcomeData.image.url || '',
-                                                                onChange: (e)=>setWelcomeData({
-                                                                        ...welcomeData,
-                                                                        image: {
-                                                                            ...welcomeData.image,
-                                                                            url: e.target.value
-                                                                        }
-                                                                    }),
-                                                                placeholder: "https://..."
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 607,
-                                                                columnNumber: 41
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                                                type: "button",
-                                                                variant: "outline",
-                                                                onClick: ()=>{
-                                                                    setMediaTarget('welcome-image');
-                                                                    setShowMediaPicker(true);
-                                                                },
-                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Image$3e$__["Image"], {
-                                                                    className: "w-4 h-4"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                    lineNumber: 620,
-                                                                    columnNumber: 45
-                                                                }, this)
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 612,
-                                                                columnNumber: 41
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 606,
-                                                        columnNumber: 37
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                value: currentWelcome.title,
+                                                onChange: (e)=>setHomeData({
+                                                        ...homeData,
+                                                        welcome: {
+                                                            ...homeData.welcome,
+                                                            [activeLocale]: {
+                                                                ...currentWelcome,
+                                                                title: e.target.value
+                                                            }
+                                                        }
+                                                    }),
+                                                placeholder: activeLocale === 'tr' ? 'Ana Başlık' : 'Main Title'
+                                            }, void 0, false, {
                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                lineNumber: 604,
+                                                lineNumber: 477,
                                                 columnNumber: 33
                                             }, this),
+                                            currentWelcome.paragraphs.map((p, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
+                                                    value: p,
+                                                    onChange: (e)=>{
+                                                        const newParagraphs = [
+                                                            ...currentWelcome.paragraphs
+                                                        ];
+                                                        newParagraphs[idx] = e.target.value;
+                                                        setHomeData({
+                                                            ...homeData,
+                                                            welcome: {
+                                                                ...homeData.welcome,
+                                                                [activeLocale]: {
+                                                                    ...currentWelcome,
+                                                                    paragraphs: newParagraphs
+                                                                }
+                                                            }
+                                                        });
+                                                    },
+                                                    placeholder: `Paragraf ${idx + 1}`,
+                                                    rows: 2
+                                                }, idx, false, {
+                                                    fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                                    lineNumber: 484,
+                                                    columnNumber: 37
+                                                }, this)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "space-y-2",
+                                                className: "grid grid-cols-2 gap-4",
                                                 children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                        children: "Alt Text"
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                        value: currentWelcome.signature_name,
+                                                        onChange: (e)=>setHomeData({
+                                                                ...homeData,
+                                                                welcome: {
+                                                                    ...homeData.welcome,
+                                                                    [activeLocale]: {
+                                                                        ...currentWelcome,
+                                                                        signature_name: e.target.value
+                                                                    }
+                                                                }
+                                                            }),
+                                                        placeholder: activeLocale === 'tr' ? 'İmza - İsim' : 'Signature - Name'
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 626,
+                                                        lineNumber: 498,
                                                         columnNumber: 37
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                        value: welcomeData.image.alt || '',
-                                                        onChange: (e)=>setWelcomeData({
-                                                                ...welcomeData,
-                                                                image: {
-                                                                    ...welcomeData.image,
-                                                                    alt: e.target.value
+                                                        value: currentWelcome.signature_title,
+                                                        onChange: (e)=>setHomeData({
+                                                                ...homeData,
+                                                                welcome: {
+                                                                    ...homeData.welcome,
+                                                                    [activeLocale]: {
+                                                                        ...currentWelcome,
+                                                                        signature_title: e.target.value
+                                                                    }
                                                                 }
                                                             }),
-                                                        placeholder: "Görsel açıklaması"
+                                                        placeholder: activeLocale === 'tr' ? 'İmza - Ünvan' : 'Signature - Title'
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 627,
+                                                        lineNumber: 504,
                                                         columnNumber: 37
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                lineNumber: 625,
+                                                lineNumber: 497,
                                                 columnNumber: 33
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "grid grid-cols-3 gap-4",
+                                                className: "flex gap-2",
                                                 children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "space-y-2",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                children: "Gradient From"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 636,
-                                                                columnNumber: 41
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                type: "color",
-                                                                value: welcomeData.gradient.from || '#F7DFE6',
-                                                                onChange: (e)=>setWelcomeData({
-                                                                        ...welcomeData,
-                                                                        gradient: {
-                                                                            ...welcomeData.gradient,
-                                                                            from: e.target.value
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                        value: currentWelcome.image.url,
+                                                        onChange: (e)=>setHomeData({
+                                                                ...homeData,
+                                                                welcome: {
+                                                                    ...homeData.welcome,
+                                                                    [activeLocale]: {
+                                                                        ...currentWelcome,
+                                                                        image: {
+                                                                            ...currentWelcome.image,
+                                                                            url: e.target.value
                                                                         }
-                                                                    })
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 637,
-                                                                columnNumber: 41
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
+                                                                    }
+                                                                }
+                                                            }),
+                                                        placeholder: "Görsel URL"
+                                                    }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 635,
+                                                        lineNumber: 512,
                                                         columnNumber: 37
                                                     }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "space-y-2",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                children: "Gradient Via"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 645,
-                                                                columnNumber: 41
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                type: "color",
-                                                                value: welcomeData.gradient.via || '#FFFFFF',
-                                                                onChange: (e)=>setWelcomeData({
-                                                                        ...welcomeData,
-                                                                        gradient: {
-                                                                            ...welcomeData.gradient,
-                                                                            via: e.target.value
-                                                                        }
-                                                                    })
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 646,
-                                                                columnNumber: 41
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                        type: "button",
+                                                        variant: "outline",
+                                                        onClick: ()=>{
+                                                            setMediaTarget('welcome-image');
+                                                            setShowMediaPicker(true);
+                                                        },
+                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Image$3e$__["Image"], {
+                                                            className: "w-4 h-4"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                                            lineNumber: 518,
+                                                            columnNumber: 41
+                                                        }, this)
+                                                    }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 644,
-                                                        columnNumber: 37
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "space-y-2",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                children: "Gradient To"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 654,
-                                                                columnNumber: 41
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                type: "color",
-                                                                value: welcomeData.gradient.to || '#FFFFFF',
-                                                                onChange: (e)=>setWelcomeData({
-                                                                        ...welcomeData,
-                                                                        gradient: {
-                                                                            ...welcomeData.gradient,
-                                                                            to: e.target.value
-                                                                        }
-                                                                    })
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 655,
-                                                                columnNumber: 41
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 653,
+                                                        lineNumber: 517,
                                                         columnNumber: 37
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                lineNumber: 634,
+                                                lineNumber: 511,
                                                 columnNumber: 33
                                             }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "pt-4 border-t",
-                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                                    type: "submit",
-                                                    disabled: saving,
-                                                    className: "bg-primary-pink hover:bg-pink-700",
-                                                    children: saving ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
-                                                                className: "w-4 h-4 mr-2 animate-spin"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 667,
-                                                                columnNumber: 49
-                                                            }, this),
-                                                            "Kaydediliyor..."
-                                                        ]
-                                                    }, void 0, true) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$save$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Save$3e$__["Save"], {
-                                                                className: "w-4 h-4 mr-2"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 672,
-                                                                columnNumber: 49
-                                                            }, this),
-                                                            "Kaydet"
-                                                        ]
-                                                    }, void 0, true)
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                    lineNumber: 664,
-                                                    columnNumber: 37
-                                                }, this)
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                type: "submit",
+                                                disabled: saving,
+                                                className: "bg-primary-pink hover:bg-pink-700",
+                                                children: saving ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
+                                                            className: "w-4 h-4 mr-2 animate-spin"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                                            lineNumber: 523,
+                                                            columnNumber: 49
+                                                        }, this),
+                                                        "Kaydediliyor..."
+                                                    ]
+                                                }, void 0, true) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$save$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Save$3e$__["Save"], {
+                                                            className: "w-4 h-4 mr-2"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                                            lineNumber: 523,
+                                                            columnNumber: 121
+                                                        }, this),
+                                                        "Her İki Dili Kaydet"
+                                                    ]
+                                                }, void 0, true)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                lineNumber: 663,
+                                                lineNumber: 522,
                                                 columnNumber: 33
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                        lineNumber: 544,
+                                        lineNumber: 470,
                                         columnNumber: 29
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                    lineNumber: 543,
+                                    lineNumber: 469,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(admin)/home/page.tsx",
-                            lineNumber: 539,
+                            lineNumber: 463,
                             columnNumber: 21
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                        lineNumber: 538,
+                        lineNumber: 462,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -2553,244 +2344,175 @@ function HomeEditorPage() {
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardHeader"], {
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardTitle"], {
-                                        children: "Treatments Section"
-                                    }, void 0, false, {
+                                        className: "flex items-center gap-2",
+                                        children: [
+                                            "Treatments Section (",
+                                            activeLocale === 'tr' ? '🇹🇷 Türkçe' : '🇬🇧 English',
+                                            ")"
+                                        ]
+                                    }, void 0, true, {
                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                        lineNumber: 687,
+                                        lineNumber: 534,
                                         columnNumber: 29
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                    lineNumber: 686,
+                                    lineNumber: 533,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
-                                        onSubmit: handleSaveTreatments,
+                                        onSubmit: (e)=>{
+                                            e.preventDefault();
+                                            handleSave('treatments');
+                                        },
                                         className: "space-y-6",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "space-y-4 p-4 bg-gray-50 rounded-lg",
+                                                className: "grid grid-cols-2 gap-4",
                                                 children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                                        className: "font-semibold",
-                                                        children: "Yazı İçerikleri"
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                        value: currentTreatments.top_title,
+                                                        onChange: (e)=>setHomeData({
+                                                                ...homeData,
+                                                                treatments: {
+                                                                    ...homeData.treatments,
+                                                                    [activeLocale]: {
+                                                                        ...currentTreatments,
+                                                                        top_title: e.target.value
+                                                                    }
+                                                                }
+                                                            }),
+                                                        placeholder: activeLocale === 'tr' ? 'Üst Başlık' : 'Top Title'
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 693,
+                                                        lineNumber: 541,
                                                         columnNumber: 37
                                                     }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "grid grid-cols-2 gap-4",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "space-y-2",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                        children: "Üst Başlık"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                        lineNumber: 697,
-                                                                        columnNumber: 45
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                        value: treatmentsData.top_title || '',
-                                                                        onChange: (e)=>setTreatmentsData({
-                                                                                ...treatmentsData,
-                                                                                top_title: e.target.value
-                                                                            }),
-                                                                        placeholder: "TEDAVİLERİMİZ"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                        lineNumber: 698,
-                                                                        columnNumber: 45
-                                                                    }, this)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 696,
-                                                                columnNumber: 41
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "space-y-2",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                        children: "Ana Başlık"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                        lineNumber: 706,
-                                                                        columnNumber: 45
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                        value: treatmentsData.title || '',
-                                                                        onChange: (e)=>setTreatmentsData({
-                                                                                ...treatmentsData,
-                                                                                title: e.target.value
-                                                                            }),
-                                                                        placeholder: "Tedavi Yöntemlerimiz"
-                                                                    }, void 0, false, {
-                                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                        lineNumber: 707,
-                                                                        columnNumber: 45
-                                                                    }, this)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 705,
-                                                                columnNumber: 41
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                        value: currentTreatments.title,
+                                                        onChange: (e)=>setHomeData({
+                                                                ...homeData,
+                                                                treatments: {
+                                                                    ...homeData.treatments,
+                                                                    [activeLocale]: {
+                                                                        ...currentTreatments,
+                                                                        title: e.target.value
+                                                                    }
+                                                                }
+                                                            }),
+                                                        placeholder: activeLocale === 'tr' ? 'Ana Başlık' : 'Main Title'
+                                                    }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 695,
-                                                        columnNumber: 37
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "space-y-2",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                children: "Açıklama 1"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 716,
-                                                                columnNumber: 41
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
-                                                                value: treatmentsData.description1 || '',
-                                                                onChange: (e)=>setTreatmentsData({
-                                                                        ...treatmentsData,
-                                                                        description1: e.target.value
-                                                                    }),
-                                                                placeholder: "İlk açıklama paragrafı...",
-                                                                rows: 2
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 717,
-                                                                columnNumber: 41
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 715,
-                                                        columnNumber: 37
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "space-y-2",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                children: "Açıklama 2"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 726,
-                                                                columnNumber: 41
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
-                                                                value: treatmentsData.description2 || '',
-                                                                onChange: (e)=>setTreatmentsData({
-                                                                        ...treatmentsData,
-                                                                        description2: e.target.value
-                                                                    }),
-                                                                placeholder: "İkinci açıklama paragrafı...",
-                                                                rows: 2
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 727,
-                                                                columnNumber: 41
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 725,
-                                                        columnNumber: 37
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "space-y-2",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                children: "İletişim Butonu Yazısı"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 736,
-                                                                columnNumber: 41
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                value: treatmentsData.contact_button_text || '',
-                                                                onChange: (e)=>setTreatmentsData({
-                                                                        ...treatmentsData,
-                                                                        contact_button_text: e.target.value
-                                                                    }),
-                                                                placeholder: "İletişime Geçin"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 737,
-                                                                columnNumber: 41
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 735,
+                                                        lineNumber: 547,
                                                         columnNumber: 37
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                lineNumber: 692,
+                                                lineNumber: 540,
+                                                columnNumber: 33
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
+                                                value: currentTreatments.description1,
+                                                onChange: (e)=>setHomeData({
+                                                        ...homeData,
+                                                        treatments: {
+                                                            ...homeData.treatments,
+                                                            [activeLocale]: {
+                                                                ...currentTreatments,
+                                                                description1: e.target.value
+                                                            }
+                                                        }
+                                                    }),
+                                                placeholder: activeLocale === 'tr' ? 'Açıklama 1' : 'Description 1',
+                                                rows: 2
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                                lineNumber: 554,
+                                                columnNumber: 33
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
+                                                value: currentTreatments.description2,
+                                                onChange: (e)=>setHomeData({
+                                                        ...homeData,
+                                                        treatments: {
+                                                            ...homeData.treatments,
+                                                            [activeLocale]: {
+                                                                ...currentTreatments,
+                                                                description2: e.target.value
+                                                            }
+                                                        }
+                                                    }),
+                                                placeholder: activeLocale === 'tr' ? 'Açıklama 2' : 'Description 2',
+                                                rows: 2
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                                lineNumber: 561,
+                                                columnNumber: 33
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                value: currentTreatments.contact_button_text,
+                                                onChange: (e)=>setHomeData({
+                                                        ...homeData,
+                                                        treatments: {
+                                                            ...homeData.treatments,
+                                                            [activeLocale]: {
+                                                                ...currentTreatments,
+                                                                contact_button_text: e.target.value
+                                                            }
+                                                        }
+                                                    }),
+                                                placeholder: activeLocale === 'tr' ? 'Buton Yazısı' : 'Button Text'
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                                lineNumber: 568,
                                                 columnNumber: 33
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "space-y-2",
+                                                className: "flex gap-2",
                                                 children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                        children: "Background Logo URL"
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                        value: currentTreatments.background_logo,
+                                                        onChange: (e)=>setHomeData({
+                                                                ...homeData,
+                                                                treatments: {
+                                                                    ...homeData.treatments,
+                                                                    [activeLocale]: {
+                                                                        ...currentTreatments,
+                                                                        background_logo: e.target.value
+                                                                    }
+                                                                }
+                                                            }),
+                                                        placeholder: "Background Logo URL"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 746,
+                                                        lineNumber: 575,
                                                         columnNumber: 37
                                                     }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "flex gap-2",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                value: treatmentsData.background_logo || '',
-                                                                onChange: (e)=>setTreatmentsData({
-                                                                        ...treatmentsData,
-                                                                        background_logo: e.target.value
-                                                                    }),
-                                                                placeholder: "https://..."
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 748,
-                                                                columnNumber: 41
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                                                type: "button",
-                                                                variant: "outline",
-                                                                onClick: ()=>{
-                                                                    setMediaTarget('treatments-logo');
-                                                                    setShowMediaPicker(true);
-                                                                },
-                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Image$3e$__["Image"], {
-                                                                    className: "w-4 h-4"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                    lineNumber: 761,
-                                                                    columnNumber: 45
-                                                                }, this)
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 753,
-                                                                columnNumber: 41
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                        type: "button",
+                                                        variant: "outline",
+                                                        onClick: ()=>{
+                                                            setMediaTarget('treatments-logo');
+                                                            setShowMediaPicker(true);
+                                                        },
+                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Image$3e$__["Image"], {
+                                                            className: "w-4 h-4"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                                            lineNumber: 581,
+                                                            columnNumber: 41
+                                                        }, this)
+                                                    }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 747,
+                                                        lineNumber: 580,
                                                         columnNumber: 37
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                lineNumber: 745,
+                                                lineNumber: 574,
                                                 columnNumber: 33
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2800,10 +2522,10 @@ function HomeEditorPage() {
                                                         className: "flex items-center justify-between",
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                children: "Tedavi Yöntemleri"
+                                                                children: "Tedavi Listesi"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 768,
+                                                                lineNumber: 587,
                                                                 columnNumber: 41
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2816,23 +2538,23 @@ function HomeEditorPage() {
                                                                         className: "w-4 h-4 mr-2"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                        lineNumber: 770,
+                                                                        lineNumber: 589,
                                                                         columnNumber: 45
                                                                     }, this),
                                                                     "Tedavi Ekle"
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 769,
+                                                                lineNumber: 588,
                                                                 columnNumber: 41
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 767,
+                                                        lineNumber: 586,
                                                         columnNumber: 37
                                                     }, this),
-                                                    treatmentsData.treatments.map((treatment, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
+                                                    currentTreatments.treatments.map((treatment, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
                                                             className: "p-4",
                                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                 className: "space-y-3",
@@ -2843,245 +2565,202 @@ function HomeEditorPage() {
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
                                                                                 children: [
                                                                                     "Tedavi ",
-                                                                                    index + 1
+                                                                                    idx + 1
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                lineNumber: 779,
+                                                                                lineNumber: 598,
                                                                                 columnNumber: 53
                                                                             }, this),
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                                                                type: "button",
-                                                                                size: "sm",
-                                                                                variant: "destructive",
-                                                                                onClick: ()=>removeTreatment(index),
-                                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trash$2d$2$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Trash2$3e$__["Trash2"], {
-                                                                                    className: "w-4 h-4"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                    lineNumber: 786,
-                                                                                    columnNumber: 57
-                                                                                }, this)
-                                                                            }, void 0, false, {
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "flex gap-2",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                                                        type: "button",
+                                                                                        size: "sm",
+                                                                                        variant: "outline",
+                                                                                        onClick: ()=>moveTreatment(idx, 'up'),
+                                                                                        disabled: idx === 0,
+                                                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$up$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronUp$3e$__["ChevronUp"], {
+                                                                                            className: "w-4 h-4"
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                                                                            lineNumber: 601,
+                                                                                            columnNumber: 61
+                                                                                        }, this)
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                                                                        lineNumber: 600,
+                                                                                        columnNumber: 57
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                                                        type: "button",
+                                                                                        size: "sm",
+                                                                                        variant: "outline",
+                                                                                        onClick: ()=>moveTreatment(idx, 'down'),
+                                                                                        disabled: idx === currentTreatments.treatments.length - 1,
+                                                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
+                                                                                            className: "w-4 h-4"
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                                                                            lineNumber: 604,
+                                                                                            columnNumber: 61
+                                                                                        }, this)
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                                                                        lineNumber: 603,
+                                                                                        columnNumber: 57
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                                                        type: "button",
+                                                                                        size: "sm",
+                                                                                        variant: "destructive",
+                                                                                        onClick: ()=>removeTreatment(idx),
+                                                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trash$2d$2$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Trash2$3e$__["Trash2"], {
+                                                                                            className: "w-4 h-4"
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                                                                            lineNumber: 607,
+                                                                                            columnNumber: 61
+                                                                                        }, this)
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                                                                        lineNumber: 606,
+                                                                                        columnNumber: 57
+                                                                                    }, this)
+                                                                                ]
+                                                                            }, void 0, true, {
                                                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                lineNumber: 780,
+                                                                                lineNumber: 599,
                                                                                 columnNumber: 53
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                        lineNumber: 778,
+                                                                        lineNumber: 597,
                                                                         columnNumber: 49
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                        className: "grid grid-cols-2 gap-3",
+                                                                        className: "grid grid-cols-3 gap-3",
                                                                         children: [
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                                className: "space-y-2",
-                                                                                children: [
-                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                                        children: "ID"
-                                                                                    }, void 0, false, {
-                                                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                        lineNumber: 792,
-                                                                                        columnNumber: 57
-                                                                                    }, this),
-                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                                        value: treatment.id || '',
-                                                                                        onChange: (e)=>updateTreatment(index, 'id', e.target.value),
-                                                                                        placeholder: "ivf"
-                                                                                    }, void 0, false, {
-                                                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                        lineNumber: 793,
-                                                                                        columnNumber: 57
-                                                                                    }, this)
-                                                                                ]
-                                                                            }, void 0, true, {
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                                                value: treatment.label,
+                                                                                onChange: (e)=>updateTreatment(idx, 'label', e.target.value),
+                                                                                placeholder: activeLocale === 'tr' ? 'Etiket' : 'Label'
+                                                                            }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                lineNumber: 791,
+                                                                                lineNumber: 613,
+                                                                                columnNumber: 53
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                                                value: treatment.href,
+                                                                                onChange: (e)=>updateTreatment(idx, 'href', e.target.value),
+                                                                                placeholder: "/ivf"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                                                                lineNumber: 619,
                                                                                 columnNumber: 53
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                                className: "space-y-2",
+                                                                                className: "flex items-center justify-between",
                                                                                 children: [
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                                        children: "Href"
+                                                                                        className: "text-sm",
+                                                                                        children: "Aktif"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                        lineNumber: 800,
+                                                                                        lineNumber: 626,
                                                                                         columnNumber: 57
                                                                                     }, this),
-                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                                        value: treatment.href || '',
-                                                                                        onChange: (e)=>updateTreatment(index, 'href', e.target.value),
-                                                                                        placeholder: "/ivf-icsi"
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$switch$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Switch"], {
+                                                                                        checked: treatment.isActive,
+                                                                                        onCheckedChange: (checked)=>updateTreatment(idx, 'isActive', checked)
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                        lineNumber: 801,
+                                                                                        lineNumber: 627,
                                                                                         columnNumber: 57
                                                                                     }, this)
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                lineNumber: 799,
-                                                                                columnNumber: 53
-                                                                            }, this),
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                                className: "space-y-2",
-                                                                                children: [
-                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                                        children: "Label"
-                                                                                    }, void 0, false, {
-                                                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                        lineNumber: 809,
-                                                                                        columnNumber: 57
-                                                                                    }, this),
-                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                                        value: treatment.label || '',
-                                                                                        onChange: (e)=>updateTreatment(index, 'label', e.target.value),
-                                                                                        placeholder: "IVF-ICSI"
-                                                                                    }, void 0, false, {
-                                                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                        lineNumber: 810,
-                                                                                        columnNumber: 57
-                                                                                    }, this)
-                                                                                ]
-                                                                            }, void 0, true, {
-                                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                lineNumber: 808,
-                                                                                columnNumber: 53
-                                                                            }, this),
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                                className: "space-y-2",
-                                                                                children: [
-                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                                        children: "Sıra"
-                                                                                    }, void 0, false, {
-                                                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                        lineNumber: 818,
-                                                                                        columnNumber: 57
-                                                                                    }, this),
-                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                                        type: "number",
-                                                                                        value: treatment.order || 0,
-                                                                                        onChange: (e)=>updateTreatment(index, 'order', parseInt(e.target.value) || 0)
-                                                                                    }, void 0, false, {
-                                                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                        lineNumber: 819,
-                                                                                        columnNumber: 57
-                                                                                    }, this)
-                                                                                ]
-                                                                            }, void 0, true, {
-                                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                lineNumber: 817,
+                                                                                lineNumber: 625,
                                                                                 columnNumber: 53
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                        lineNumber: 790,
-                                                                        columnNumber: 49
-                                                                    }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                        className: "flex items-center justify-between",
-                                                                        children: [
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                                children: "Aktif"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                lineNumber: 828,
-                                                                                columnNumber: 53
-                                                                            }, this),
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$switch$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Switch"], {
-                                                                                checked: treatment.isActive,
-                                                                                onCheckedChange: (checked)=>updateTreatment(index, 'isActive', checked)
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                                lineNumber: 829,
-                                                                                columnNumber: 53
-                                                                            }, this)
-                                                                        ]
-                                                                    }, void 0, true, {
-                                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                        lineNumber: 827,
+                                                                        lineNumber: 612,
                                                                         columnNumber: 49
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 777,
+                                                                lineNumber: 596,
                                                                 columnNumber: 45
                                                             }, this)
-                                                        }, index, false, {
+                                                        }, idx, false, {
                                                             fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                            lineNumber: 776,
+                                                            lineNumber: 595,
                                                             columnNumber: 41
                                                         }, this))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                lineNumber: 766,
+                                                lineNumber: 585,
                                                 columnNumber: 33
                                             }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "pt-4 border-t",
-                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                                    type: "submit",
-                                                    disabled: saving,
-                                                    className: "bg-primary-pink hover:bg-pink-700",
-                                                    children: saving ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
-                                                                className: "w-4 h-4 mr-2 animate-spin"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 843,
-                                                                columnNumber: 49
-                                                            }, this),
-                                                            "Kaydediliyor..."
-                                                        ]
-                                                    }, void 0, true) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$save$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Save$3e$__["Save"], {
-                                                                className: "w-4 h-4 mr-2"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 848,
-                                                                columnNumber: 49
-                                                            }, this),
-                                                            "Kaydet"
-                                                        ]
-                                                    }, void 0, true)
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                    lineNumber: 840,
-                                                    columnNumber: 37
-                                                }, this)
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                type: "submit",
+                                                disabled: saving,
+                                                className: "bg-primary-pink hover:bg-pink-700",
+                                                children: saving ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
+                                                            className: "w-4 h-4 mr-2 animate-spin"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                                            lineNumber: 639,
+                                                            columnNumber: 49
+                                                        }, this),
+                                                        "Kaydediliyor..."
+                                                    ]
+                                                }, void 0, true) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$save$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Save$3e$__["Save"], {
+                                                            className: "w-4 h-4 mr-2"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                                            lineNumber: 639,
+                                                            columnNumber: 121
+                                                        }, this),
+                                                        "Her İki Dili Kaydet"
+                                                    ]
+                                                }, void 0, true)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                lineNumber: 839,
+                                                lineNumber: 638,
                                                 columnNumber: 33
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                        lineNumber: 690,
+                                        lineNumber: 539,
                                         columnNumber: 29
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                    lineNumber: 689,
+                                    lineNumber: 538,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(admin)/home/page.tsx",
-                            lineNumber: 685,
+                            lineNumber: 532,
                             columnNumber: 21
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                        lineNumber: 684,
+                        lineNumber: 531,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -3090,20 +2769,23 @@ function HomeEditorPage() {
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardHeader"], {
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardTitle"], {
-                                        children: "Contact Map Section"
+                                        children: "Contact Map Section (Ortak - Common)"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                        lineNumber: 863,
+                                        lineNumber: 650,
                                         columnNumber: 29
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                    lineNumber: 862,
+                                    lineNumber: 649,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
-                                        onSubmit: handleSaveContactMap,
+                                        onSubmit: (e)=>{
+                                            e.preventDefault();
+                                            handleSave('contactMap');
+                                        },
                                         className: "space-y-4",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3113,47 +2795,53 @@ function HomeEditorPage() {
                                                         children: "Google Maps Iframe Kullan"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 868,
+                                                        lineNumber: 655,
                                                         columnNumber: 37
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$switch$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Switch"], {
-                                                        checked: contactMapData.show_iframe,
-                                                        onCheckedChange: (checked)=>setContactMapData({
-                                                                ...contactMapData,
-                                                                show_iframe: checked
+                                                        checked: homeData.contactMap.show_iframe,
+                                                        onCheckedChange: (checked)=>setHomeData({
+                                                                ...homeData,
+                                                                contactMap: {
+                                                                    ...homeData.contactMap,
+                                                                    show_iframe: checked
+                                                                }
                                                             })
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 869,
+                                                        lineNumber: 656,
                                                         columnNumber: 37
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                lineNumber: 867,
+                                                lineNumber: 654,
                                                 columnNumber: 33
                                             }, this),
-                                            contactMapData.show_iframe ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            homeData.contactMap.show_iframe ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "space-y-2",
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
                                                         children: "Google Maps Embed URL"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 877,
+                                                        lineNumber: 664,
                                                         columnNumber: 41
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
-                                                        value: contactMapData.map_url || '',
-                                                        onChange: (e)=>setContactMapData({
-                                                                ...contactMapData,
-                                                                map_url: e.target.value
+                                                        value: homeData.contactMap.map_url,
+                                                        onChange: (e)=>setHomeData({
+                                                                ...homeData,
+                                                                contactMap: {
+                                                                    ...homeData.contactMap,
+                                                                    map_url: e.target.value
+                                                                }
                                                             }),
                                                         placeholder: "https://www.google.com/maps/embed?pb=...",
                                                         rows: 3
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 878,
+                                                        lineNumber: 665,
                                                         columnNumber: 41
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3161,13 +2849,13 @@ function HomeEditorPage() {
                                                         children: "Google Maps → Share → Embed a map → Copy HTML → Sadece iframe src içindeki URL'yi yapıştırın"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 884,
+                                                        lineNumber: 671,
                                                         columnNumber: 41
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                lineNumber: 876,
+                                                lineNumber: 663,
                                                 columnNumber: 37
                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "space-y-2",
@@ -3176,22 +2864,25 @@ function HomeEditorPage() {
                                                         children: "Statik Görsel URL (Alternatif)"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 890,
+                                                        lineNumber: 677,
                                                         columnNumber: 41
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         className: "flex gap-2",
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                value: contactMapData.image || '',
-                                                                onChange: (e)=>setContactMapData({
-                                                                        ...contactMapData,
-                                                                        image: e.target.value
+                                                                value: homeData.contactMap.image,
+                                                                onChange: (e)=>setHomeData({
+                                                                        ...homeData,
+                                                                        contactMap: {
+                                                                            ...homeData.contactMap,
+                                                                            image: e.target.value
+                                                                        }
                                                                     }),
                                                                 placeholder: "https://..."
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 892,
+                                                                lineNumber: 679,
                                                                 columnNumber: 45
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -3205,99 +2896,84 @@ function HomeEditorPage() {
                                                                     className: "w-4 h-4"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                    lineNumber: 905,
+                                                                    lineNumber: 689,
                                                                     columnNumber: 49
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 897,
+                                                                lineNumber: 684,
                                                                 columnNumber: 45
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 891,
-                                                        columnNumber: 41
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                        className: "text-xs text-gray-500",
-                                                        children: "Harita yerine gösterilecek statik görsel (screenshot veya custom görsel)"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                        lineNumber: 908,
+                                                        lineNumber: 678,
                                                         columnNumber: 41
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                lineNumber: 889,
+                                                lineNumber: 676,
                                                 columnNumber: 37
                                             }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "pt-4 border-t",
-                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                                    type: "submit",
-                                                    disabled: saving,
-                                                    className: "bg-primary-pink hover:bg-pink-700",
-                                                    children: saving ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
-                                                                className: "w-4 h-4 mr-2 animate-spin"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 918,
-                                                                columnNumber: 49
-                                                            }, this),
-                                                            "Kaydediliyor..."
-                                                        ]
-                                                    }, void 0, true) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$save$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Save$3e$__["Save"], {
-                                                                className: "w-4 h-4 mr-2"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                                lineNumber: 923,
-                                                                columnNumber: 49
-                                                            }, this),
-                                                            "Kaydet"
-                                                        ]
-                                                    }, void 0, true)
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                    lineNumber: 915,
-                                                    columnNumber: 37
-                                                }, this)
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                type: "submit",
+                                                disabled: saving,
+                                                className: "bg-primary-pink hover:bg-pink-700",
+                                                children: saving ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
+                                                            className: "w-4 h-4 mr-2 animate-spin"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                                            lineNumber: 696,
+                                                            columnNumber: 49
+                                                        }, this),
+                                                        "Kaydediliyor..."
+                                                    ]
+                                                }, void 0, true) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$save$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Save$3e$__["Save"], {
+                                                            className: "w-4 h-4 mr-2"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(admin)/home/page.tsx",
+                                                            lineNumber: 696,
+                                                            columnNumber: 121
+                                                        }, this),
+                                                        "Kaydet"
+                                                    ]
+                                                }, void 0, true)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                                lineNumber: 914,
+                                                lineNumber: 695,
                                                 columnNumber: 33
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                        lineNumber: 866,
+                                        lineNumber: 653,
                                         columnNumber: 29
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(admin)/home/page.tsx",
-                                    lineNumber: 865,
+                                    lineNumber: 652,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(admin)/home/page.tsx",
-                            lineNumber: 861,
+                            lineNumber: 648,
                             columnNumber: 21
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(admin)/home/page.tsx",
-                        lineNumber: 860,
+                        lineNumber: 647,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                lineNumber: 354,
+                lineNumber: 333,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$MediaPicker$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -3306,17 +2982,17 @@ function HomeEditorPage() {
                 onSelect: handleMediaSelect
             }, void 0, false, {
                 fileName: "[project]/src/app/(admin)/home/page.tsx",
-                lineNumber: 936,
+                lineNumber: 704,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/(admin)/home/page.tsx",
-        lineNumber: 346,
+        lineNumber: 310,
         columnNumber: 9
     }, this);
 }
-_s(HomeEditorPage, "wGdlLDtHubLe0cMLGPbyAE8bCpk=", false, function() {
+_s(HomeEditorPage, "m/t6Ej4W8wOgrC+ynJeGmyjQ0oU=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$use$2d$toast$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useToast"]
     ];

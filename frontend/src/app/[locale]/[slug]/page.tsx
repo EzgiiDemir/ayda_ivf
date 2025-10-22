@@ -1,9 +1,6 @@
-'use client';
-
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { Loader2 } from 'lucide-react';
+import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 
 interface PageContent {
     id: number;
@@ -17,104 +14,78 @@ interface PageContent {
     status: string;
 }
 
-export default function SlugPage() {
-    const params = useParams();
-    const locale = params?.locale || 'tr';
-    const slug = params?.slug as string;
+// ✅ Server-side data fetching
+async function getPageContent(slug: string, locale: string): Promise<PageContent | null> {
+    try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
-    const [pageContent, setPageContent] = useState<PageContent | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+        console.log('🔍 Fetching:', `${apiUrl}/api/pages/slug/${slug}?locale=${locale}`);
 
-    useEffect(() => {
-        const fetchPageContent = async () => {
-            if (!slug) return;
-
-            try {
-                setLoading(true);
-                setError(null);
-
-                // API'den sayfa verisini çek - Public endpoint
-                const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-
-                console.log('ENV Check:', process.env.NEXT_PUBLIC_API_URL);
-                console.log('API URL:', apiUrl);
-                console.log('Fetching page:', `${apiUrl}/api/pages/slug/${slug}`);
-
-                const response = await fetch(`${apiUrl}/api/pages/slug/${slug}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const data = await response.json();
-
-                // API response format: { success: true, data: {...} }
-                if (data.success && data.data) {
-                    setPageContent(data.data);
-                } else {
-                    throw new Error('Invalid response format');
-                }
-            } catch (err: any) {
-                console.error('Page fetch error:', err);
-                setError(err.message || 'Sayfa yüklenirken hata oluştu');
-            } finally {
-                setLoading(false);
+        const response = await fetch(`${apiUrl}/api/pages/slug/${slug}?locale=${locale}`, {
+            next: { revalidate: 60 },
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
             }
+        });
+
+        console.log('📡 Response status:', response.status);
+
+        if (!response.ok) return null;
+
+        const data = await response.json();
+        console.log('✅ Data received:', data);
+
+        return data.success ? data.data : null;
+    } catch (error) {
+        console.error('❌ Page fetch error:', error);
+        return null;
+    }
+}
+
+export async function generateMetadata(
+    { params }: { params: Promise<{ slug: string; locale: string }> }
+): Promise<Metadata> {
+    const { slug, locale } = await params;
+
+    const pageContent = await getPageContent(slug, locale);
+
+    if (!pageContent) {
+        return {
+            title: 'Sayfa Bulunamadı',
+            description: 'Aradığınız sayfa bulunamadı'
         };
-
-        fetchPageContent();
-    }, [slug]);
-
-    // Loading state
-    if (loading) {
-        return (
-            <div className="flex justify-center items-center h-screen">
-                <div className="text-center">
-                    <Loader2 className="w-12 h-12 animate-spin text-primary-pink mx-auto mb-4" />
-                    <p className="text-gray-600">Sayfa yükleniyor...</p>
-                </div>
-            </div>
-        );
     }
 
-    // Error state
-    if (error || !pageContent) {
-        return (
-            <div className="flex justify-center items-center h-screen">
-                <div className="text-center">
-                    <h1 className="text-4xl font-bold text-gray-800 mb-4">404</h1>
-                    <p className="text-gray-600 mb-4">
-                        {error || 'Sayfa bulunamadı'}
-                    </p>
-                    <a
-                        href={`/${locale}`}
-                        className="text-primary-pink hover:underline"
-                    >
-                        Ana sayfaya dön
-                    </a>
-                </div>
-            </div>
-        );
+    return {
+        title: pageContent.metaTitle || pageContent.title,
+        description: pageContent.metaDescription || pageContent.subtitle,
+        openGraph: {
+            title: pageContent.metaTitle || pageContent.title,
+            description: pageContent.metaDescription || pageContent.subtitle,
+            images: [pageContent.heroImage],
+        },
+    };
+}
+
+export default async function SlugPage({
+                                           params
+                                       }: {
+    params: Promise<{ slug: string; locale: string }>
+}) {
+    const { slug, locale } = await params;
+
+    console.log('📄 Loading page:', slug, locale);
+
+    const pageContent = await getPageContent(slug, locale);
+
+    if (!pageContent) {
+        console.log('❌ Page not found:', slug, locale);
+        notFound();
     }
 
     return (
         <main className="w-full">
-            {/* SEO Meta Tags */}
-            <head>
-                <title>{pageContent.metaTitle || pageContent.title}</title>
-                <meta
-                    name="description"
-                    content={pageContent.metaDescription || pageContent.subtitle}
-                />
-            </head>
-
             {/* Hero Section */}
             <section className="w-full relative h-[60vh]">
                 <Image

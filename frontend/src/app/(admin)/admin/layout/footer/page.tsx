@@ -1,4 +1,3 @@
-// src/app/(admin)/admin/layout/footer/page.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -9,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/src/components/ui/use-toast';
-import { Loader2, Save, Plus, Trash2, Image as ImageIcon, ChevronUp, ChevronDown } from 'lucide-react';
+import { Loader2, Save, Plus, Trash2, Image as ImageIcon, ChevronUp, ChevronDown, Languages } from 'lucide-react';
 import MediaPicker from '@/src/components/MediaPicker';
 import { Switch } from '@/components/ui/switch';
 import {
@@ -36,22 +35,48 @@ interface QuickLink {
     is_active: boolean;
 }
 
-interface FooterData {
-    locale: string;
+interface FooterLocaleData {
     address_icon: string;
     address_iso_logo: string;
     address_text: string;
+    address_title: string;
     contact_icon: string;
+    contact_title: string;
     contact_phone: string;
     contact_phone_link: string;
     contact_email: string;
     contact_email_link: string;
     quick_access_icon: string;
+    quick_access_title: string;
     copyright_logo: string;
     copyright_text: string;
     social_links: SocialLink[];
     quick_links: QuickLink[];
 }
+
+interface FooterData {
+    tr: FooterLocaleData;
+    en: FooterLocaleData;
+}
+
+const DEFAULT_LOCALE_DATA: FooterLocaleData = {
+    address_icon: '',
+    address_iso_logo: '',
+    address_text: '',
+    address_title: '',
+    contact_icon: '',
+    contact_title: '',
+    contact_phone: '',
+    contact_phone_link: '',
+    contact_email: '',
+    contact_email_link: '',
+    quick_access_icon: '',
+    quick_access_title: '',
+    copyright_logo: '',
+    copyright_text: '',
+    social_links: [],
+    quick_links: [],
+};
 
 const SOCIAL_PLATFORMS = [
     { value: 'facebook', label: 'Facebook' },
@@ -65,24 +90,13 @@ export default function FooterEditorPage() {
     const { toast } = useToast();
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [activeLocale, setActiveLocale] = useState<'tr' | 'en'>('tr');
     const [showMediaPicker, setShowMediaPicker] = useState(false);
     const [mediaPickerTarget, setMediaPickerTarget] = useState<string>('');
 
     const [footerData, setFooterData] = useState<FooterData>({
-        locale: 'tr',
-        address_icon: '',
-        address_iso_logo: '',
-        address_text: '',
-        contact_icon: '',
-        contact_phone: '',
-        contact_phone_link: '',
-        contact_email: '',
-        contact_email_link: '',
-        quick_access_icon: '',
-        copyright_logo: '',
-        copyright_text: '',
-        social_links: [],
-        quick_links: [],
+        tr: { ...DEFAULT_LOCALE_DATA },
+        en: { ...DEFAULT_LOCALE_DATA },
     });
 
     useEffect(() => {
@@ -92,32 +106,45 @@ export default function FooterEditorPage() {
     const fetchData = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('/footer?locale=tr');
 
-            if (response.data.data) {
-                const data = response.data.data;
-                setFooterData({
-                    locale: 'tr',
-                    address_icon: data.address.icon || '',
-                    address_iso_logo: data.address.iso_logo || '',
-                    address_text: data.address.text || '',
-                    contact_icon: data.contact.icon || '',
-                    contact_phone: data.contact.phone || '',
-                    contact_phone_link: data.contact.phone_link || '',
-                    contact_email: data.contact.email || '',
-                    contact_email_link: data.contact.email_link || '',
-                    quick_access_icon: data.quick_access.icon || '',
-                    copyright_logo: data.copyright_logo || '',
-                    copyright_text: data.copyright_text || '',
-                    social_links: data.contact.social_links || [],
-                    quick_links: data.quick_access.links || [],
-                });
-            }
-        } catch (error: any) {
-            console.error('Fetch error:', error);
+            const [trResponse, enResponse] = await Promise.all([
+                axios.get('/footer?locale=tr'),
+                axios.get('/footer?locale=en'),
+            ]);
+
+            const processData = (data: any): FooterLocaleData => ({
+                address_icon: data.address?.icon || '',
+                address_iso_logo: data.address?.iso_logo || '',
+                address_text: data.address?.text || '',
+                address_title: data.address?.title || '',
+                contact_icon: data.contact?.icon || '',
+                contact_title: data.contact?.title || '',
+                contact_phone: data.contact?.phone || '',
+                contact_phone_link: data.contact?.phone_link || '',
+                contact_email: data.contact?.email || '',
+                contact_email_link: data.contact?.email_link || '',
+                quick_access_icon: data.quick_access?.icon || '',
+                quick_access_title: data.quick_access?.title || '',
+                copyright_logo: data.copyright_logo || '',
+                copyright_text: data.copyright_text || '',
+                social_links: data.contact?.social_links || [],
+                quick_links: data.quick_access?.links || [],
+            });
+
+            setFooterData({
+                tr: trResponse.data.data ? processData(trResponse.data.data) : { ...DEFAULT_LOCALE_DATA },
+                en: enResponse.data.data ? processData(enResponse.data.data) : { ...DEFAULT_LOCALE_DATA },
+            });
+
             toast({
-                title: 'Hata',
-                description: 'Veriler yüklenirken bir hata oluştu',
+                title: '✅ Başarılı',
+                description: 'Footer verileri yüklendi',
+            });
+        } catch (error: any) {
+            console.error('❌ Fetch error:', error);
+            toast({
+                title: '❌ Hata',
+                description: 'Veriler yüklenirken hata oluştu',
                 variant: 'destructive',
             });
         } finally {
@@ -128,38 +155,24 @@ export default function FooterEditorPage() {
     const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // ✅ BOŞ LİNKLERİ FİLTRELE
-        const cleanedData = {
-            ...footerData,
-            social_links: footerData.social_links
-                .filter(link => link.platform && link.url && link.url.trim() !== '')
-                .map((link, index) => ({
-                    ...link,
-                    url: link.url.trim(),
-                    order: index + 1
-                })),
-            quick_links: footerData.quick_links
-                .filter(link => link.label && link.label.trim() !== '' && link.href && link.href.trim() !== '')
-                .map((link, index) => ({
-                    ...link,
-                    label: link.label.trim(),
-                    href: link.href.trim(),
-                    order: index + 1
-                }))
-        };
-
         setSaving(true);
         try {
-            await axios.put('/footer', cleanedData);
-            toast({ title: 'Başarılı', description: 'Footer başarıyla güncellendi' });
+            await Promise.all([
+                axios.put('/footer', { ...footerData.tr, locale: 'tr' }),
+                axios.put('/footer', { ...footerData.en, locale: 'en' }),
+            ]);
 
-            // ✅ KAYIT SONRASI VERİYİ YENİDEN YÜKLE
+            toast({
+                title: '✅ Başarılı',
+                description: 'Footer ayarları her iki dil için kaydedildi',
+            });
+
             await fetchData();
         } catch (error: any) {
-            console.error('Save error:', error.response?.data);
+            console.error('❌ Save error:', error.response?.data);
             toast({
-                title: 'Hata',
-                description: error.response?.data?.message || 'Güncelleme başarısız',
+                title: '❌ Hata',
+                description: error.response?.data?.message || 'Kayıt sırasında hata oluştu',
                 variant: 'destructive',
             });
         } finally {
@@ -168,17 +181,20 @@ export default function FooterEditorPage() {
     };
 
     const handleMediaSelect = (url: string) => {
+        const currentData = footerData[activeLocale];
+
         if (mediaPickerTarget === 'address_icon') {
-            setFooterData({ ...footerData, address_icon: url });
+            setFooterData({ ...footerData, [activeLocale]: { ...currentData, address_icon: url } });
         } else if (mediaPickerTarget === 'address_iso_logo') {
-            setFooterData({ ...footerData, address_iso_logo: url });
+            setFooterData({ ...footerData, [activeLocale]: { ...currentData, address_iso_logo: url } });
         } else if (mediaPickerTarget === 'contact_icon') {
-            setFooterData({ ...footerData, contact_icon: url });
+            setFooterData({ ...footerData, [activeLocale]: { ...currentData, contact_icon: url } });
         } else if (mediaPickerTarget === 'quick_access_icon') {
-            setFooterData({ ...footerData, quick_access_icon: url });
+            setFooterData({ ...footerData, [activeLocale]: { ...currentData, quick_access_icon: url } });
         } else if (mediaPickerTarget === 'copyright_logo') {
-            setFooterData({ ...footerData, copyright_logo: url });
+            setFooterData({ ...footerData, [activeLocale]: { ...currentData, copyright_logo: url } });
         }
+
         setShowMediaPicker(false);
         setMediaPickerTarget('');
     };
@@ -188,66 +204,75 @@ export default function FooterEditorPage() {
         setShowMediaPicker(true);
     };
 
-    // Social Links Functions
-    const addSocialLink = () => {
+    const updateField = (field: keyof FooterLocaleData, value: any) => {
         setFooterData({
             ...footerData,
-            social_links: [
-                ...footerData.social_links,
-                { platform: 'facebook', url: '', order: footerData.social_links.length + 1, is_active: true },
-            ],
+            [activeLocale]: { ...footerData[activeLocale], [field]: value },
         });
     };
 
+    // Social Links Functions
+    const addSocialLink = () => {
+        const currentData = footerData[activeLocale];
+        updateField('social_links', [
+            ...currentData.social_links,
+            { platform: 'facebook', url: '', order: currentData.social_links.length + 1, is_active: true },
+        ]);
+    };
+
     const updateSocialLink = (index: number, field: keyof SocialLink, value: any) => {
-        const newLinks = [...footerData.social_links];
+        const currentData = footerData[activeLocale];
+        const newLinks = [...currentData.social_links];
         newLinks[index] = { ...newLinks[index], [field]: value };
-        setFooterData({ ...footerData, social_links: newLinks });
+        updateField('social_links', newLinks);
     };
 
     const removeSocialLink = (index: number) => {
-        const newLinks = footerData.social_links.filter((_, i) => i !== index);
-        setFooterData({ ...footerData, social_links: newLinks });
+        const currentData = footerData[activeLocale];
+        const newLinks = currentData.social_links.filter((_, i) => i !== index);
+        updateField('social_links', newLinks);
     };
 
     const moveSocialLink = (index: number, direction: 'up' | 'down') => {
-        const newLinks = [...footerData.social_links];
+        const currentData = footerData[activeLocale];
+        const newLinks = [...currentData.social_links];
         const newIndex = direction === 'up' ? index - 1 : index + 1;
         if (newIndex < 0 || newIndex >= newLinks.length) return;
         [newLinks[index], newLinks[newIndex]] = [newLinks[newIndex], newLinks[index]];
         newLinks.forEach((link, i) => (link.order = i + 1));
-        setFooterData({ ...footerData, social_links: newLinks });
+        updateField('social_links', newLinks);
     };
 
     // Quick Links Functions
     const addQuickLink = () => {
-        setFooterData({
-            ...footerData,
-            quick_links: [
-                ...footerData.quick_links,
-                { label: '', href: '', order: footerData.quick_links.length + 1, is_active: true },
-            ],
-        });
+        const currentData = footerData[activeLocale];
+        updateField('quick_links', [
+            ...currentData.quick_links,
+            { label: '', href: '', order: currentData.quick_links.length + 1, is_active: true },
+        ]);
     };
 
     const updateQuickLink = (index: number, field: keyof QuickLink, value: any) => {
-        const newLinks = [...footerData.quick_links];
+        const currentData = footerData[activeLocale];
+        const newLinks = [...currentData.quick_links];
         newLinks[index] = { ...newLinks[index], [field]: value };
-        setFooterData({ ...footerData, quick_links: newLinks });
+        updateField('quick_links', newLinks);
     };
 
     const removeQuickLink = (index: number) => {
-        const newLinks = footerData.quick_links.filter((_, i) => i !== index);
-        setFooterData({ ...footerData, quick_links: newLinks });
+        const currentData = footerData[activeLocale];
+        const newLinks = currentData.quick_links.filter((_, i) => i !== index);
+        updateField('quick_links', newLinks);
     };
 
     const moveQuickLink = (index: number, direction: 'up' | 'down') => {
-        const newLinks = [...footerData.quick_links];
+        const currentData = footerData[activeLocale];
+        const newLinks = [...currentData.quick_links];
         const newIndex = direction === 'up' ? index - 1 : index + 1;
         if (newIndex < 0 || newIndex >= newLinks.length) return;
         [newLinks[index], newLinks[newIndex]] = [newLinks[newIndex], newLinks[index]];
         newLinks.forEach((link, i) => (link.order = i + 1));
-        setFooterData({ ...footerData, quick_links: newLinks });
+        updateField('quick_links', newLinks);
     };
 
     if (loading) {
@@ -258,65 +283,97 @@ export default function FooterEditorPage() {
         );
     }
 
+    const currentData = footerData[activeLocale];
+
     return (
         <div className="space-y-6">
-            {/* Header */}
-            <div>
-                <h1 className="text-3xl font-bold text-primary-pink">Footer</h1>
+            <div className="flex items-center justify-between">
+                <h1 className="text-3xl font-bold text-primary-pink flex items-center gap-2">
+                    Footer
+                </h1>
+                <div className="flex gap-2">
+                    <Button
+                        variant={activeLocale === 'tr' ? 'default' : 'outline'}
+                        onClick={() => setActiveLocale('tr')}
+                        className={activeLocale === 'tr' ? 'bg-primary-pink' : ''}
+                    >
+                        🇹🇷 Türkçe
+                    </Button>
+                    <Button
+                        variant={activeLocale === 'en' ? 'default' : 'outline'}
+                        onClick={() => setActiveLocale('en')}
+                        className={activeLocale === 'en' ? 'bg-primary-pink' : ''}
+                    >
+                        🇬🇧 English
+                    </Button>
+                </div>
             </div>
 
             <Card>
                 <CardHeader>
-                    <CardTitle>Footer Ayarları</CardTitle>
+                    <CardTitle className="flex items-center gap-2">
+                        {activeLocale === 'tr' ? '🇹🇷 Türkçe' : '🇬🇧 English'} İçerik
+                    </CardTitle>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSave} className="space-y-6">
                         {/* Address Section */}
                         <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
-                            <h3 className="font-semibold text-lg">Adres Bölümü</h3>
+                            <h3 className="font-semibold text-lg">
+                                {activeLocale === 'tr' ? 'Adres Bölümü' : 'Address Section'}
+                            </h3>
+
+                            <div className="space-y-2">
+                                <Label>{activeLocale === 'tr' ? 'Bölüm Başlığı' : 'Section Title'}</Label>
+                                <Input
+                                    value={currentData.address_title}
+                                    onChange={(e) => updateField('address_title', e.target.value)}
+                                    placeholder={activeLocale === 'tr' ? 'Adres' : 'Address'}
+                                />
+                            </div>
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <Label>Adres İkonu URL</Label>
+                                    <Label>İkon URL</Label>
                                     <div className="flex gap-2">
                                         <Input
-                                            value={footerData.address_icon}
-                                            onChange={(e) => setFooterData({ ...footerData, address_icon: e.target.value })}
+                                            value={currentData.address_icon}
+                                            onChange={(e) => updateField('address_icon', e.target.value)}
                                             placeholder="https://..."
                                         />
                                         <Button type="button" variant="outline" onClick={() => openMediaPicker('address_icon')}>
                                             <ImageIcon className="w-4 h-4" />
                                         </Button>
                                     </div>
-                                    {footerData.address_icon && (
-                                        <img src={footerData.address_icon} alt="Address Icon" className="h-10 object-contain" />
+                                    {currentData.address_icon && (
+                                        <img src={currentData.address_icon} alt="Address Icon" className="h-10 object-contain" />
                                     )}
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label>ISO Logo URL</Label>
+                                    <Label>ISO Logo</Label>
                                     <div className="flex gap-2">
                                         <Input
-                                            value={footerData.address_iso_logo}
-                                            onChange={(e) => setFooterData({ ...footerData, address_iso_logo: e.target.value })}
+                                            value={currentData.address_iso_logo}
+                                            onChange={(e) => updateField('address_iso_logo', e.target.value)}
                                             placeholder="https://..."
                                         />
                                         <Button type="button" variant="outline" onClick={() => openMediaPicker('address_iso_logo')}>
                                             <ImageIcon className="w-4 h-4" />
                                         </Button>
                                     </div>
-                                    {footerData.address_iso_logo && (
-                                        <img src={footerData.address_iso_logo} alt="ISO Logo" className="h-16 object-contain" />
+                                    {currentData.address_iso_logo && (
+                                        <img src={currentData.address_iso_logo} alt="ISO Logo" className="h-16 object-contain" />
                                     )}
                                 </div>
                             </div>
 
                             <div className="space-y-2">
-                                <Label>Adres Metni</Label>
+                                <Label>{activeLocale === 'tr' ? 'Adres Metni' : 'Address Text'}</Label>
                                 <Textarea
-                                    value={footerData.address_text}
-                                    onChange={(e) => setFooterData({ ...footerData, address_text: e.target.value })}
-                                    placeholder="Adres bilgisi..."
+                                    value={currentData.address_text}
+                                    onChange={(e) => updateField('address_text', e.target.value)}
+                                    placeholder={activeLocale === 'tr' ? 'Mersin Marina, Türkiye' : 'Mersin Marina, Turkey'}
                                     rows={3}
                                 />
                             </div>
@@ -324,22 +381,33 @@ export default function FooterEditorPage() {
 
                         {/* Contact Section */}
                         <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
-                            <h3 className="font-semibold text-lg">İletişim Bölümü</h3>
+                            <h3 className="font-semibold text-lg">
+                                {activeLocale === 'tr' ? 'İletişim Bölümü' : 'Contact Section'}
+                            </h3>
 
                             <div className="space-y-2">
-                                <Label>İletişim İkonu URL</Label>
+                                <Label>{activeLocale === 'tr' ? 'Bölüm Başlığı' : 'Section Title'}</Label>
+                                <Input
+                                    value={currentData.contact_title}
+                                    onChange={(e) => updateField('contact_title', e.target.value)}
+                                    placeholder={activeLocale === 'tr' ? 'İletişim' : 'Contact'}
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label>İkon URL</Label>
                                 <div className="flex gap-2">
                                     <Input
-                                        value={footerData.contact_icon}
-                                        onChange={(e) => setFooterData({ ...footerData, contact_icon: e.target.value })}
+                                        value={currentData.contact_icon}
+                                        onChange={(e) => updateField('contact_icon', e.target.value)}
                                         placeholder="https://..."
                                     />
                                     <Button type="button" variant="outline" onClick={() => openMediaPicker('contact_icon')}>
                                         <ImageIcon className="w-4 h-4" />
                                     </Button>
                                 </div>
-                                {footerData.contact_icon && (
-                                    <img src={footerData.contact_icon} alt="Contact Icon" className="h-10 object-contain" />
+                                {currentData.contact_icon && (
+                                    <img src={currentData.contact_icon} alt="Contact Icon" className="h-10 object-contain" />
                                 )}
                             </div>
 
@@ -347,16 +415,16 @@ export default function FooterEditorPage() {
                                 <div className="space-y-2">
                                     <Label>Telefon</Label>
                                     <Input
-                                        value={footerData.contact_phone}
-                                        onChange={(e) => setFooterData({ ...footerData, contact_phone: e.target.value })}
+                                        value={currentData.contact_phone}
+                                        onChange={(e) => updateField('contact_phone', e.target.value)}
                                         placeholder="+90 533 123 4567"
                                     />
                                 </div>
                                 <div className="space-y-2">
                                     <Label>Telefon Link</Label>
                                     <Input
-                                        value={footerData.contact_phone_link}
-                                        onChange={(e) => setFooterData({ ...footerData, contact_phone_link: e.target.value })}
+                                        value={currentData.contact_phone_link}
+                                        onChange={(e) => updateField('contact_phone_link', e.target.value)}
                                         placeholder="tel:+905331234567"
                                     />
                                 </div>
@@ -367,16 +435,16 @@ export default function FooterEditorPage() {
                                     <Label>E-posta</Label>
                                     <Input
                                         type="email"
-                                        value={footerData.contact_email}
-                                        onChange={(e) => setFooterData({ ...footerData, contact_email: e.target.value })}
+                                        value={currentData.contact_email}
+                                        onChange={(e) => updateField('contact_email', e.target.value)}
                                         placeholder="info@aydaivf.com"
                                     />
                                 </div>
                                 <div className="space-y-2">
                                     <Label>E-posta Link</Label>
                                     <Input
-                                        value={footerData.contact_email_link}
-                                        onChange={(e) => setFooterData({ ...footerData, contact_email_link: e.target.value })}
+                                        value={currentData.contact_email_link}
+                                        onChange={(e) => updateField('contact_email_link', e.target.value)}
                                         placeholder="mailto:info@aydaivf.com"
                                     />
                                 </div>
@@ -385,14 +453,14 @@ export default function FooterEditorPage() {
                             {/* Social Links */}
                             <div className="space-y-3 mt-6">
                                 <div className="flex items-center justify-between">
-                                    <Label className="text-base font-semibold">Sosyal Medya Linkleri</Label>
+                                    <Label className="text-base font-semibold">Sosyal Medya</Label>
                                     <Button type="button" size="sm" onClick={addSocialLink} variant="outline">
                                         <Plus className="w-4 h-4 mr-2" />
                                         Yeni Ekle
                                     </Button>
                                 </div>
 
-                                {footerData.social_links.map((link, index) => (
+                                {currentData.social_links.map((link, index) => (
                                     <Card key={index} className="p-4 border-2">
                                         <div className="space-y-3">
                                             <div className="flex items-center justify-between">
@@ -412,7 +480,7 @@ export default function FooterEditorPage() {
                                                         size="sm"
                                                         variant="outline"
                                                         onClick={() => moveSocialLink(index, 'down')}
-                                                        disabled={index === footerData.social_links.length - 1}
+                                                        disabled={index === currentData.social_links.length - 1}
                                                     >
                                                         <ChevronDown className="w-4 h-4" />
                                                     </Button>
@@ -430,7 +498,7 @@ export default function FooterEditorPage() {
                                                         onValueChange={(value) => updateSocialLink(index, 'platform', value)}
                                                     >
                                                         <SelectTrigger>
-                                                            <SelectValue placeholder="Platform seçin" />
+                                                            <SelectValue placeholder="Seçin" />
                                                         </SelectTrigger>
                                                         <SelectContent>
                                                             {SOCIAL_PLATFORMS.map((platform) => (
@@ -447,7 +515,6 @@ export default function FooterEditorPage() {
                                                         value={link.url}
                                                         onChange={(e) => updateSocialLink(index, 'url', e.target.value)}
                                                         placeholder="https://facebook.com/..."
-                                                        className={!link.url || link.url.trim() === '' ? 'border-red-500' : ''}
                                                     />
                                                 </div>
                                             </div>
@@ -467,35 +534,47 @@ export default function FooterEditorPage() {
 
                         {/* Quick Access Section */}
                         <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
-                            <h3 className="font-semibold text-lg">Hızlı Erişim Bölümü</h3>
+                            <h3 className="font-semibold text-lg">
+                                {activeLocale === 'tr' ? 'Hızlı Erişim Bölümü' : 'Quick Access Section'}
+                            </h3>
 
                             <div className="space-y-2">
-                                <Label>Hızlı Erişim İkonu URL</Label>
+                                <Label>{activeLocale === 'tr' ? 'Bölüm Başlığı' : 'Section Title'}</Label>
+                                <Input
+                                    value={currentData.quick_access_title}
+                                    onChange={(e) => updateField('quick_access_title', e.target.value)}
+                                    placeholder={activeLocale === 'tr' ? 'Hızlı Erişim' : 'Quick Access'}
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label>İkon URL</Label>
                                 <div className="flex gap-2">
                                     <Input
-                                        value={footerData.quick_access_icon}
-                                        onChange={(e) => setFooterData({ ...footerData, quick_access_icon: e.target.value })}
+                                        value={currentData.quick_access_icon}
+                                        onChange={(e) => updateField('quick_access_icon', e.target.value)}
                                         placeholder="https://..."
                                     />
                                     <Button type="button" variant="outline" onClick={() => openMediaPicker('quick_access_icon')}>
                                         <ImageIcon className="w-4 h-4" />
                                     </Button>
                                 </div>
-                                {footerData.quick_access_icon && (
-                                    <img src={footerData.quick_access_icon} alt="Quick Access Icon" className="h-10 object-contain" />
+                                {currentData.quick_access_icon && (
+                                    <img src={currentData.quick_access_icon} alt="Quick Access Icon" className="h-10 object-contain" />
                                 )}
                             </div>
 
+                            {/* Quick Links */}
                             <div className="space-y-3 mt-6">
                                 <div className="flex items-center justify-between">
-                                    <Label className="text-base font-semibold">Hızlı Erişim Linkleri</Label>
+                                    <Label className="text-base font-semibold">Linkler</Label>
                                     <Button type="button" size="sm" onClick={addQuickLink} variant="outline">
                                         <Plus className="w-4 h-4 mr-2" />
-                                        Yeni Link Ekle
+                                        Yeni Link
                                     </Button>
                                 </div>
 
-                                {footerData.quick_links.map((link, index) => (
+                                {currentData.quick_links.map((link, index) => (
                                     <Card key={index} className="p-4 border-2">
                                         <div className="space-y-3">
                                             <div className="flex items-center justify-between">
@@ -515,7 +594,7 @@ export default function FooterEditorPage() {
                                                         size="sm"
                                                         variant="outline"
                                                         onClick={() => moveQuickLink(index, 'down')}
-                                                        disabled={index === footerData.quick_links.length - 1}
+                                                        disabled={index === currentData.quick_links.length - 1}
                                                     >
                                                         <ChevronDown className="w-4 h-4" />
                                                     </Button>
@@ -527,12 +606,11 @@ export default function FooterEditorPage() {
 
                                             <div className="grid grid-cols-2 gap-3">
                                                 <div className="space-y-2">
-                                                    <Label>Label (Translation Key) *</Label>
+                                                    <Label>Etiket *</Label>
                                                     <Input
                                                         value={link.label}
                                                         onChange={(e) => updateQuickLink(index, 'label', e.target.value)}
-                                                        placeholder="home"
-                                                        className={!link.label || link.label.trim() === '' ? 'border-red-500' : ''}
+                                                        placeholder={activeLocale === 'tr' ? 'Ana Sayfa' : 'Home'}
                                                     />
                                                 </div>
                                                 <div className="space-y-2">
@@ -541,7 +619,6 @@ export default function FooterEditorPage() {
                                                         value={link.href}
                                                         onChange={(e) => updateQuickLink(index, 'href', e.target.value)}
                                                         placeholder="/"
-                                                        className={!link.href || link.href.trim() === '' ? 'border-red-500' : ''}
                                                     />
                                                 </div>
                                             </div>
@@ -561,37 +638,38 @@ export default function FooterEditorPage() {
 
                         {/* Copyright Section */}
                         <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
-                            <h3 className="font-semibold text-lg">Copyright Bölümü</h3>
+                            <h3 className="font-semibold text-lg">
+                                {activeLocale === 'tr' ? 'Telif Hakkı Bölümü' : 'Copyright Section'}
+                            </h3>
 
                             <div className="space-y-2">
-                                <Label>Copyright Logo URL</Label>
+                                <Label>Logo</Label>
                                 <div className="flex gap-2">
                                     <Input
-                                        value={footerData.copyright_logo}
-                                        onChange={(e) => setFooterData({ ...footerData, copyright_logo: e.target.value })}
+                                        value={currentData.copyright_logo}
+                                        onChange={(e) => updateField('copyright_logo', e.target.value)}
                                         placeholder="https://..."
                                     />
                                     <Button type="button" variant="outline" onClick={() => openMediaPicker('copyright_logo')}>
                                         <ImageIcon className="w-4 h-4" />
                                     </Button>
                                 </div>
-                                {footerData.copyright_logo && (
-                                    <img src={footerData.copyright_logo} alt="Copyright Logo" className="h-6 object-contain bg-gray-800 p-2" />
+                                {currentData.copyright_logo && (
+                                    <img src={currentData.copyright_logo} alt="Copyright Logo" className="h-6 object-contain bg-gray-800 p-2" />
                                 )}
                             </div>
 
                             <div className="space-y-2">
-                                <Label>Copyright Metni</Label>
+                                <Label>{activeLocale === 'tr' ? 'Telif Hakkı Metni' : 'Copyright Text'}</Label>
                                 <Input
-                                    value={footerData.copyright_text}
-                                    onChange={(e) => setFooterData({ ...footerData, copyright_text: e.target.value })}
-                                    placeholder="© 2024 Ayda IVF. Tüm hakları saklıdır."
+                                    value={currentData.copyright_text}
+                                    onChange={(e) => updateField('copyright_text', e.target.value)}
+                                    placeholder={activeLocale === 'tr' ? '© 2024 Ayda IVF - Tüm Hakları Saklıdır' : '© 2024 Ayda IVF - All Rights Reserved'}
                                 />
                             </div>
                         </div>
 
-                        {/* Save Button */}
-                        <div className="pt-4 border-t">
+                        <div className="pt-4 border-t flex gap-4">
                             <Button type="submit" disabled={saving} className="bg-primary-pink hover:bg-pink-700">
                                 {saving ? (
                                     <>
@@ -601,16 +679,21 @@ export default function FooterEditorPage() {
                                 ) : (
                                     <>
                                         <Save className="w-4 h-4 mr-2" />
-                                        Kaydet
+                                        Her İki Dili Kaydet
                                     </>
                                 )}
                             </Button>
+
+                            <div className="flex items-center gap-2 text-sm text-gray-600">
+                                <span>🇹🇷 TR: {footerData.tr.social_links.length} sosyal, {footerData.tr.quick_links.length} link</span>
+                                <span>•</span>
+                                <span>🇬🇧 EN: {footerData.en.social_links.length} sosyal, {footerData.en.quick_links.length} link</span>
+                            </div>
                         </div>
                     </form>
                 </CardContent>
             </Card>
 
-            {/* Media Picker */}
             <MediaPicker open={showMediaPicker} onOpenChange={setShowMediaPicker} onSelect={handleMediaSelect} />
         </div>
     );

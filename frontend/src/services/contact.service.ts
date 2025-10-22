@@ -1,4 +1,3 @@
-// src/services/contact.service.ts
 import axios, { AxiosError } from 'axios';
 import { ContactConfig, ContactFormData, ContactApiResponse, ContactSubmitResponse } from '@/src/types/contact.types';
 import { CONTACT_API_CONFIG, CONTACT_CACHE_CONFIG, DEFAULT_CONTACT_CONFIG } from '@/src/config/contact.config';

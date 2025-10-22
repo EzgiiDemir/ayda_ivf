@@ -1310,7 +1310,6 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 
 var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, k: __turbopack_refresh__, m: module, z: __turbopack_require_stub__ } = __turbopack_context__;
 {
-// src/app/(admin)/admin/layout/footer/page.tsx
 __turbopack_esm__({
     "default": (()=>FooterEditorPage)
 });
@@ -1348,6 +1347,24 @@ var _s = __turbopack_refresh__.signature();
 ;
 ;
 ;
+const DEFAULT_LOCALE_DATA = {
+    address_icon: '',
+    address_iso_logo: '',
+    address_text: '',
+    address_title: '',
+    contact_icon: '',
+    contact_title: '',
+    contact_phone: '',
+    contact_phone_link: '',
+    contact_email: '',
+    contact_email_link: '',
+    quick_access_icon: '',
+    quick_access_title: '',
+    copyright_logo: '',
+    copyright_text: '',
+    social_links: [],
+    quick_links: []
+};
 const SOCIAL_PLATFORMS = [
     {
         value: 'facebook',
@@ -1375,23 +1392,16 @@ function FooterEditorPage() {
     const { toast } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$use$2d$toast$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useToast"])();
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     const [saving, setSaving] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [activeLocale, setActiveLocale] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('tr');
     const [showMediaPicker, setShowMediaPicker] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [mediaPickerTarget, setMediaPickerTarget] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
     const [footerData, setFooterData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
-        locale: 'tr',
-        address_icon: '',
-        address_iso_logo: '',
-        address_text: '',
-        contact_icon: '',
-        contact_phone: '',
-        contact_phone_link: '',
-        contact_email: '',
-        contact_email_link: '',
-        quick_access_icon: '',
-        copyright_logo: '',
-        copyright_text: '',
-        social_links: [],
-        quick_links: []
+        tr: {
+            ...DEFAULT_LOCALE_DATA
+        },
+        en: {
+            ...DEFAULT_LOCALE_DATA
+        }
     });
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "FooterEditorPage.useEffect": ()=>{
@@ -1401,31 +1411,45 @@ function FooterEditorPage() {
     const fetchData = async ()=>{
         try {
             setLoading(true);
-            const response = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get('/footer?locale=tr');
-            if (response.data.data) {
-                const data = response.data.data;
-                setFooterData({
-                    locale: 'tr',
-                    address_icon: data.address.icon || '',
-                    address_iso_logo: data.address.iso_logo || '',
-                    address_text: data.address.text || '',
-                    contact_icon: data.contact.icon || '',
-                    contact_phone: data.contact.phone || '',
-                    contact_phone_link: data.contact.phone_link || '',
-                    contact_email: data.contact.email || '',
-                    contact_email_link: data.contact.email_link || '',
-                    quick_access_icon: data.quick_access.icon || '',
+            const [trResponse, enResponse] = await Promise.all([
+                __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get('/footer?locale=tr'),
+                __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get('/footer?locale=en')
+            ]);
+            const processData = (data)=>({
+                    address_icon: data.address?.icon || '',
+                    address_iso_logo: data.address?.iso_logo || '',
+                    address_text: data.address?.text || '',
+                    address_title: data.address?.title || '',
+                    contact_icon: data.contact?.icon || '',
+                    contact_title: data.contact?.title || '',
+                    contact_phone: data.contact?.phone || '',
+                    contact_phone_link: data.contact?.phone_link || '',
+                    contact_email: data.contact?.email || '',
+                    contact_email_link: data.contact?.email_link || '',
+                    quick_access_icon: data.quick_access?.icon || '',
+                    quick_access_title: data.quick_access?.title || '',
                     copyright_logo: data.copyright_logo || '',
                     copyright_text: data.copyright_text || '',
-                    social_links: data.contact.social_links || [],
-                    quick_links: data.quick_access.links || []
+                    social_links: data.contact?.social_links || [],
+                    quick_links: data.quick_access?.links || []
                 });
-            }
-        } catch (error) {
-            console.error('Fetch error:', error);
+            setFooterData({
+                tr: trResponse.data.data ? processData(trResponse.data.data) : {
+                    ...DEFAULT_LOCALE_DATA
+                },
+                en: enResponse.data.data ? processData(enResponse.data.data) : {
+                    ...DEFAULT_LOCALE_DATA
+                }
+            });
             toast({
-                title: 'Hata',
-                description: 'Veriler yüklenirken bir hata oluştu',
+                title: '✅ Başarılı',
+                description: 'Footer verileri yüklendi'
+            });
+        } catch (error) {
+            console.error('❌ Fetch error:', error);
+            toast({
+                title: '❌ Hata',
+                description: 'Veriler yüklenirken hata oluştu',
                 variant: 'destructive'
             });
         } finally{
@@ -1434,35 +1458,28 @@ function FooterEditorPage() {
     };
     const handleSave = async (e)=>{
         e.preventDefault();
-        // ✅ BOŞ LİNKLERİ FİLTRELE
-        const cleanedData = {
-            ...footerData,
-            social_links: footerData.social_links.filter((link)=>link.platform && link.url && link.url.trim() !== '').map((link, index)=>({
-                    ...link,
-                    url: link.url.trim(),
-                    order: index + 1
-                })),
-            quick_links: footerData.quick_links.filter((link)=>link.label && link.label.trim() !== '' && link.href && link.href.trim() !== '').map((link, index)=>({
-                    ...link,
-                    label: link.label.trim(),
-                    href: link.href.trim(),
-                    order: index + 1
-                }))
-        };
         setSaving(true);
         try {
-            await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].put('/footer', cleanedData);
+            await Promise.all([
+                __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].put('/footer', {
+                    ...footerData.tr,
+                    locale: 'tr'
+                }),
+                __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].put('/footer', {
+                    ...footerData.en,
+                    locale: 'en'
+                })
+            ]);
             toast({
-                title: 'Başarılı',
-                description: 'Footer başarıyla güncellendi'
+                title: '✅ Başarılı',
+                description: 'Footer ayarları her iki dil için kaydedildi'
             });
-            // ✅ KAYIT SONRASI VERİYİ YENİDEN YÜKLE
             await fetchData();
         } catch (error) {
-            console.error('Save error:', error.response?.data);
+            console.error('❌ Save error:', error.response?.data);
             toast({
-                title: 'Hata',
-                description: error.response?.data?.message || 'Güncelleme başarısız',
+                title: '❌ Hata',
+                description: error.response?.data?.message || 'Kayıt sırasında hata oluştu',
                 variant: 'destructive'
             });
         } finally{
@@ -1470,30 +1487,46 @@ function FooterEditorPage() {
         }
     };
     const handleMediaSelect = (url)=>{
+        const currentData = footerData[activeLocale];
         if (mediaPickerTarget === 'address_icon') {
             setFooterData({
                 ...footerData,
-                address_icon: url
+                [activeLocale]: {
+                    ...currentData,
+                    address_icon: url
+                }
             });
         } else if (mediaPickerTarget === 'address_iso_logo') {
             setFooterData({
                 ...footerData,
-                address_iso_logo: url
+                [activeLocale]: {
+                    ...currentData,
+                    address_iso_logo: url
+                }
             });
         } else if (mediaPickerTarget === 'contact_icon') {
             setFooterData({
                 ...footerData,
-                contact_icon: url
+                [activeLocale]: {
+                    ...currentData,
+                    contact_icon: url
+                }
             });
         } else if (mediaPickerTarget === 'quick_access_icon') {
             setFooterData({
                 ...footerData,
-                quick_access_icon: url
+                [activeLocale]: {
+                    ...currentData,
+                    quick_access_icon: url
+                }
             });
         } else if (mediaPickerTarget === 'copyright_logo') {
             setFooterData({
                 ...footerData,
-                copyright_logo: url
+                [activeLocale]: {
+                    ...currentData,
+                    copyright_logo: url
+                }
             });
         }
         setShowMediaPicker(false);
@@ -1503,44 +1536,48 @@ function FooterEditorPage() {
         setMediaPickerTarget(target);
         setShowMediaPicker(true);
     };
-    // Social Links Functions
-    const addSocialLink = ()=>{
+    const updateField = (field, value)=>{
         setFooterData({
             ...footerData,
-            social_links: [
-                ...footerData.social_links,
-                {
-                    platform: 'facebook',
-                    url: '',
-                    order: footerData.social_links.length + 1,
-                    is_active: true
-                }
-            ]
+            [activeLocale]: {
+                ...footerData[activeLocale],
+                [field]: value
+            }
         });
     };
+    // Social Links Functions
+    const addSocialLink = ()=>{
+        const currentData = footerData[activeLocale];
+        updateField('social_links', [
+            ...currentData.social_links,
+            {
+                platform: 'facebook',
+                url: '',
+                order: currentData.social_links.length + 1,
+                is_active: true
+            }
+        ]);
+    };
     const updateSocialLink = (index, field, value)=>{
+        const currentData = footerData[activeLocale];
         const newLinks = [
-            ...footerData.social_links
+            ...currentData.social_links
         ];
         newLinks[index] = {
             ...newLinks[index],
             [field]: value
         };
-        setFooterData({
-            ...footerData,
-            social_links: newLinks
-        });
+        updateField('social_links', newLinks);
     };
     const removeSocialLink = (index)=>{
-        const newLinks = footerData.social_links.filter((_, i)=>i !== index);
-        setFooterData({
-            ...footerData,
-            social_links: newLinks
-        });
+        const currentData = footerData[activeLocale];
+        const newLinks = currentData.social_links.filter((_, i)=>i !== index);
+        updateField('social_links', newLinks);
     };
     const moveSocialLink = (index, direction)=>{
+        const currentData = footerData[activeLocale];
         const newLinks = [
-            ...footerData.social_links
+            ...currentData.social_links
         ];
         const newIndex = direction === 'up' ? index - 1 : index + 1;
         if (newIndex < 0 || newIndex >= newLinks.length) return;
@@ -1549,49 +1586,41 @@ function FooterEditorPage() {
             newLinks[index]
         ];
         newLinks.forEach((link, i)=>link.order = i + 1);
-        setFooterData({
-            ...footerData,
-            social_links: newLinks
-        });
+        updateField('social_links', newLinks);
     };
     // Quick Links Functions
     const addQuickLink = ()=>{
-        setFooterData({
-            ...footerData,
-            quick_links: [
-                ...footerData.quick_links,
-                {
-                    label: '',
-                    href: '',
-                    order: footerData.quick_links.length + 1,
-                    is_active: true
-                }
-            ]
-        });
+        const currentData = footerData[activeLocale];
+        updateField('quick_links', [
+            ...currentData.quick_links,
+            {
+                label: '',
+                href: '',
+                order: currentData.quick_links.length + 1,
+                is_active: true
+            }
+        ]);
     };
     const updateQuickLink = (index, field, value)=>{
+        const currentData = footerData[activeLocale];
         const newLinks = [
-            ...footerData.quick_links
+            ...currentData.quick_links
         ];
         newLinks[index] = {
             ...newLinks[index],
             [field]: value
         };
-        setFooterData({
-            ...footerData,
-            quick_links: newLinks
-        });
+        updateField('quick_links', newLinks);
     };
     const removeQuickLink = (index)=>{
-        const newLinks = footerData.quick_links.filter((_, i)=>i !== index);
-        setFooterData({
-            ...footerData,
-            quick_links: newLinks
-        });
+        const currentData = footerData[activeLocale];
+        const newLinks = currentData.quick_links.filter((_, i)=>i !== index);
+        updateField('quick_links', newLinks);
     };
     const moveQuickLink = (index, direction)=>{
+        const currentData = footerData[activeLocale];
         const newLinks = [
-            ...footerData.quick_links
+            ...currentData.quick_links
         ];
         const newIndex = direction === 'up' ? index - 1 : index + 1;
         if (newIndex < 0 || newIndex >= newLinks.length) return;
@@ -1600,10 +1629,7 @@ function FooterEditorPage() {
             newLinks[index]
         ];
         newLinks.forEach((link, i)=>link.order = i + 1);
-        setFooterData({
-            ...footerData,
-            quick_links: newLinks
-        });
+        updateField('quick_links', newLinks);
     };
     if (loading) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1612,45 +1638,82 @@ function FooterEditorPage() {
                 className: "h-12 w-12 animate-spin text-primary-pink"
             }, void 0, false, {
                 fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                lineNumber: 256,
+                lineNumber: 281,
                 columnNumber: 17
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-            lineNumber: 255,
+            lineNumber: 280,
             columnNumber: 13
         }, this);
     }
+    const currentData = footerData[activeLocale];
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "space-y-6",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                    className: "text-3xl font-bold text-primary-pink",
-                    children: "Footer"
-                }, void 0, false, {
-                    fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                    lineNumber: 265,
-                    columnNumber: 17
-                }, this)
-            }, void 0, false, {
+                className: "flex items-center justify-between",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                        className: "text-3xl font-bold text-primary-pink flex items-center gap-2",
+                        children: "Footer"
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
+                        lineNumber: 291,
+                        columnNumber: 17
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex gap-2",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                variant: activeLocale === 'tr' ? 'default' : 'outline',
+                                onClick: ()=>setActiveLocale('tr'),
+                                className: activeLocale === 'tr' ? 'bg-primary-pink' : '',
+                                children: "🇹🇷 Türkçe"
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
+                                lineNumber: 295,
+                                columnNumber: 21
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                variant: activeLocale === 'en' ? 'default' : 'outline',
+                                onClick: ()=>setActiveLocale('en'),
+                                className: activeLocale === 'en' ? 'bg-primary-pink' : '',
+                                children: "🇬🇧 English"
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
+                                lineNumber: 302,
+                                columnNumber: 21
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
+                        lineNumber: 294,
+                        columnNumber: 17
+                    }, this)
+                ]
+            }, void 0, true, {
                 fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                lineNumber: 264,
+                lineNumber: 290,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardHeader"], {
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardTitle"], {
-                            children: "Footer Ayarları"
-                        }, void 0, false, {
+                            className: "flex items-center gap-2",
+                            children: [
+                                activeLocale === 'tr' ? '🇹🇷 Türkçe' : '🇬🇧 English',
+                                " İçerik"
+                            ]
+                        }, void 0, true, {
                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                            lineNumber: 270,
+                            lineNumber: 314,
                             columnNumber: 21
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                        lineNumber: 269,
+                        lineNumber: 313,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1663,10 +1726,35 @@ function FooterEditorPage() {
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
                                             className: "font-semibold text-lg",
-                                            children: "Adres Bölümü"
+                                            children: activeLocale === 'tr' ? 'Adres Bölümü' : 'Address Section'
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                            lineNumber: 276,
+                                            lineNumber: 322,
+                                            columnNumber: 29
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "space-y-2",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
+                                                    children: activeLocale === 'tr' ? 'Bölüm Başlığı' : 'Section Title'
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
+                                                    lineNumber: 327,
+                                                    columnNumber: 33
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                    value: currentData.address_title,
+                                                    onChange: (e)=>updateField('address_title', e.target.value),
+                                                    placeholder: activeLocale === 'tr' ? 'Adres' : 'Address'
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
+                                                    lineNumber: 328,
+                                                    columnNumber: 33
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
+                                            lineNumber: 326,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1676,25 +1764,22 @@ function FooterEditorPage() {
                                                     className: "space-y-2",
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                            children: "Adres İkonu URL"
+                                                            children: "İkon URL"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 280,
+                                                            lineNumber: 337,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                             className: "flex gap-2",
                                                             children: [
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                    value: footerData.address_icon,
-                                                                    onChange: (e)=>setFooterData({
-                                                                            ...footerData,
-                                                                            address_icon: e.target.value
-                                                                        }),
+                                                                    value: currentData.address_icon,
+                                                                    onChange: (e)=>updateField('address_icon', e.target.value),
                                                                     placeholder: "https://..."
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                    lineNumber: 282,
+                                                                    lineNumber: 339,
                                                                     columnNumber: 41
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1705,58 +1790,55 @@ function FooterEditorPage() {
                                                                         className: "w-4 h-4"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                        lineNumber: 288,
+                                                                        lineNumber: 345,
                                                                         columnNumber: 45
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                    lineNumber: 287,
+                                                                    lineNumber: 344,
                                                                     columnNumber: 41
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 281,
+                                                            lineNumber: 338,
                                                             columnNumber: 37
                                                         }, this),
-                                                        footerData.address_icon && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                                            src: footerData.address_icon,
+                                                        currentData.address_icon && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                                            src: currentData.address_icon,
                                                             alt: "Address Icon",
                                                             className: "h-10 object-contain"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 292,
+                                                            lineNumber: 349,
                                                             columnNumber: 41
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 279,
+                                                    lineNumber: 336,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: "space-y-2",
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                            children: "ISO Logo URL"
+                                                            children: "ISO Logo"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 297,
+                                                            lineNumber: 354,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                             className: "flex gap-2",
                                                             children: [
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                    value: footerData.address_iso_logo,
-                                                                    onChange: (e)=>setFooterData({
-                                                                            ...footerData,
-                                                                            address_iso_logo: e.target.value
-                                                                        }),
+                                                                    value: currentData.address_iso_logo,
+                                                                    onChange: (e)=>updateField('address_iso_logo', e.target.value),
                                                                     placeholder: "https://..."
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                    lineNumber: 299,
+                                                                    lineNumber: 356,
                                                                     columnNumber: 41
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1767,74 +1849,71 @@ function FooterEditorPage() {
                                                                         className: "w-4 h-4"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                        lineNumber: 305,
+                                                                        lineNumber: 362,
                                                                         columnNumber: 45
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                    lineNumber: 304,
+                                                                    lineNumber: 361,
                                                                     columnNumber: 41
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 298,
+                                                            lineNumber: 355,
                                                             columnNumber: 37
                                                         }, this),
-                                                        footerData.address_iso_logo && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                                            src: footerData.address_iso_logo,
+                                                        currentData.address_iso_logo && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                                            src: currentData.address_iso_logo,
                                                             alt: "ISO Logo",
                                                             className: "h-16 object-contain"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 309,
+                                                            lineNumber: 366,
                                                             columnNumber: 41
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 296,
+                                                    lineNumber: 353,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                            lineNumber: 278,
+                                            lineNumber: 335,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "space-y-2",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                    children: "Adres Metni"
+                                                    children: activeLocale === 'tr' ? 'Adres Metni' : 'Address Text'
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 315,
+                                                    lineNumber: 372,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
-                                                    value: footerData.address_text,
-                                                    onChange: (e)=>setFooterData({
-                                                            ...footerData,
-                                                            address_text: e.target.value
-                                                        }),
-                                                    placeholder: "Adres bilgisi...",
+                                                    value: currentData.address_text,
+                                                    onChange: (e)=>updateField('address_text', e.target.value),
+                                                    placeholder: activeLocale === 'tr' ? 'Mersin Marina, Türkiye' : 'Mersin Marina, Turkey',
                                                     rows: 3
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 316,
+                                                    lineNumber: 373,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                            lineNumber: 314,
+                                            lineNumber: 371,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                    lineNumber: 275,
+                                    lineNumber: 321,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1842,35 +1921,57 @@ function FooterEditorPage() {
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
                                             className: "font-semibold text-lg",
-                                            children: "İletişim Bölümü"
+                                            children: activeLocale === 'tr' ? 'İletişim Bölümü' : 'Contact Section'
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                            lineNumber: 327,
+                                            lineNumber: 384,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "space-y-2",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                    children: "İletişim İkonu URL"
+                                                    children: activeLocale === 'tr' ? 'Bölüm Başlığı' : 'Section Title'
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 330,
+                                                    lineNumber: 389,
+                                                    columnNumber: 33
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                    value: currentData.contact_title,
+                                                    onChange: (e)=>updateField('contact_title', e.target.value),
+                                                    placeholder: activeLocale === 'tr' ? 'İletişim' : 'Contact'
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
+                                                    lineNumber: 390,
+                                                    columnNumber: 33
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
+                                            lineNumber: 388,
+                                            columnNumber: 29
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "space-y-2",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
+                                                    children: "İkon URL"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
+                                                    lineNumber: 398,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: "flex gap-2",
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                            value: footerData.contact_icon,
-                                                            onChange: (e)=>setFooterData({
-                                                                    ...footerData,
-                                                                    contact_icon: e.target.value
-                                                                }),
+                                                            value: currentData.contact_icon,
+                                                            onChange: (e)=>updateField('contact_icon', e.target.value),
                                                             placeholder: "https://..."
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 332,
+                                                            lineNumber: 400,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1881,33 +1982,33 @@ function FooterEditorPage() {
                                                                 className: "w-4 h-4"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                lineNumber: 338,
+                                                                lineNumber: 406,
                                                                 columnNumber: 41
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 337,
+                                                            lineNumber: 405,
                                                             columnNumber: 37
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 331,
+                                                    lineNumber: 399,
                                                     columnNumber: 33
                                                 }, this),
-                                                footerData.contact_icon && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                                    src: footerData.contact_icon,
+                                                currentData.contact_icon && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                                    src: currentData.contact_icon,
                                                     alt: "Contact Icon",
                                                     className: "h-10 object-contain"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 342,
+                                                    lineNumber: 410,
                                                     columnNumber: 37
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                            lineNumber: 329,
+                                            lineNumber: 397,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1920,25 +2021,22 @@ function FooterEditorPage() {
                                                             children: "Telefon"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 348,
+                                                            lineNumber: 416,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                            value: footerData.contact_phone,
-                                                            onChange: (e)=>setFooterData({
-                                                                    ...footerData,
-                                                                    contact_phone: e.target.value
-                                                                }),
+                                                            value: currentData.contact_phone,
+                                                            onChange: (e)=>updateField('contact_phone', e.target.value),
                                                             placeholder: "+90 533 123 4567"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 349,
+                                                            lineNumber: 417,
                                                             columnNumber: 37
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 347,
+                                                    lineNumber: 415,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1948,31 +2046,28 @@ function FooterEditorPage() {
                                                             children: "Telefon Link"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 356,
+                                                            lineNumber: 424,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                            value: footerData.contact_phone_link,
-                                                            onChange: (e)=>setFooterData({
-                                                                    ...footerData,
-                                                                    contact_phone_link: e.target.value
-                                                                }),
+                                                            value: currentData.contact_phone_link,
+                                                            onChange: (e)=>updateField('contact_phone_link', e.target.value),
                                                             placeholder: "tel:+905331234567"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 357,
+                                                            lineNumber: 425,
                                                             columnNumber: 37
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 355,
+                                                    lineNumber: 423,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                            lineNumber: 346,
+                                            lineNumber: 414,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1985,26 +2080,23 @@ function FooterEditorPage() {
                                                             children: "E-posta"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 367,
+                                                            lineNumber: 435,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
                                                             type: "email",
-                                                            value: footerData.contact_email,
-                                                            onChange: (e)=>setFooterData({
-                                                                    ...footerData,
-                                                                    contact_email: e.target.value
-                                                                }),
+                                                            value: currentData.contact_email,
+                                                            onChange: (e)=>updateField('contact_email', e.target.value),
                                                             placeholder: "info@aydaivf.com"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 368,
+                                                            lineNumber: 436,
                                                             columnNumber: 37
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 366,
+                                                    lineNumber: 434,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2014,31 +2106,28 @@ function FooterEditorPage() {
                                                             children: "E-posta Link"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 376,
+                                                            lineNumber: 444,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                            value: footerData.contact_email_link,
-                                                            onChange: (e)=>setFooterData({
-                                                                    ...footerData,
-                                                                    contact_email_link: e.target.value
-                                                                }),
+                                                            value: currentData.contact_email_link,
+                                                            onChange: (e)=>updateField('contact_email_link', e.target.value),
                                                             placeholder: "mailto:info@aydaivf.com"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 377,
+                                                            lineNumber: 445,
                                                             columnNumber: 37
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 375,
+                                                    lineNumber: 443,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                            lineNumber: 365,
+                                            lineNumber: 433,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2049,10 +2138,10 @@ function FooterEditorPage() {
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
                                                             className: "text-base font-semibold",
-                                                            children: "Sosyal Medya Linkleri"
+                                                            children: "Sosyal Medya"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 388,
+                                                            lineNumber: 456,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2065,23 +2154,23 @@ function FooterEditorPage() {
                                                                     className: "w-4 h-4 mr-2"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                    lineNumber: 390,
+                                                                    lineNumber: 458,
                                                                     columnNumber: 41
                                                                 }, this),
                                                                 "Yeni Ekle"
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 389,
+                                                            lineNumber: 457,
                                                             columnNumber: 37
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 387,
+                                                    lineNumber: 455,
                                                     columnNumber: 33
                                                 }, this),
-                                                footerData.social_links.map((link, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
+                                                currentData.social_links.map((link, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
                                                         className: "p-4 border-2",
                                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                             className: "space-y-3",
@@ -2097,7 +2186,7 @@ function FooterEditorPage() {
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                            lineNumber: 399,
+                                                                            lineNumber: 467,
                                                                             columnNumber: 49
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2113,12 +2202,12 @@ function FooterEditorPage() {
                                                                                         className: "w-4 h-4"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                        lineNumber: 408,
+                                                                                        lineNumber: 476,
                                                                                         columnNumber: 57
                                                                                     }, this)
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                    lineNumber: 401,
+                                                                                    lineNumber: 469,
                                                                                     columnNumber: 53
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2126,17 +2215,17 @@ function FooterEditorPage() {
                                                                                     size: "sm",
                                                                                     variant: "outline",
                                                                                     onClick: ()=>moveSocialLink(index, 'down'),
-                                                                                    disabled: index === footerData.social_links.length - 1,
+                                                                                    disabled: index === currentData.social_links.length - 1,
                                                                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
                                                                                         className: "w-4 h-4"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                        lineNumber: 417,
+                                                                                        lineNumber: 485,
                                                                                         columnNumber: 57
                                                                                     }, this)
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                    lineNumber: 410,
+                                                                                    lineNumber: 478,
                                                                                     columnNumber: 53
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2148,24 +2237,24 @@ function FooterEditorPage() {
                                                                                         className: "w-4 h-4"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                        lineNumber: 420,
+                                                                                        lineNumber: 488,
                                                                                         columnNumber: 57
                                                                                     }, this)
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                    lineNumber: 419,
+                                                                                    lineNumber: 487,
                                                                                     columnNumber: 53
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                            lineNumber: 400,
+                                                                            lineNumber: 468,
                                                                             columnNumber: 49
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                    lineNumber: 398,
+                                                                    lineNumber: 466,
                                                                     columnNumber: 45
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2178,7 +2267,7 @@ function FooterEditorPage() {
                                                                                     children: "Platform"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                    lineNumber: 427,
+                                                                                    lineNumber: 495,
                                                                                     columnNumber: 53
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
@@ -2187,15 +2276,15 @@ function FooterEditorPage() {
                                                                                     children: [
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectTrigger"], {
                                                                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectValue"], {
-                                                                                                placeholder: "Platform seçin"
+                                                                                                placeholder: "Seçin"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                                lineNumber: 433,
+                                                                                                lineNumber: 501,
                                                                                                 columnNumber: 61
                                                                                             }, this)
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                            lineNumber: 432,
+                                                                                            lineNumber: 500,
                                                                                             columnNumber: 57
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -2204,24 +2293,24 @@ function FooterEditorPage() {
                                                                                                     children: platform.label
                                                                                                 }, platform.value, false, {
                                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                                    lineNumber: 437,
+                                                                                                    lineNumber: 505,
                                                                                                     columnNumber: 65
                                                                                                 }, this))
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                            lineNumber: 435,
+                                                                                            lineNumber: 503,
                                                                                             columnNumber: 57
                                                                                         }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                    lineNumber: 428,
+                                                                                    lineNumber: 496,
                                                                                     columnNumber: 53
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                            lineNumber: 426,
+                                                                            lineNumber: 494,
                                                                             columnNumber: 49
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2231,29 +2320,28 @@ function FooterEditorPage() {
                                                                                     children: "URL *"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                    lineNumber: 445,
+                                                                                    lineNumber: 513,
                                                                                     columnNumber: 53
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
                                                                                     value: link.url,
                                                                                     onChange: (e)=>updateSocialLink(index, 'url', e.target.value),
-                                                                                    placeholder: "https://facebook.com/...",
-                                                                                    className: !link.url || link.url.trim() === '' ? 'border-red-500' : ''
+                                                                                    placeholder: "https://facebook.com/..."
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                    lineNumber: 446,
+                                                                                    lineNumber: 514,
                                                                                     columnNumber: 53
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                            lineNumber: 444,
+                                                                            lineNumber: 512,
                                                                             columnNumber: 49
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                    lineNumber: 425,
+                                                                    lineNumber: 493,
                                                                     columnNumber: 45
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2264,43 +2352,43 @@ function FooterEditorPage() {
                                                                             onCheckedChange: (checked)=>updateSocialLink(index, 'is_active', checked)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                            lineNumber: 456,
+                                                                            lineNumber: 523,
                                                                             columnNumber: 49
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
                                                                             children: "Aktif"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                            lineNumber: 460,
+                                                                            lineNumber: 527,
                                                                             columnNumber: 49
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                    lineNumber: 455,
+                                                                    lineNumber: 522,
                                                                     columnNumber: 45
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 397,
+                                                            lineNumber: 465,
                                                             columnNumber: 41
                                                         }, this)
                                                     }, index, false, {
                                                         fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                        lineNumber: 396,
+                                                        lineNumber: 464,
                                                         columnNumber: 37
                                                     }, this))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                            lineNumber: 386,
+                                            lineNumber: 454,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                    lineNumber: 326,
+                                    lineNumber: 383,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2308,35 +2396,57 @@ function FooterEditorPage() {
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
                                             className: "font-semibold text-lg",
-                                            children: "Hızlı Erişim Bölümü"
+                                            children: activeLocale === 'tr' ? 'Hızlı Erişim Bölümü' : 'Quick Access Section'
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                            lineNumber: 470,
+                                            lineNumber: 537,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "space-y-2",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                    children: "Hızlı Erişim İkonu URL"
+                                                    children: activeLocale === 'tr' ? 'Bölüm Başlığı' : 'Section Title'
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 473,
+                                                    lineNumber: 542,
+                                                    columnNumber: 33
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                    value: currentData.quick_access_title,
+                                                    onChange: (e)=>updateField('quick_access_title', e.target.value),
+                                                    placeholder: activeLocale === 'tr' ? 'Hızlı Erişim' : 'Quick Access'
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
+                                                    lineNumber: 543,
+                                                    columnNumber: 33
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
+                                            lineNumber: 541,
+                                            columnNumber: 29
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "space-y-2",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
+                                                    children: "İkon URL"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
+                                                    lineNumber: 551,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: "flex gap-2",
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                            value: footerData.quick_access_icon,
-                                                            onChange: (e)=>setFooterData({
-                                                                    ...footerData,
-                                                                    quick_access_icon: e.target.value
-                                                                }),
+                                                            value: currentData.quick_access_icon,
+                                                            onChange: (e)=>updateField('quick_access_icon', e.target.value),
                                                             placeholder: "https://..."
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 475,
+                                                            lineNumber: 553,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2347,33 +2457,33 @@ function FooterEditorPage() {
                                                                 className: "w-4 h-4"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                lineNumber: 481,
+                                                                lineNumber: 559,
                                                                 columnNumber: 41
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 480,
+                                                            lineNumber: 558,
                                                             columnNumber: 37
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 474,
+                                                    lineNumber: 552,
                                                     columnNumber: 33
                                                 }, this),
-                                                footerData.quick_access_icon && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                                    src: footerData.quick_access_icon,
+                                                currentData.quick_access_icon && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                                    src: currentData.quick_access_icon,
                                                     alt: "Quick Access Icon",
                                                     className: "h-10 object-contain"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 485,
+                                                    lineNumber: 563,
                                                     columnNumber: 37
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                            lineNumber: 472,
+                                            lineNumber: 550,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2384,10 +2494,10 @@ function FooterEditorPage() {
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
                                                             className: "text-base font-semibold",
-                                                            children: "Hızlı Erişim Linkleri"
+                                                            children: "Linkler"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 491,
+                                                            lineNumber: 570,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2400,23 +2510,23 @@ function FooterEditorPage() {
                                                                     className: "w-4 h-4 mr-2"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                    lineNumber: 493,
+                                                                    lineNumber: 572,
                                                                     columnNumber: 41
                                                                 }, this),
-                                                                "Yeni Link Ekle"
+                                                                "Yeni Link"
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 492,
+                                                            lineNumber: 571,
                                                             columnNumber: 37
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 490,
+                                                    lineNumber: 569,
                                                     columnNumber: 33
                                                 }, this),
-                                                footerData.quick_links.map((link, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
+                                                currentData.quick_links.map((link, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
                                                         className: "p-4 border-2",
                                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                             className: "space-y-3",
@@ -2432,7 +2542,7 @@ function FooterEditorPage() {
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                            lineNumber: 502,
+                                                                            lineNumber: 581,
                                                                             columnNumber: 49
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2448,12 +2558,12 @@ function FooterEditorPage() {
                                                                                         className: "w-4 h-4"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                        lineNumber: 511,
+                                                                                        lineNumber: 590,
                                                                                         columnNumber: 57
                                                                                     }, this)
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                    lineNumber: 504,
+                                                                                    lineNumber: 583,
                                                                                     columnNumber: 53
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2461,17 +2571,17 @@ function FooterEditorPage() {
                                                                                     size: "sm",
                                                                                     variant: "outline",
                                                                                     onClick: ()=>moveQuickLink(index, 'down'),
-                                                                                    disabled: index === footerData.quick_links.length - 1,
+                                                                                    disabled: index === currentData.quick_links.length - 1,
                                                                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
                                                                                         className: "w-4 h-4"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                        lineNumber: 520,
+                                                                                        lineNumber: 599,
                                                                                         columnNumber: 57
                                                                                     }, this)
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                    lineNumber: 513,
+                                                                                    lineNumber: 592,
                                                                                     columnNumber: 53
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2483,24 +2593,24 @@ function FooterEditorPage() {
                                                                                         className: "w-4 h-4"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                        lineNumber: 523,
+                                                                                        lineNumber: 602,
                                                                                         columnNumber: 57
                                                                                     }, this)
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                    lineNumber: 522,
+                                                                                    lineNumber: 601,
                                                                                     columnNumber: 53
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                            lineNumber: 503,
+                                                                            lineNumber: 582,
                                                                             columnNumber: 49
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                    lineNumber: 501,
+                                                                    lineNumber: 580,
                                                                     columnNumber: 45
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2510,26 +2620,25 @@ function FooterEditorPage() {
                                                                             className: "space-y-2",
                                                                             children: [
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                                                    children: "Label (Translation Key) *"
+                                                                                    children: "Etiket *"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                    lineNumber: 530,
+                                                                                    lineNumber: 609,
                                                                                     columnNumber: 53
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
                                                                                     value: link.label,
                                                                                     onChange: (e)=>updateQuickLink(index, 'label', e.target.value),
-                                                                                    placeholder: "home",
-                                                                                    className: !link.label || link.label.trim() === '' ? 'border-red-500' : ''
+                                                                                    placeholder: activeLocale === 'tr' ? 'Ana Sayfa' : 'Home'
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                    lineNumber: 531,
+                                                                                    lineNumber: 610,
                                                                                     columnNumber: 53
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                            lineNumber: 529,
+                                                                            lineNumber: 608,
                                                                             columnNumber: 49
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2539,29 +2648,28 @@ function FooterEditorPage() {
                                                                                     children: "URL *"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                    lineNumber: 539,
+                                                                                    lineNumber: 617,
                                                                                     columnNumber: 53
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
                                                                                     value: link.href,
                                                                                     onChange: (e)=>updateQuickLink(index, 'href', e.target.value),
-                                                                                    placeholder: "/",
-                                                                                    className: !link.href || link.href.trim() === '' ? 'border-red-500' : ''
+                                                                                    placeholder: "/"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                                    lineNumber: 540,
+                                                                                    lineNumber: 618,
                                                                                     columnNumber: 53
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                            lineNumber: 538,
+                                                                            lineNumber: 616,
                                                                             columnNumber: 49
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                    lineNumber: 528,
+                                                                    lineNumber: 607,
                                                                     columnNumber: 45
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2572,43 +2680,43 @@ function FooterEditorPage() {
                                                                             onCheckedChange: (checked)=>updateQuickLink(index, 'is_active', checked)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                            lineNumber: 550,
+                                                                            lineNumber: 627,
                                                                             columnNumber: 49
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
                                                                             children: "Aktif"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                            lineNumber: 554,
+                                                                            lineNumber: 631,
                                                                             columnNumber: 49
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                    lineNumber: 549,
+                                                                    lineNumber: 626,
                                                                     columnNumber: 45
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 500,
+                                                            lineNumber: 579,
                                                             columnNumber: 41
                                                         }, this)
                                                     }, index, false, {
                                                         fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                        lineNumber: 499,
+                                                        lineNumber: 578,
                                                         columnNumber: 37
                                                     }, this))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                            lineNumber: 489,
+                                            lineNumber: 568,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                    lineNumber: 469,
+                                    lineNumber: 536,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2616,35 +2724,32 @@ function FooterEditorPage() {
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
                                             className: "font-semibold text-lg",
-                                            children: "Copyright Bölümü"
+                                            children: activeLocale === 'tr' ? 'Telif Hakkı Bölümü' : 'Copyright Section'
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                            lineNumber: 564,
+                                            lineNumber: 641,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "space-y-2",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                    children: "Copyright Logo URL"
+                                                    children: "Logo"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 567,
+                                                    lineNumber: 646,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     className: "flex gap-2",
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                            value: footerData.copyright_logo,
-                                                            onChange: (e)=>setFooterData({
-                                                                    ...footerData,
-                                                                    copyright_logo: e.target.value
-                                                                }),
+                                                            value: currentData.copyright_logo,
+                                                            onChange: (e)=>updateField('copyright_logo', e.target.value),
                                                             placeholder: "https://..."
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 569,
+                                                            lineNumber: 648,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2655,123 +2760,164 @@ function FooterEditorPage() {
                                                                 className: "w-4 h-4"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                                lineNumber: 575,
+                                                                lineNumber: 654,
                                                                 columnNumber: 41
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                            lineNumber: 574,
+                                                            lineNumber: 653,
                                                             columnNumber: 37
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 568,
+                                                    lineNumber: 647,
                                                     columnNumber: 33
                                                 }, this),
-                                                footerData.copyright_logo && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                                    src: footerData.copyright_logo,
+                                                currentData.copyright_logo && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                                    src: currentData.copyright_logo,
                                                     alt: "Copyright Logo",
                                                     className: "h-6 object-contain bg-gray-800 p-2"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 579,
+                                                    lineNumber: 658,
                                                     columnNumber: 37
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                            lineNumber: 566,
+                                            lineNumber: 645,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "space-y-2",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                                    children: "Copyright Metni"
+                                                    children: activeLocale === 'tr' ? 'Telif Hakkı Metni' : 'Copyright Text'
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 584,
+                                                    lineNumber: 663,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                    value: footerData.copyright_text,
-                                                    onChange: (e)=>setFooterData({
-                                                            ...footerData,
-                                                            copyright_text: e.target.value
-                                                        }),
-                                                    placeholder: "© 2024 Ayda IVF. Tüm hakları saklıdır."
+                                                    value: currentData.copyright_text,
+                                                    onChange: (e)=>updateField('copyright_text', e.target.value),
+                                                    placeholder: activeLocale === 'tr' ? '© 2024 Ayda IVF - Tüm Hakları Saklıdır' : '© 2024 Ayda IVF - All Rights Reserved'
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 585,
+                                                    lineNumber: 664,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                            lineNumber: 583,
+                                            lineNumber: 662,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                    lineNumber: 563,
+                                    lineNumber: 640,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "pt-4 border-t",
-                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                        type: "submit",
-                                        disabled: saving,
-                                        className: "bg-primary-pink hover:bg-pink-700",
-                                        children: saving ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                    className: "pt-4 border-t flex gap-4",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                            type: "submit",
+                                            disabled: saving,
+                                            className: "bg-primary-pink hover:bg-pink-700",
+                                            children: saving ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
+                                                        className: "w-4 h-4 mr-2 animate-spin"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
+                                                        lineNumber: 676,
+                                                        columnNumber: 41
+                                                    }, this),
+                                                    "Kaydediliyor..."
+                                                ]
+                                            }, void 0, true) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$save$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Save$3e$__["Save"], {
+                                                        className: "w-4 h-4 mr-2"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
+                                                        lineNumber: 681,
+                                                        columnNumber: 41
+                                                    }, this),
+                                                    "Her İki Dili Kaydet"
+                                                ]
+                                            }, void 0, true)
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
+                                            lineNumber: 673,
+                                            columnNumber: 29
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex items-center gap-2 text-sm text-gray-600",
                                             children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$loader$2d$circle$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Loader2$3e$__["Loader2"], {
-                                                    className: "w-4 h-4 mr-2 animate-spin"
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    children: [
+                                                        "🇹🇷 TR: ",
+                                                        footerData.tr.social_links.length,
+                                                        " sosyal, ",
+                                                        footerData.tr.quick_links.length,
+                                                        " link"
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
+                                                    lineNumber: 688,
+                                                    columnNumber: 33
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    children: "•"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 598,
-                                                    columnNumber: 41
+                                                    lineNumber: 689,
+                                                    columnNumber: 33
                                                 }, this),
-                                                "Kaydediliyor..."
-                                            ]
-                                        }, void 0, true) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
-                                            children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$save$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Save$3e$__["Save"], {
-                                                    className: "w-4 h-4 mr-2"
-                                                }, void 0, false, {
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    children: [
+                                                        "🇬🇧 EN: ",
+                                                        footerData.en.social_links.length,
+                                                        " sosyal, ",
+                                                        footerData.en.quick_links.length,
+                                                        " link"
+                                                    ]
+                                                }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                                    lineNumber: 603,
-                                                    columnNumber: 41
-                                                }, this),
-                                                "Kaydet"
+                                                    lineNumber: 690,
+                                                    columnNumber: 33
+                                                }, this)
                                             ]
-                                        }, void 0, true)
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                        lineNumber: 595,
-                                        columnNumber: 29
-                                    }, this)
-                                }, void 0, false, {
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
+                                            lineNumber: 687,
+                                            columnNumber: 29
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
                                     fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                                    lineNumber: 594,
+                                    lineNumber: 672,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                            lineNumber: 273,
+                            lineNumber: 319,
                             columnNumber: 21
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                        lineNumber: 272,
+                        lineNumber: 318,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                lineNumber: 268,
+                lineNumber: 312,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$MediaPicker$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -2780,17 +2926,17 @@ function FooterEditorPage() {
                 onSelect: handleMediaSelect
             }, void 0, false, {
                 fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-                lineNumber: 614,
+                lineNumber: 697,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/(admin)/admin/layout/footer/page.tsx",
-        lineNumber: 262,
+        lineNumber: 289,
         columnNumber: 9
     }, this);
 }
-_s(FooterEditorPage, "5o52pXUejUu+lJdmKGCW6piJnuM=", false, function() {
+_s(FooterEditorPage, "/hFjQhuwKoun7GhZthhfA5vkFco=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$use$2d$toast$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useToast"]
     ];

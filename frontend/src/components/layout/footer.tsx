@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Facebook, Instagram, Youtube, Twitter, Linkedin } from 'lucide-react';
@@ -12,9 +11,11 @@ interface FooterConfig {
         icon: string;
         iso_logo: string;
         text: string;
+        title: string;
     };
     contact: {
         icon: string;
+        title: string;
         phone: string;
         phone_link: string;
         email: string;
@@ -28,6 +29,7 @@ interface FooterConfig {
     };
     quick_access: {
         icon: string;
+        title: string;
         links: Array<{
             id: number;
             label: string;
@@ -84,7 +86,6 @@ function CardTitle({ children }: { children: React.ReactNode }) {
 }
 
 export default function Footer({ locale }: { locale: string }) {
-    const t = useTranslations('Footer');
     const [config, setConfig] = useState<FooterConfig | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -101,7 +102,6 @@ export default function Footer({ locale }: { locale: string }) {
                 }
             } catch (error) {
                 console.error('❌ Footer fetch error:', error);
-                // Hata durumunda default fallback (config null kalırsa loading bloğu gösteririz)
             } finally {
                 setLoading(false);
             }
@@ -115,7 +115,7 @@ export default function Footer({ locale }: { locale: string }) {
         return (
             <footer className="mt-auto bg-primary-blue py-4">
                 <div className="container text-center text-white">
-                    <p className="text-sm">{t('copyright.text')}</p>
+                    <p className="text-sm">© 2024 - Tüm Hakları Saklıdır</p>
                 </div>
             </footer>
         );
@@ -126,16 +126,16 @@ export default function Footer({ locale }: { locale: string }) {
             <div className="container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-7xl mx-auto px-4">
                 {/* Address Card */}
                 <FooterCard>
-                    {config.address?.icon && <IconBadge src={config.address.icon} alt={t('address.iconAlt')} />}
+                    {config.address?.icon && <IconBadge src={config.address.icon} alt="Adres ikonu" />}
 
                     <div className="flex flex-col gap-2 md:gap-4 flex-1 items-center">
-                        <CardTitle>{t('address.title')}</CardTitle>
+                        <CardTitle>{config.address?.title || 'Adres'}</CardTitle>
                         <div className="flex flex-col gap-3 items-center">
                             {config.address?.iso_logo && (
                                 <div className="w-[65px] h-[65px] relative">
                                     <Image
                                         src={config.address.iso_logo}
-                                        alt={t('address.isoAlt')}
+                                        alt="ISO Sertifikası"
                                         width={65}
                                         height={65}
                                         className="w-full h-full object-cover"
@@ -152,12 +152,12 @@ export default function Footer({ locale }: { locale: string }) {
 
                 {/* Contact Card */}
                 <FooterCard>
-                    {config.contact?.icon && <IconBadge src={config.contact.icon} alt={t('contact.iconAlt')} />}
+                    {config.contact?.icon && <IconBadge src={config.contact.icon} alt="İletişim ikonu" />}
 
                     <div className="flex flex-col flex-1 gap-2 md:gap-4 items-center">
-                        <CardTitle>{t('contact.title')}</CardTitle>
+                        <CardTitle>{config.contact?.title || 'İletişim'}</CardTitle>
 
-                        <div className="flex flex-col gap-2 items-center">
+                        <div className="flex flex-col gap-2 items-center hover-primary-pink">
                             {config.contact?.phone && (
                                 <p className="text-base text-gray-700 capitalize">
                                     <a
@@ -165,7 +165,7 @@ export default function Footer({ locale }: { locale: string }) {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="text-primary-pink-light font-medium hover:text-primary-pink transition-colors"
-                                        aria-label={t('contact.phoneLabel')}
+                                        aria-label={`Telefon: ${config.contact.phone}`}
                                     >
                                         {config.contact.phone}
                                     </a>
@@ -177,7 +177,7 @@ export default function Footer({ locale }: { locale: string }) {
                                     <a
                                         href={config.contact.email_link || `mailto:${config.contact.email}`}
                                         className="text-primary-pink-light lowercase font-medium hover:text-primary-pink transition-colors"
-                                        aria-label={t('contact.emailLabel')}
+                                        aria-label={`E-posta: ${config.contact.email}`}
                                     >
                                         {config.contact.email}
                                     </a>
@@ -209,13 +209,13 @@ export default function Footer({ locale }: { locale: string }) {
 
                 {/* Quick Access Card */}
                 <FooterCard>
-                    {config.quick_access?.icon && <IconBadge src={config.quick_access.icon} alt={t('quickAccess.iconAlt')} />}
+                    {config.quick_access?.icon && <IconBadge src={config.quick_access.icon} alt="Hızlı erişim ikonu" />}
 
                     <div className="flex flex-col flex-1 gap-2 md:gap-4 items-center">
-                        <CardTitle>{t('quickAccess.title')}</CardTitle>
+                        <CardTitle>{config.quick_access?.title || 'Hızlı Erişim'}</CardTitle>
 
                         {config.quick_access?.links?.length > 0 && (
-                            <nav className="flex flex-col gap-2 items-center" aria-label={t('quickAccess.navLabel')}>
+                            <nav className="flex flex-col gap-2 items-center" aria-label="Hızlı erişim linkleri">
                                 {config.quick_access.links
                                     .filter((link) => link.is_active)
                                     .map((link) => (
@@ -225,8 +225,7 @@ export default function Footer({ locale }: { locale: string }) {
                                             href={`/${locale}${link.href}`}
                                             aria-label={link.label}
                                         >
-                                            {/* label translation expects a key based on link.label */}
-                                            {t(`quickAccess.links.${link.label}.text`)}
+                                            {link.label}
                                         </Link>
                                     ))}
                             </nav>
@@ -246,7 +245,7 @@ export default function Footer({ locale }: { locale: string }) {
                     <div className="w-[180px] h-[18px]">
                         <Image
                             src={config.copyright_logo}
-                            alt={t('copyright.logoAlt')}
+                            alt="Copyright logo"
                             width={180}
                             height={18}
                             className="w-full h-full object-contain"

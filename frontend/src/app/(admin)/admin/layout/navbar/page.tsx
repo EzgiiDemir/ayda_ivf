@@ -1,4 +1,3 @@
-// src/app/(admin)/admin/layout/navbar/page.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -8,9 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/src/components/ui/use-toast';
-import { Loader2, Save, Plus, Trash2, Image as ImageIcon, Menu, GripVertical, ChevronUp, ChevronDown } from 'lucide-react';
+import { Loader2, Save, Plus, Trash2, Image as ImageIcon, ChevronDown, ChevronUp, GripVertical, Languages } from 'lucide-react';
 import MediaPicker from '@/src/components/MediaPicker';
 import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
     Collapsible,
     CollapsibleContent,
@@ -30,8 +30,7 @@ interface NavDropdown {
     links: NavLink[];
 }
 
-interface NavbarData {
-    locale: string;
+interface NavbarLocaleData {
     logo_url: string;
     logo_alt: string;
     logo_width: number;
@@ -44,25 +43,35 @@ interface NavbarData {
     links: NavLink[];
 }
 
+interface NavbarData {
+    tr: NavbarLocaleData;
+    en: NavbarLocaleData;
+}
+
+const DEFAULT_LOCALE_DATA: NavbarLocaleData = {
+    logo_url: '',
+    logo_alt: '',
+    logo_width: 125,
+    logo_height: 65,
+    phone_number: '',
+    whatsapp_number: '',
+    email: '',
+    about: { label: '', links: [] },
+    treatments: { label: '', links: [] },
+    links: [],
+};
+
 export default function NavbarEditorPage() {
     const { toast } = useToast();
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [activeLocale, setActiveLocale] = useState<'tr' | 'en'>('tr');
     const [showMediaPicker, setShowMediaPicker] = useState(false);
     const [mediaPickerTarget, setMediaPickerTarget] = useState<string>('');
 
     const [navbarData, setNavbarData] = useState<NavbarData>({
-        locale: 'tr',
-        logo_url: '',
-        logo_alt: '',
-        logo_width: 125,
-        logo_height: 65,
-        phone_number: '',
-        whatsapp_number: '',
-        email: '',
-        about: { label: 'about', links: [] },
-        treatments: { label: 'treatments', links: [] },
-        links: [],
+        tr: { ...DEFAULT_LOCALE_DATA },
+        en: { ...DEFAULT_LOCALE_DATA },
     });
 
     const [aboutOpen, setAboutOpen] = useState(true);
@@ -75,29 +84,40 @@ export default function NavbarEditorPage() {
     const fetchData = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('/navbar?locale=tr');
 
-            if (response.data.data) {
-                const data = response.data.data;
-                setNavbarData({
-                    locale: 'tr',
-                    logo_url: data.logo.url || '',
-                    logo_alt: data.logo.alt || '',
-                    logo_width: data.logo.width || 125,
-                    logo_height: data.logo.height || 65,
-                    phone_number: data.contact.phone_number || '',
-                    whatsapp_number: data.contact.whatsapp_number || '',
-                    email: data.contact.email || '',
-                    about: data.about || { label: 'about', links: [] },
-                    treatments: data.treatments || { label: 'treatments', links: [] },
-                    links: data.links || [],
-                });
-            }
-        } catch (error: any) {
-            console.error('Fetch error:', error);
+            // TR ve EN verilerini paralel olarak çek
+            const [trResponse, enResponse] = await Promise.all([
+                axios.get('/navbar?locale=tr'),
+                axios.get('/navbar?locale=en'),
+            ]);
+
+            const processData = (data: any): NavbarLocaleData => ({
+                logo_url: data.logo?.url || '',
+                logo_alt: data.logo?.alt || '',
+                logo_width: data.logo?.width || 125,
+                logo_height: data.logo?.height || 65,
+                phone_number: data.contact?.phone_number || '',
+                whatsapp_number: data.contact?.whatsapp_number || '',
+                email: data.contact?.email || '',
+                about: data.about || { label: '', links: [] },
+                treatments: data.treatments || { label: '', links: [] },
+                links: data.links || [],
+            });
+
+            setNavbarData({
+                tr: trResponse.data.data ? processData(trResponse.data.data) : { ...DEFAULT_LOCALE_DATA },
+                en: enResponse.data.data ? processData(enResponse.data.data) : { ...DEFAULT_LOCALE_DATA },
+            });
+
             toast({
-                title: 'Hata',
-                description: 'Veriler yüklenirken bir hata oluştu',
+                title: '✅ Başarılı',
+                description: 'Navbar verileri yüklendi',
+            });
+        } catch (error: any) {
+            console.error('❌ Fetch error:', error);
+            toast({
+                title: '❌ Hata',
+                description: 'Veriler yüklenirken hata oluştu',
                 variant: 'destructive',
             });
         } finally {
@@ -105,23 +125,22 @@ export default function NavbarEditorPage() {
         }
     };
 
-    // ✅ VALIDATION FONKSIYONU EKLEDIM
-    const validateData = (): boolean => {
+    const validateLocaleData = (data: NavbarLocaleData, locale: string): boolean => {
         // About links validation
-        for (let i = 0; i < navbarData.about.links.length; i++) {
-            const link = navbarData.about.links[i];
+        for (let i = 0; i < data.about.links.length; i++) {
+            const link = data.about.links[i];
             if (!link.label || link.label.trim() === '') {
                 toast({
-                    title: 'Hata',
-                    description: `Hakkımızda menüsünde ${i + 1}. linkin etiketi boş olamaz!`,
+                    title: '❌ Hata',
+                    description: `[${locale.toUpperCase()}] Hakkımızda menüsü ${i + 1}. link: Etiket boş olamaz`,
                     variant: 'destructive',
                 });
                 return false;
             }
             if (!link.href || link.href.trim() === '') {
                 toast({
-                    title: 'Hata',
-                    description: `Hakkımızda menüsünde ${i + 1}. linkin URL'si boş olamaz!`,
+                    title: '❌ Hata',
+                    description: `[${locale.toUpperCase()}] Hakkımızda menüsü ${i + 1}. link: URL boş olamaz`,
                     variant: 'destructive',
                 });
                 return false;
@@ -129,20 +148,20 @@ export default function NavbarEditorPage() {
         }
 
         // Treatments links validation
-        for (let i = 0; i < navbarData.treatments.links.length; i++) {
-            const link = navbarData.treatments.links[i];
+        for (let i = 0; i < data.treatments.links.length; i++) {
+            const link = data.treatments.links[i];
             if (!link.label || link.label.trim() === '') {
                 toast({
-                    title: 'Hata',
-                    description: `Tedaviler menüsünde ${i + 1}. linkin etiketi boş olamaz!`,
+                    title: '❌ Hata',
+                    description: `[${locale.toUpperCase()}] Tedaviler menüsü ${i + 1}. link: Etiket boş olamaz`,
                     variant: 'destructive',
                 });
                 return false;
             }
             if (!link.href || link.href.trim() === '') {
                 toast({
-                    title: 'Hata',
-                    description: `Tedaviler menüsünde ${i + 1}. linkin URL'si boş olamaz!`,
+                    title: '❌ Hata',
+                    description: `[${locale.toUpperCase()}] Tedaviler menüsü ${i + 1}. link: URL boş olamaz`,
                     variant: 'destructive',
                 });
                 return false;
@@ -150,20 +169,20 @@ export default function NavbarEditorPage() {
         }
 
         // Main links validation
-        for (let i = 0; i < navbarData.links.length; i++) {
-            const link = navbarData.links[i];
+        for (let i = 0; i < data.links.length; i++) {
+            const link = data.links[i];
             if (!link.label || link.label.trim() === '') {
                 toast({
-                    title: 'Hata',
-                    description: `Ana menüde ${i + 1}. linkin etiketi boş olamaz!`,
+                    title: '❌ Hata',
+                    description: `[${locale.toUpperCase()}] Ana menü ${i + 1}. link: Etiket boş olamaz`,
                     variant: 'destructive',
                 });
                 return false;
             }
             if (!link.href || link.href.trim() === '') {
                 toast({
-                    title: 'Hata',
-                    description: `Ana menüde ${i + 1}. linkin URL'si boş olamaz!`,
+                    title: '❌ Hata',
+                    description: `[${locale.toUpperCase()}] Ana menü ${i + 1}. link: URL boş olamaz`,
                     variant: 'destructive',
                 });
                 return false;
@@ -173,59 +192,33 @@ export default function NavbarEditorPage() {
         return true;
     };
 
-    // ✅ SAVE FONKSIYONUNA VALIDATION EKLEDIM
     const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Validate before saving
-        if (!validateData()) {
+        // Her iki dili de validate et
+        if (!validateLocaleData(navbarData.tr, 'tr') || !validateLocaleData(navbarData.en, 'en')) {
             return;
         }
 
         setSaving(true);
         try {
-            // ✅ BOŞ LINKLERI FİLTRELE VE TRİM YAP
-            const cleanedData = {
-                ...navbarData,
-                about: {
-                    ...navbarData.about,
-                    links: navbarData.about.links
-                        .filter(link => link.label && link.label.trim() !== '' && link.href && link.href.trim() !== '')
-                        .map(link => ({
-                            ...link,
-                            label: link.label.trim(),
-                            href: link.href.trim()
-                        }))
-                },
-                treatments: {
-                    ...navbarData.treatments,
-                    links: navbarData.treatments.links
-                        .filter(link => link.label && link.label.trim() !== '' && link.href && link.href.trim() !== '')
-                        .map(link => ({
-                            ...link,
-                            label: link.label.trim(),
-                            href: link.href.trim()
-                        }))
-                },
-                links: navbarData.links
-                    .filter(link => link.label && link.label.trim() !== '' && link.href && link.href.trim() !== '')
-                    .map(link => ({
-                        ...link,
-                        label: link.label.trim(),
-                        href: link.href.trim()
-                    }))
-            };
+            // TR ve EN verilerini paralel olarak kaydet
+            await Promise.all([
+                axios.put('/navbar', { ...navbarData.tr, locale: 'tr' }),
+                axios.put('/navbar', { ...navbarData.en, locale: 'en' }),
+            ]);
 
-            await axios.put('/navbar', cleanedData);
-            toast({ title: 'Başarılı', description: 'Navbar başarıyla güncellendi' });
+            toast({
+                title: '✅ Başarılı',
+                description: 'Navbar ayarları her iki dil için kaydedildi',
+            });
 
-            // ✅ KAYIT SONRASI VERİYİ YENİDEN YÜKLE
             await fetchData();
         } catch (error: any) {
-            console.error('Save error:', error.response?.data);
+            console.error('❌ Save error:', error.response?.data);
             toast({
-                title: 'Hata',
-                description: error.response?.data?.message || 'Güncelleme başarısız',
+                title: '❌ Hata',
+                description: error.response?.data?.message || 'Kayıt sırasında hata oluştu',
                 variant: 'destructive',
             });
         } finally {
@@ -235,7 +228,10 @@ export default function NavbarEditorPage() {
 
     const handleMediaSelect = (url: string) => {
         if (mediaPickerTarget === 'logo') {
-            setNavbarData({ ...navbarData, logo_url: url });
+            setNavbarData({
+                ...navbarData,
+                [activeLocale]: { ...navbarData[activeLocale], logo_url: url },
+            });
         }
         setShowMediaPicker(false);
         setMediaPickerTarget('');
@@ -246,103 +242,113 @@ export default function NavbarEditorPage() {
         setShowMediaPicker(true);
     };
 
+    const updateField = (field: keyof NavbarLocaleData, value: any) => {
+        setNavbarData({
+            ...navbarData,
+            [activeLocale]: { ...navbarData[activeLocale], [field]: value },
+        });
+    };
+
     // About Links Functions
     const addAboutLink = () => {
-        setNavbarData({
-            ...navbarData,
-            about: {
-                ...navbarData.about,
-                links: [
-                    ...navbarData.about.links,
-                    { label: '', href: '', order: navbarData.about.links.length + 1, is_active: true },
-                ],
-            },
-        });
-    };
-
-    const updateAboutLink = (index: number, field: keyof NavLink, value: any) => {
-        const newLinks = [...navbarData.about.links];
-        newLinks[index] = { ...newLinks[index], [field]: value };
-        setNavbarData({ ...navbarData, about: { ...navbarData.about, links: newLinks } });
-    };
-
-    const removeAboutLink = (index: number) => {
-        const newLinks = navbarData.about.links.filter((_, i) => i !== index);
-        setNavbarData({ ...navbarData, about: { ...navbarData.about, links: newLinks } });
-    };
-
-    const moveAboutLink = (index: number, direction: 'up' | 'down') => {
-        const newLinks = [...navbarData.about.links];
-        const newIndex = direction === 'up' ? index - 1 : index + 1;
-        if (newIndex < 0 || newIndex >= newLinks.length) return;
-        [newLinks[index], newLinks[newIndex]] = [newLinks[newIndex], newLinks[index]];
-        newLinks.forEach((link, i) => (link.order = i + 1));
-        setNavbarData({ ...navbarData, about: { ...navbarData.about, links: newLinks } });
-    };
-
-    // Treatments Links Functions
-    const addTreatmentLink = () => {
-        setNavbarData({
-            ...navbarData,
-            treatments: {
-                ...navbarData.treatments,
-                links: [
-                    ...navbarData.treatments.links,
-                    { label: '', href: '', order: navbarData.treatments.links.length + 1, is_active: true },
-                ],
-            },
-        });
-    };
-
-    const updateTreatmentLink = (index: number, field: keyof NavLink, value: any) => {
-        const newLinks = [...navbarData.treatments.links];
-        newLinks[index] = { ...newLinks[index], [field]: value };
-        setNavbarData({ ...navbarData, treatments: { ...navbarData.treatments, links: newLinks } });
-    };
-
-    const removeTreatmentLink = (index: number) => {
-        const newLinks = navbarData.treatments.links.filter((_, i) => i !== index);
-        setNavbarData({ ...navbarData, treatments: { ...navbarData.treatments, links: newLinks } });
-    };
-
-    const moveTreatmentLink = (index: number, direction: 'up' | 'down') => {
-        const newLinks = [...navbarData.treatments.links];
-        const newIndex = direction === 'up' ? index - 1 : index + 1;
-        if (newIndex < 0 || newIndex >= newLinks.length) return;
-        [newLinks[index], newLinks[newIndex]] = [newLinks[newIndex], newLinks[index]];
-        newLinks.forEach((link, i) => (link.order = i + 1));
-        setNavbarData({ ...navbarData, treatments: { ...navbarData.treatments, links: newLinks } });
-    };
-
-    // Main Links Functions
-    const addMainLink = () => {
-        setNavbarData({
-            ...navbarData,
+        const currentData = navbarData[activeLocale];
+        updateField('about', {
+            ...currentData.about,
             links: [
-                ...navbarData.links,
-                { label: '', href: '', order: navbarData.links.length + 1, is_active: true },
+                ...currentData.about.links,
+                { label: '', href: '', order: currentData.about.links.length + 1, is_active: true },
             ],
         });
     };
 
-    const updateMainLink = (index: number, field: keyof NavLink, value: any) => {
-        const newLinks = [...navbarData.links];
+    const updateAboutLink = (index: number, field: keyof NavLink, value: any) => {
+        const currentData = navbarData[activeLocale];
+        const newLinks = [...currentData.about.links];
         newLinks[index] = { ...newLinks[index], [field]: value };
-        setNavbarData({ ...navbarData, links: newLinks });
+        updateField('about', { ...currentData.about, links: newLinks });
     };
 
-    const removeMainLink = (index: number) => {
-        const newLinks = navbarData.links.filter((_, i) => i !== index);
-        setNavbarData({ ...navbarData, links: newLinks });
+    const removeAboutLink = (index: number) => {
+        const currentData = navbarData[activeLocale];
+        const newLinks = currentData.about.links.filter((_, i) => i !== index);
+        updateField('about', { ...currentData.about, links: newLinks });
     };
 
-    const moveMainLink = (index: number, direction: 'up' | 'down') => {
-        const newLinks = [...navbarData.links];
+    const moveAboutLink = (index: number, direction: 'up' | 'down') => {
+        const currentData = navbarData[activeLocale];
+        const newLinks = [...currentData.about.links];
         const newIndex = direction === 'up' ? index - 1 : index + 1;
         if (newIndex < 0 || newIndex >= newLinks.length) return;
         [newLinks[index], newLinks[newIndex]] = [newLinks[newIndex], newLinks[index]];
         newLinks.forEach((link, i) => (link.order = i + 1));
-        setNavbarData({ ...navbarData, links: newLinks });
+        updateField('about', { ...currentData.about, links: newLinks });
+    };
+
+    // Treatment Links Functions
+    const addTreatmentLink = () => {
+        const currentData = navbarData[activeLocale];
+        updateField('treatments', {
+            ...currentData.treatments,
+            links: [
+                ...currentData.treatments.links,
+                { label: '', href: '', order: currentData.treatments.links.length + 1, is_active: true },
+            ],
+        });
+    };
+
+    const updateTreatmentLink = (index: number, field: keyof NavLink, value: any) => {
+        const currentData = navbarData[activeLocale];
+        const newLinks = [...currentData.treatments.links];
+        newLinks[index] = { ...newLinks[index], [field]: value };
+        updateField('treatments', { ...currentData.treatments, links: newLinks });
+    };
+
+    const removeTreatmentLink = (index: number) => {
+        const currentData = navbarData[activeLocale];
+        const newLinks = currentData.treatments.links.filter((_, i) => i !== index);
+        updateField('treatments', { ...currentData.treatments, links: newLinks });
+    };
+
+    const moveTreatmentLink = (index: number, direction: 'up' | 'down') => {
+        const currentData = navbarData[activeLocale];
+        const newLinks = [...currentData.treatments.links];
+        const newIndex = direction === 'up' ? index - 1 : index + 1;
+        if (newIndex < 0 || newIndex >= newLinks.length) return;
+        [newLinks[index], newLinks[newIndex]] = [newLinks[newIndex], newLinks[index]];
+        newLinks.forEach((link, i) => (link.order = i + 1));
+        updateField('treatments', { ...currentData.treatments, links: newLinks });
+    };
+
+    // Main Links Functions
+    const addMainLink = () => {
+        const currentData = navbarData[activeLocale];
+        updateField('links', [
+            ...currentData.links,
+            { label: '', href: '', order: currentData.links.length + 1, is_active: true },
+        ]);
+    };
+
+    const updateMainLink = (index: number, field: keyof NavLink, value: any) => {
+        const currentData = navbarData[activeLocale];
+        const newLinks = [...currentData.links];
+        newLinks[index] = { ...newLinks[index], [field]: value };
+        updateField('links', newLinks);
+    };
+
+    const removeMainLink = (index: number) => {
+        const currentData = navbarData[activeLocale];
+        const newLinks = currentData.links.filter((_, i) => i !== index);
+        updateField('links', newLinks);
+    };
+
+    const moveMainLink = (index: number, direction: 'up' | 'down') => {
+        const currentData = navbarData[activeLocale];
+        const newLinks = [...currentData.links];
+        const newIndex = direction === 'up' ? index - 1 : index + 1;
+        if (newIndex < 0 || newIndex >= newLinks.length) return;
+        [newLinks[index], newLinks[newIndex]] = [newLinks[newIndex], newLinks[index]];
+        newLinks.forEach((link, i) => (link.order = i + 1));
+        updateField('links', newLinks);
     };
 
     if (loading) {
@@ -353,22 +359,41 @@ export default function NavbarEditorPage() {
         );
     }
 
+    const currentData = navbarData[activeLocale];
+
     return (
         <div className="space-y-6">
-            {/* Header */}
-            <div>
+            <div className="flex items-center justify-between">
                 <h1 className="text-3xl font-bold text-primary-pink flex items-center gap-2">
                     Navbar
                 </h1>
+                <div className="flex gap-2">
+                    <Button
+                        variant={activeLocale === 'tr' ? 'default' : 'outline'}
+                        onClick={() => setActiveLocale('tr')}
+                        className={activeLocale === 'tr' ? 'bg-primary-pink' : ''}
+                    >
+                        🇹🇷 Türkçe
+                    </Button>
+                    <Button
+                        variant={activeLocale === 'en' ? 'default' : 'outline'}
+                        onClick={() => setActiveLocale('en')}
+                        className={activeLocale === 'en' ? 'bg-primary-pink' : ''}
+                    >
+                        🇬🇧 English
+                    </Button>
+                </div>
             </div>
 
             <Card>
                 <CardHeader>
-                    <CardTitle>Navbar Ayarları</CardTitle>
+                    <CardTitle className="flex items-center gap-2">
+                        {activeLocale === 'tr' ? '🇹🇷 Türkçe' : '🇬🇧 English'} İçerik
+                    </CardTitle>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSave} className="space-y-6">
-                        {/* Logo Section */}
+                        {/* Logo Settings */}
                         <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
                             <h3 className="font-semibold text-lg">Logo Ayarları</h3>
 
@@ -376,17 +401,17 @@ export default function NavbarEditorPage() {
                                 <Label>Logo URL</Label>
                                 <div className="flex gap-2">
                                     <Input
-                                        value={navbarData.logo_url}
-                                        onChange={(e) => setNavbarData({ ...navbarData, logo_url: e.target.value })}
+                                        value={currentData.logo_url}
+                                        onChange={(e) => updateField('logo_url', e.target.value)}
                                         placeholder="https://..."
                                     />
                                     <Button type="button" variant="outline" onClick={() => openMediaPicker('logo')}>
                                         <ImageIcon className="w-4 h-4" />
                                     </Button>
                                 </div>
-                                {navbarData.logo_url && (
+                                {currentData.logo_url && (
                                     <div className="mt-2">
-                                        <img src={navbarData.logo_url} alt="Logo Preview" className="h-16 object-contain" />
+                                        <img src={currentData.logo_url} alt="Logo Preview" className="h-16 object-contain" />
                                     </div>
                                 )}
                             </div>
@@ -395,48 +420,48 @@ export default function NavbarEditorPage() {
                                 <div className="space-y-2">
                                     <Label>Logo Alt Text</Label>
                                     <Input
-                                        value={navbarData.logo_alt}
-                                        onChange={(e) => setNavbarData({ ...navbarData, logo_alt: e.target.value })}
-                                        placeholder="Ayda IVF Logo"
+                                        value={currentData.logo_alt}
+                                        onChange={(e) => updateField('logo_alt', e.target.value)}
+                                        placeholder={activeLocale === 'tr' ? 'Ayda IVF Logo' : 'Ayda IVF Logo'}
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label>Genişlik (px)</Label>
+                                    <Label>Genişlik</Label>
                                     <Input
                                         type="number"
-                                        value={navbarData.logo_width}
-                                        onChange={(e) => setNavbarData({ ...navbarData, logo_width: parseInt(e.target.value) })}
+                                        value={currentData.logo_width}
+                                        onChange={(e) => updateField('logo_width', parseInt(e.target.value))}
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label>Yükseklik (px)</Label>
+                                    <Label>Yükseklik</Label>
                                     <Input
                                         type="number"
-                                        value={navbarData.logo_height}
-                                        onChange={(e) => setNavbarData({ ...navbarData, logo_height: parseInt(e.target.value) })}
+                                        value={currentData.logo_height}
+                                        onChange={(e) => updateField('logo_height', parseInt(e.target.value))}
                                     />
                                 </div>
                             </div>
                         </div>
 
-                        {/* Contact Section */}
+                        {/* Contact Info */}
                         <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
                             <h3 className="font-semibold text-lg">İletişim Bilgileri</h3>
 
                             <div className="grid grid-cols-3 gap-4">
                                 <div className="space-y-2">
-                                    <Label>Telefon Numarası</Label>
+                                    <Label>Telefon</Label>
                                     <Input
-                                        value={navbarData.phone_number}
-                                        onChange={(e) => setNavbarData({ ...navbarData, phone_number: e.target.value })}
+                                        value={currentData.phone_number}
+                                        onChange={(e) => updateField('phone_number', e.target.value)}
                                         placeholder="+90 533 123 4567"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label>WhatsApp Numarası</Label>
+                                    <Label>WhatsApp</Label>
                                     <Input
-                                        value={navbarData.whatsapp_number}
-                                        onChange={(e) => setNavbarData({ ...navbarData, whatsapp_number: e.target.value })}
+                                        value={currentData.whatsapp_number}
+                                        onChange={(e) => updateField('whatsapp_number', e.target.value)}
                                         placeholder="+90 533 123 4567"
                                     />
                                 </div>
@@ -444,15 +469,15 @@ export default function NavbarEditorPage() {
                                     <Label>E-posta</Label>
                                     <Input
                                         type="email"
-                                        value={navbarData.email}
-                                        onChange={(e) => setNavbarData({ ...navbarData, email: e.target.value })}
+                                        value={currentData.email}
+                                        onChange={(e) => updateField('email', e.target.value)}
                                         placeholder="info@aydaivf.com"
                                     />
                                 </div>
                             </div>
                         </div>
 
-                        {/* About Dropdown */}
+                        {/* About Menu */}
                         <Collapsible open={aboutOpen} onOpenChange={setAboutOpen}>
                             <Card>
                                 <CollapsibleTrigger asChild>
@@ -460,7 +485,7 @@ export default function NavbarEditorPage() {
                                         <div className="flex items-center justify-between">
                                             <CardTitle className="flex items-center gap-2">
                                                 <GripVertical className="w-5 h-5" />
-                                                Hakkımızda Menüsü ({navbarData.about.links.length} link)
+                                                {activeLocale === 'tr' ? 'Hakkımızda Menüsü' : 'About Menu'} ({currentData.about.links.length} link)
                                             </CardTitle>
                                             <ChevronDown className={`w-5 h-5 transition-transform ${aboutOpen ? 'rotate-180' : ''}`} />
                                         </div>
@@ -469,13 +494,11 @@ export default function NavbarEditorPage() {
                                 <CollapsibleContent>
                                     <CardContent className="space-y-4">
                                         <div className="space-y-2">
-                                            <Label>Menü Başlığı (Translation Key)</Label>
+                                            <Label>Menü Başlığı</Label>
                                             <Input
-                                                value={navbarData.about.label}
-                                                onChange={(e) =>
-                                                    setNavbarData({ ...navbarData, about: { ...navbarData.about, label: e.target.value } })
-                                                }
-                                                placeholder="about"
+                                                value={currentData.about.label}
+                                                onChange={(e) => updateField('about', { ...currentData.about, label: e.target.value })}
+                                                placeholder={activeLocale === 'tr' ? 'Hakkımızda' : 'About'}
                                             />
                                         </div>
 
@@ -483,11 +506,11 @@ export default function NavbarEditorPage() {
                                             <Label>Linkler</Label>
                                             <Button type="button" size="sm" onClick={addAboutLink} variant="outline">
                                                 <Plus className="w-4 h-4 mr-2" />
-                                                Yeni Link Ekle
+                                                Yeni Link
                                             </Button>
                                         </div>
 
-                                        {navbarData.about.links.map((link, index) => (
+                                        {currentData.about.links.map((link, index) => (
                                             <Card key={index} className="p-4 border-2">
                                                 <div className="space-y-3">
                                                     <div className="flex items-center justify-between">
@@ -507,7 +530,7 @@ export default function NavbarEditorPage() {
                                                                 size="sm"
                                                                 variant="outline"
                                                                 onClick={() => moveAboutLink(index, 'down')}
-                                                                disabled={index === navbarData.about.links.length - 1}
+                                                                disabled={index === currentData.about.links.length - 1}
                                                             >
                                                                 <ChevronDown className="w-4 h-4" />
                                                             </Button>
@@ -519,30 +542,24 @@ export default function NavbarEditorPage() {
 
                                                     <div className="grid grid-cols-2 gap-3">
                                                         <div className="space-y-2">
-                                                            <Label>Label (Translation Key) *</Label>
+                                                            <Label>Etiket *</Label>
                                                             <Input
                                                                 value={link.label}
                                                                 onChange={(e) => updateAboutLink(index, 'label', e.target.value)}
-                                                                placeholder="whyUs"
+                                                                placeholder={activeLocale === 'tr' ? 'Neden Biz?' : 'Why Us?'}
                                                                 className={!link.label || link.label.trim() === '' ? 'border-red-500' : ''}
                                                                 required
                                                             />
-                                                            {!link.label || link.label.trim() === '' ? (
-                                                                <span className="text-red-500 text-xs">Bu alan zorunludur</span>
-                                                            ) : null}
                                                         </div>
                                                         <div className="space-y-2">
                                                             <Label>URL *</Label>
                                                             <Input
                                                                 value={link.href}
                                                                 onChange={(e) => updateAboutLink(index, 'href', e.target.value)}
-                                                                placeholder="/why-us"
+                                                                placeholder={activeLocale === 'tr' ? '/neden-biz' : '/why-us'}
                                                                 className={!link.href || link.href.trim() === '' ? 'border-red-500' : ''}
                                                                 required
                                                             />
-                                                            {!link.href || link.href.trim() === '' ? (
-                                                                <span className="text-red-500 text-xs">Bu alan zorunludur</span>
-                                                            ) : null}
                                                         </div>
                                                     </div>
 
@@ -561,7 +578,7 @@ export default function NavbarEditorPage() {
                             </Card>
                         </Collapsible>
 
-                        {/* Treatments Dropdown */}
+                        {/* Treatments Menu */}
                         <Collapsible open={treatmentsOpen} onOpenChange={setTreatmentsOpen}>
                             <Card>
                                 <CollapsibleTrigger asChild>
@@ -569,7 +586,7 @@ export default function NavbarEditorPage() {
                                         <div className="flex items-center justify-between">
                                             <CardTitle className="flex items-center gap-2">
                                                 <GripVertical className="w-5 h-5" />
-                                                Tedaviler Menüsü ({navbarData.treatments.links.length} link)
+                                                {activeLocale === 'tr' ? 'Tedaviler Menüsü' : 'Treatments Menu'} ({currentData.treatments.links.length} link)
                                             </CardTitle>
                                             <ChevronDown className={`w-5 h-5 transition-transform ${treatmentsOpen ? 'rotate-180' : ''}`} />
                                         </div>
@@ -578,16 +595,11 @@ export default function NavbarEditorPage() {
                                 <CollapsibleContent>
                                     <CardContent className="space-y-4">
                                         <div className="space-y-2">
-                                            <Label>Menü Başlığı (Translation Key)</Label>
+                                            <Label>Menü Başlığı</Label>
                                             <Input
-                                                value={navbarData.treatments.label}
-                                                onChange={(e) =>
-                                                    setNavbarData({
-                                                        ...navbarData,
-                                                        treatments: { ...navbarData.treatments, label: e.target.value },
-                                                    })
-                                                }
-                                                placeholder="treatments"
+                                                value={currentData.treatments.label}
+                                                onChange={(e) => updateField('treatments', { ...currentData.treatments, label: e.target.value })}
+                                                placeholder={activeLocale === 'tr' ? 'Tedaviler' : 'Treatments'}
                                             />
                                         </div>
 
@@ -595,11 +607,11 @@ export default function NavbarEditorPage() {
                                             <Label>Linkler</Label>
                                             <Button type="button" size="sm" onClick={addTreatmentLink} variant="outline">
                                                 <Plus className="w-4 h-4 mr-2" />
-                                                Yeni Link Ekle
+                                                Yeni Link
                                             </Button>
                                         </div>
 
-                                        {navbarData.treatments.links.map((link, index) => (
+                                        {currentData.treatments.links.map((link, index) => (
                                             <Card key={index} className="p-4 border-2">
                                                 <div className="space-y-3">
                                                     <div className="flex items-center justify-between">
@@ -619,7 +631,7 @@ export default function NavbarEditorPage() {
                                                                 size="sm"
                                                                 variant="outline"
                                                                 onClick={() => moveTreatmentLink(index, 'down')}
-                                                                disabled={index === navbarData.treatments.links.length - 1}
+                                                                disabled={index === currentData.treatments.links.length - 1}
                                                             >
                                                                 <ChevronDown className="w-4 h-4" />
                                                             </Button>
@@ -636,30 +648,24 @@ export default function NavbarEditorPage() {
 
                                                     <div className="grid grid-cols-2 gap-3">
                                                         <div className="space-y-2">
-                                                            <Label>Label (Translation Key) *</Label>
+                                                            <Label>Etiket *</Label>
                                                             <Input
                                                                 value={link.label}
                                                                 onChange={(e) => updateTreatmentLink(index, 'label', e.target.value)}
-                                                                placeholder="ivfIcsi"
+                                                                placeholder={activeLocale === 'tr' ? 'Tüp Bebek (IVF)' : 'IVF Treatment'}
                                                                 className={!link.label || link.label.trim() === '' ? 'border-red-500' : ''}
                                                                 required
                                                             />
-                                                            {!link.label || link.label.trim() === '' ? (
-                                                                <span className="text-red-500 text-xs">Bu alan zorunludur</span>
-                                                            ) : null}
                                                         </div>
                                                         <div className="space-y-2">
                                                             <Label>URL *</Label>
                                                             <Input
                                                                 value={link.href}
                                                                 onChange={(e) => updateTreatmentLink(index, 'href', e.target.value)}
-                                                                placeholder="/ivf-icsi"
+                                                                placeholder={activeLocale === 'tr' ? '/tedaviler/tup-bebek' : '/treatments/ivf'}
                                                                 className={!link.href || link.href.trim() === '' ? 'border-red-500' : ''}
                                                                 required
                                                             />
-                                                            {!link.href || link.href.trim() === '' ? (
-                                                                <span className="text-red-500 text-xs">Bu alan zorunludur</span>
-                                                            ) : null}
                                                         </div>
                                                     </div>
 
@@ -678,19 +684,21 @@ export default function NavbarEditorPage() {
                             </Card>
                         </Collapsible>
 
-                        {/* Main Links */}
+                        {/* Main Menu Links */}
                         <Card>
                             <CardHeader>
                                 <div className="flex items-center justify-between">
-                                    <CardTitle>Ana Menü Linkleri ({navbarData.links.length} link)</CardTitle>
+                                    <CardTitle>
+                                        {activeLocale === 'tr' ? 'Ana Menü Linkleri' : 'Main Menu Links'} ({currentData.links.length} link)
+                                    </CardTitle>
                                     <Button type="button" size="sm" onClick={addMainLink} variant="outline">
                                         <Plus className="w-4 h-4 mr-2" />
-                                        Yeni Link Ekle
+                                        Yeni Link
                                     </Button>
                                 </div>
                             </CardHeader>
                             <CardContent className="space-y-4">
-                                {navbarData.links.map((link, index) => (
+                                {currentData.links.map((link, index) => (
                                     <Card key={index} className="p-4 border-2">
                                         <div className="space-y-3">
                                             <div className="flex items-center justify-between">
@@ -710,7 +718,7 @@ export default function NavbarEditorPage() {
                                                         size="sm"
                                                         variant="outline"
                                                         onClick={() => moveMainLink(index, 'down')}
-                                                        disabled={index === navbarData.links.length - 1}
+                                                        disabled={index === currentData.links.length - 1}
                                                     >
                                                         <ChevronDown className="w-4 h-4" />
                                                     </Button>
@@ -721,30 +729,24 @@ export default function NavbarEditorPage() {
                                             </div>
                                             <div className="grid grid-cols-2 gap-3">
                                                 <div className="space-y-2">
-                                                    <Label>Label (Translation Key) *</Label>
+                                                    <Label>Etiket *</Label>
                                                     <Input
                                                         value={link.label}
                                                         onChange={(e) => updateMainLink(index, 'label', e.target.value)}
-                                                        placeholder="faq"
+                                                        placeholder={activeLocale === 'tr' ? 'SSS' : 'FAQ'}
                                                         className={!link.label || link.label.trim() === '' ? 'border-red-500' : ''}
                                                         required
                                                     />
-                                                    {!link.label || link.label.trim() === '' ? (
-                                                        <span className="text-red-500 text-xs">Bu alan zorunludur</span>
-                                                    ) : null}
                                                 </div>
                                                 <div className="space-y-2">
                                                     <Label>URL *</Label>
                                                     <Input
                                                         value={link.href}
                                                         onChange={(e) => updateMainLink(index, 'href', e.target.value)}
-                                                        placeholder="/faq"
+                                                        placeholder={activeLocale === 'tr' ? '/sss' : '/faq'}
                                                         className={!link.href || link.href.trim() === '' ? 'border-red-500' : ''}
                                                         required
                                                     />
-                                                    {!link.href || link.href.trim() === '' ? (
-                                                        <span className="text-red-500 text-xs">Bu alan zorunludur</span>
-                                                    ) : null}
                                                 </div>
                                             </div>
 
@@ -761,8 +763,7 @@ export default function NavbarEditorPage() {
                             </CardContent>
                         </Card>
 
-                        {/* Save Button */}
-                        <div className="pt-4 border-t">
+                        <div className="pt-4 border-t flex gap-4">
                             <Button type="submit" disabled={saving} className="bg-primary-pink hover:bg-pink-700">
                                 {saving ? (
                                     <>
@@ -772,16 +773,22 @@ export default function NavbarEditorPage() {
                                 ) : (
                                     <>
                                         <Save className="w-4 h-4 mr-2" />
-                                        Kaydet
+                                        Her İki Dili Kaydet
                                     </>
                                 )}
                             </Button>
+
+                            <div className="flex items-center gap-2 text-sm text-gray-600">
+                                <span>🇹🇷 TR: {navbarData.tr.about.links.length + navbarData.tr.treatments.links.length + navbarData.tr.links.length} link</span>
+                                <span>•</span>
+                                <span>🇬🇧 EN: {navbarData.en.about.links.length + navbarData.en.treatments.links.length + navbarData.en.links.length} link</span>
+                            </div>
                         </div>
                     </form>
                 </CardContent>
             </Card>
 
-            {/* Media Picker */}
             <MediaPicker open={showMediaPicker} onOpenChange={setShowMediaPicker} onSelect={handleMediaSelect} />
         </div>
-    )};
+    );
+}

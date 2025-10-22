@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Public Routes (AUTH OLMADAN)
+| Public Routes (AUTH OLMADAN) - Frontend için
 |--------------------------------------------------------------------------
 */
 
@@ -44,13 +44,13 @@ Route::post('/contact/submit', [ContactController::class, 'submit']);
 Route::get('/navbar', [NavbarController::class, 'index']);
 Route::get('/footer', [FooterController::class, 'index']);
 
-// Pages Public Routes - Frontend için
+// Pages Public Routes - Frontend için (AUTH GEREKMİYOR)
 Route::get('/pages/slug/{slug}', [PageController::class, 'getBySlug']);
 Route::get('/pages/all', [PageController::class, 'getAllPages']);
 
 /*
 |--------------------------------------------------------------------------
-| Protected Routes (AUTH GEREKLİ)
+| Protected Routes (AUTH GEREKLİ) - Admin Panel
 |--------------------------------------------------------------------------
 */
 
@@ -69,13 +69,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/recent-activity', [DashboardController::class, 'recentActivity']);
     });
 
-    // Pages Admin Routes
+    // Pages ADMIN Routes (Auth gerekli)
     Route::prefix('pages')->group(function () {
-        Route::get('/', [PageController::class, 'index']);
-        Route::post('/', [PageController::class, 'store']);
-        Route::get('/{id}', [PageController::class, 'show']);
-        Route::put('/{id}', [PageController::class, 'update']);
-        Route::delete('/{id}', [PageController::class, 'destroy']);
+        Route::get('/', [PageController::class, 'index']);           // GET /api/pages
+        Route::post('/', [PageController::class, 'store']);          // POST /api/pages
+        Route::get('/{id}', [PageController::class, 'show']);        // GET /api/pages/{id}?locale=tr
+        Route::put('/{id}', [PageController::class, 'update']);      // PUT /api/pages/{id}
+        Route::delete('/{id}', [PageController::class, 'destroy']);  // DELETE /api/pages/{id}
+        // Bulk delete (mevcut olan dosyaların birinde vardı) - güvenlik kontrolleri eklemeyi unutmayın
         Route::post('/bulk-delete', [PageController::class, 'bulkDelete']);
     });
 

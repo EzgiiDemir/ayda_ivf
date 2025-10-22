@@ -50,7 +50,7 @@ export const config = {
         '/media/:path*',
         '/settings/:path*',
         '/home/:path*',
-        '/contact/submissions/:path*', // ✅ Contact submissions route
+        '/contact/submissions/:path*',
 
         '/((?!login|register|dashboard|pages|media|settings|home|admin|contact/submissions|api|_next|_vercel|.*\\..*).*)',
         '/',

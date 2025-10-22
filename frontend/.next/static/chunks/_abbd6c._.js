@@ -1076,6 +1076,8 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$MediaPi
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$switch$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/components/ui/switch.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Image$3e$__ = __turbopack_import__("[project]/node_modules/lucide-react/dist/esm/icons/image.js [app-client] (ecmascript) <export default as Image>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__ = __turbopack_import__("[project]/node_modules/lucide-react/dist/esm/icons/plus.js [app-client] (ecmascript) <export default as Plus>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$up$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronUp$3e$__ = __turbopack_import__("[project]/node_modules/lucide-react/dist/esm/icons/chevron-up.js [app-client] (ecmascript) <export default as ChevronUp>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__ = __turbopack_import__("[project]/node_modules/lucide-react/dist/esm/icons/chevron-down.js [app-client] (ecmascript) <export default as ChevronDown>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trash$2d$2$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Trash2$3e$__ = __turbopack_import__("[project]/node_modules/lucide-react/dist/esm/icons/trash-2.js [app-client] (ecmascript) <export default as Trash2>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$question$2d$mark$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__HelpCircle$3e$__ = __turbopack_import__("[project]/node_modules/lucide-react/dist/esm/icons/circle-question-mark.js [app-client] (ecmascript) <export default as HelpCircle>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$save$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Save$3e$__ = __turbopack_import__("[project]/node_modules/lucide-react/dist/esm/icons/save.js [app-client] (ecmascript) <export default as Save>");
@@ -1094,16 +1096,27 @@ var _s = __turbopack_refresh__.signature();
 ;
 ;
 ;
+const DEFAULT_LOCALE_DATA = {
+    hero_image: '',
+    page_title: '',
+    page_subtitle: '',
+    empty_message: '',
+    faqs: []
+};
 function FAQEditorPage() {
     _s();
     const { toast } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$use$2d$toast$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useToast"])();
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
     const [saving, setSaving] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [activeLocale, setActiveLocale] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('tr');
     const [showMediaPicker, setShowMediaPicker] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [faqData, setFaqData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
-        locale: 'tr',
-        hero_image: '',
-        faqs: []
+        tr: {
+            ...DEFAULT_LOCALE_DATA
+        },
+        en: {
+            ...DEFAULT_LOCALE_DATA
+        }
     });
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "FAQEditorPage.useEffect": ()=>{
@@ -1113,19 +1126,34 @@ function FAQEditorPage() {
     const fetchData = async ()=>{
         try {
             setLoading(true);
-            const response = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get('/faq?locale=tr');
-            if (response.data.data) {
-                setFaqData({
-                    locale: 'tr',
-                    hero_image: response.data.data.hero_image || '',
-                    faqs: response.data.data.faqs || []
+            const [trResponse, enResponse] = await Promise.all([
+                __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get('/faq?locale=tr'),
+                __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get('/faq?locale=en')
+            ]);
+            const processData = (data)=>({
+                    hero_image: data.hero_image || '',
+                    page_title: data.page_title || '',
+                    page_subtitle: data.page_subtitle || '',
+                    empty_message: data.empty_message || '',
+                    faqs: data.faqs || []
                 });
-            }
-        } catch (error) {
-            console.error('Fetch error:', error);
+            setFaqData({
+                tr: trResponse.data.data ? processData(trResponse.data.data) : {
+                    ...DEFAULT_LOCALE_DATA
+                },
+                en: enResponse.data.data ? processData(enResponse.data.data) : {
+                    ...DEFAULT_LOCALE_DATA
+                }
+            });
             toast({
-                title: 'Hata',
-                description: 'Veriler yüklenirken bir hata oluştu',
+                title: '✅ Başarılı',
+                description: 'FAQ verileri yüklendi'
+            });
+        } catch (error) {
+            console.error('❌ Fetch error:', error);
+            toast({
+                title: '❌ Hata',
+                description: 'Veriler yüklenirken hata oluştu',
                 variant: 'destructive'
             });
         } finally{
@@ -1136,95 +1164,101 @@ function FAQEditorPage() {
         e.preventDefault();
         setSaving(true);
         try {
-            // Reorder FAQs based on current array order
-            const orderedFaqs = faqData.faqs.map((faq, index)=>({
+            const orderedTr = faqData.tr.faqs.map((faq, index)=>({
                     ...faq,
                     order: index + 1
                 }));
-            await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].put('/faq', {
-                ...faqData,
-                faqs: orderedFaqs
-            });
+            const orderedEn = faqData.en.faqs.map((faq, index)=>({
+                    ...faq,
+                    order: index + 1
+                }));
+            await Promise.all([
+                __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].put('/faq', {
+                    ...faqData.tr,
+                    faqs: orderedTr,
+                    locale: 'tr'
+                }),
+                __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$axios$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].put('/faq', {
+                    ...faqData.en,
+                    faqs: orderedEn,
+                    locale: 'en'
+                })
+            ]);
             toast({
-                title: 'Başarılı',
-                description: 'FAQ sayfası güncellendi'
+                title: '✅ Başarılı',
+                description: 'FAQ ayarları her iki dil için kaydedildi'
             });
-            fetchData(); // Refresh to get IDs from backend
+            await fetchData();
         } catch (error) {
-            console.error('Save error:', error.response?.data);
+            console.error('❌ Save error:', error.response?.data);
             toast({
-                title: 'Hata',
-                description: error.response?.data?.message || 'Güncelleme başarısız',
+                title: '❌ Hata',
+                description: error.response?.data?.message || 'Kayıt sırasında hata oluştu',
                 variant: 'destructive'
             });
         } finally{
             setSaving(false);
         }
     };
-    const addFAQ = ()=>{
+    const updateField = (field, value)=>{
         setFaqData({
             ...faqData,
-            faqs: [
-                ...faqData.faqs,
-                {
-                    question: '',
-                    answer: '',
-                    order: faqData.faqs.length + 1,
-                    is_active: true
-                }
-            ]
+            [activeLocale]: {
+                ...faqData[activeLocale],
+                [field]: value
+            }
         });
     };
+    const addFAQ = ()=>{
+        const currentData = faqData[activeLocale];
+        updateField('faqs', [
+            ...currentData.faqs,
+            {
+                question: '',
+                answer: '',
+                order: currentData.faqs.length + 1,
+                is_active: true
+            }
+        ]);
+    };
     const removeFAQ = (index)=>{
-        const newFaqs = faqData.faqs.filter((_, i)=>i !== index);
-        // Reorder remaining FAQs
+        const currentData = faqData[activeLocale];
+        const newFaqs = currentData.faqs.filter((_, i)=>i !== index);
         const reorderedFaqs = newFaqs.map((faq, i)=>({
                 ...faq,
                 order: i + 1
             }));
-        setFaqData({
-            ...faqData,
-            faqs: reorderedFaqs
-        });
+        updateField('faqs', reorderedFaqs);
     };
     const updateFAQ = (index, field, value)=>{
+        const currentData = faqData[activeLocale];
         const newFaqs = [
-            ...faqData.faqs
+            ...currentData.faqs
         ];
         newFaqs[index] = {
             ...newFaqs[index],
             [field]: value
         };
-        setFaqData({
-            ...faqData,
-            faqs: newFaqs
-        });
+        updateField('faqs', newFaqs);
     };
     const moveFAQ = (index, direction)=>{
+        const currentData = faqData[activeLocale];
         const newFaqs = [
-            ...faqData.faqs
+            ...currentData.faqs
         ];
         const newIndex = direction === 'up' ? index - 1 : index + 1;
         if (newIndex < 0 || newIndex >= newFaqs.length) return;
-        // Swap items
         [newFaqs[index], newFaqs[newIndex]] = [
             newFaqs[newIndex],
             newFaqs[index]
         ];
-        // Update order
         newFaqs.forEach((faq, i)=>{
             faq.order = i + 1;
         });
-        setFaqData({
-            ...faqData,
-            faqs: newFaqs
-        });
+        updateField('faqs', newFaqs);
     };
     const handleMediaSelect = (url)=>{
-        setFaqData({
-            ...faqData,
-            hero_image: url
-        });
+        updateField('hero_image', url);
         setShowMediaPicker(false);
     };
     if (loading) {
@@ -1234,47 +1268,83 @@ function FAQEditorPage() {
                 className: "h-12 w-12 animate-spin text-primary-pink"
             }, void 0, false, {
                 fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                lineNumber: 154,
+                lineNumber: 183,
                 columnNumber: 17
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-            lineNumber: 153,
+            lineNumber: 182,
             columnNumber: 13
         }, this);
     }
-    const activeCount = faqData.faqs.filter((f)=>f.is_active).length;
-    const inactiveCount = faqData.faqs.length - activeCount;
+    const currentData = faqData[activeLocale];
+    const activeCount = currentData.faqs.filter((f)=>f.is_active).length;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "space-y-6",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                    className: "text-3xl font-bold text-primary-pink flex items-center gap-2",
-                    children: "FAQ"
-                }, void 0, false, {
-                    fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                    lineNumber: 166,
-                    columnNumber: 17
-                }, this)
-            }, void 0, false, {
+                className: "flex items-center justify-between",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                        className: "text-3xl font-bold text-primary-pink flex items-center gap-2",
+                        children: "FAQ"
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                        lineNumber: 194,
+                        columnNumber: 17
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex gap-2",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                variant: activeLocale === 'tr' ? 'default' : 'outline',
+                                onClick: ()=>setActiveLocale('tr'),
+                                className: activeLocale === 'tr' ? 'bg-primary-pink' : '',
+                                children: "🇹🇷 Türkçe"
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                lineNumber: 198,
+                                columnNumber: 21
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                variant: activeLocale === 'en' ? 'default' : 'outline',
+                                onClick: ()=>setActiveLocale('en'),
+                                className: activeLocale === 'en' ? 'bg-primary-pink' : '',
+                                children: "🇬🇧 English"
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                lineNumber: 205,
+                                columnNumber: 21
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                        lineNumber: 197,
+                        columnNumber: 17
+                    }, this)
+                ]
+            }, void 0, true, {
                 fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                lineNumber: 165,
+                lineNumber: 193,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardHeader"], {
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardTitle"], {
-                            children: "FAQ Ayarları"
-                        }, void 0, false, {
+                            className: "flex items-center gap-2",
+                            children: [
+                                activeLocale === 'tr' ? '🇹🇷 Türkçe' : '🇬🇧 English',
+                                " İçerik"
+                            ]
+                        }, void 0, true, {
                             fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                            lineNumber: 172,
+                            lineNumber: 217,
                             columnNumber: 21
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                        lineNumber: 171,
+                        lineNumber: 216,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1286,25 +1356,22 @@ function FAQEditorPage() {
                                     className: "space-y-2",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
-                                            children: "Hero Banner Görseli"
+                                            children: "Hero Görseli"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                            lineNumber: 178,
+                                            lineNumber: 225,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "flex gap-2",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                    value: faqData.hero_image || '',
-                                                    onChange: (e)=>setFaqData({
-                                                            ...faqData,
-                                                            hero_image: e.target.value
-                                                        }),
+                                                    value: currentData.hero_image,
+                                                    onChange: (e)=>updateField('hero_image', e.target.value),
                                                     placeholder: "https://..."
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                    lineNumber: 180,
+                                                    lineNumber: 227,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1315,40 +1382,132 @@ function FAQEditorPage() {
                                                         className: "w-4 h-4"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                        lineNumber: 190,
+                                                        lineNumber: 237,
                                                         columnNumber: 37
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                    lineNumber: 185,
+                                                    lineNumber: 232,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                            lineNumber: 179,
+                                            lineNumber: 226,
                                             columnNumber: 29
                                         }, this),
-                                        faqData.hero_image && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        currentData.hero_image && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "mt-2",
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                                src: faqData.hero_image,
+                                                src: currentData.hero_image,
                                                 alt: "Hero Preview",
                                                 className: "w-full h-48 object-cover rounded-md"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                lineNumber: 195,
+                                                lineNumber: 242,
                                                 columnNumber: 37
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                            lineNumber: 194,
+                                            lineNumber: 241,
                                             columnNumber: 33
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                    lineNumber: 177,
+                                    lineNumber: 224,
+                                    columnNumber: 25
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "space-y-4 p-4 bg-gray-50 rounded-lg",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                            className: "font-semibold",
+                                            children: "Sayfa Başlıkları"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                            lineNumber: 253,
+                                            columnNumber: 29
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "space-y-2",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
+                                                    children: "Sayfa Başlığı"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                                    lineNumber: 256,
+                                                    columnNumber: 33
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                    value: currentData.page_title,
+                                                    onChange: (e)=>updateField('page_title', e.target.value),
+                                                    placeholder: activeLocale === 'tr' ? 'Sıkça Sorulan Sorular' : 'Frequently Asked Questions'
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                                    lineNumber: 257,
+                                                    columnNumber: 33
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                            lineNumber: 255,
+                                            columnNumber: 29
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "space-y-2",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
+                                                    children: "Sayfa Alt Başlığı"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                                    lineNumber: 265,
+                                                    columnNumber: 33
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                    value: currentData.page_subtitle,
+                                                    onChange: (e)=>updateField('page_subtitle', e.target.value),
+                                                    placeholder: activeLocale === 'tr' ? 'Merak ettikleriniz' : 'What you need to know'
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                                    lineNumber: 266,
+                                                    columnNumber: 33
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                            lineNumber: 264,
+                                            columnNumber: 29
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "space-y-2",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
+                                                    children: "Boş Liste Mesajı"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                                    lineNumber: 274,
+                                                    columnNumber: 33
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                    value: currentData.empty_message,
+                                                    onChange: (e)=>updateField('empty_message', e.target.value),
+                                                    placeholder: activeLocale === 'tr' ? 'Henüz soru eklenmemiş.' : 'No questions added yet.'
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                                    lineNumber: 275,
+                                                    columnNumber: 33
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                            lineNumber: 273,
+                                            columnNumber: 29
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                    lineNumber: 252,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1359,10 +1518,14 @@ function FAQEditorPage() {
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
                                                     className: "text-lg font-semibold",
-                                                    children: "Sorular ve Cevaplar"
-                                                }, void 0, false, {
+                                                    children: [
+                                                        "Sorular ve Cevaplar (",
+                                                        activeLocale === 'tr' ? '🇹🇷' : '🇬🇧',
+                                                        ")"
+                                                    ]
+                                                }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                    lineNumber: 207,
+                                                    lineNumber: 286,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1375,38 +1538,38 @@ function FAQEditorPage() {
                                                             className: "w-4 h-4 mr-2"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                            lineNumber: 209,
+                                                            lineNumber: 290,
                                                             columnNumber: 37
                                                         }, this),
                                                         "Yeni Soru Ekle"
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                    lineNumber: 208,
+                                                    lineNumber: 289,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                            lineNumber: 206,
+                                            lineNumber: 285,
                                             columnNumber: 29
                                         }, this),
-                                        faqData.faqs.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        currentData.faqs.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "text-center py-12 border-2 border-dashed rounded-lg",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$circle$2d$question$2d$mark$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__HelpCircle$3e$__["HelpCircle"], {
                                                     className: "w-16 h-16 mx-auto text-gray-300 mb-4"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                    lineNumber: 216,
+                                                    lineNumber: 297,
                                                     columnNumber: 37
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                     className: "text-gray-500 mb-4",
-                                                    children: "Henüz soru eklenmedi"
+                                                    children: "Henüz soru eklenmemiş"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                    lineNumber: 217,
+                                                    lineNumber: 298,
                                                     columnNumber: 37
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1418,24 +1581,24 @@ function FAQEditorPage() {
                                                             className: "w-4 h-4 mr-2"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                            lineNumber: 219,
+                                                            lineNumber: 300,
                                                             columnNumber: 41
                                                         }, this),
                                                         "İlk Soruyu Ekle"
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                    lineNumber: 218,
+                                                    lineNumber: 299,
                                                     columnNumber: 37
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                            lineNumber: 215,
+                                            lineNumber: 296,
                                             columnNumber: 33
                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "space-y-4",
-                                            children: faqData.faqs.map((faq, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
+                                            children: currentData.faqs.map((faq, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
                                                     className: `p-4 ${!faq.is_active ? 'opacity-60 bg-gray-50' : ''}`,
                                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         className: "space-y-4",
@@ -1445,68 +1608,98 @@ function FAQEditorPage() {
                                                                 children: [
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                         className: "flex items-center gap-3",
-                                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                            className: "flex items-center gap-2",
-                                                                            children: [
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                                    className: "text-sm font-semibold text-gray-700",
-                                                                                    children: [
-                                                                                        "Soru ",
-                                                                                        index + 1
-                                                                                    ]
-                                                                                }, void 0, true, {
-                                                                                    fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                                                    lineNumber: 232,
-                                                                                    columnNumber: 61
-                                                                                }, this),
-                                                                                !faq.is_active && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                                    className: "text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded",
-                                                                                    children: "Pasif"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                                                    lineNumber: 236,
-                                                                                    columnNumber: 65
-                                                                                }, this)
-                                                                            ]
-                                                                        }, void 0, true, {
-                                                                            fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                                            lineNumber: 231,
-                                                                            columnNumber: 57
-                                                                        }, this)
-                                                                    }, void 0, false, {
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                className: "text-sm font-semibold text-gray-700",
+                                                                                children: [
+                                                                                    "Soru ",
+                                                                                    index + 1
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                                                                lineNumber: 311,
+                                                                                columnNumber: 57
+                                                                            }, this),
+                                                                            !faq.is_active && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                className: "text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded",
+                                                                                children: "Pasif"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                                                                lineNumber: 315,
+                                                                                columnNumber: 61
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
                                                                         fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                                        lineNumber: 230,
+                                                                        lineNumber: 310,
                                                                         columnNumber: 53
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                         className: "flex gap-2",
-                                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                                                            type: "button",
-                                                                            size: "sm",
-                                                                            variant: "destructive",
-                                                                            onClick: ()=>removeFAQ(index),
-                                                                            title: "Sil",
-                                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trash$2d$2$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Trash2$3e$__["Trash2"], {
-                                                                                className: "w-4 h-4"
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                                                type: "button",
+                                                                                size: "sm",
+                                                                                variant: "outline",
+                                                                                onClick: ()=>moveFAQ(index, 'up'),
+                                                                                disabled: index === 0,
+                                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$up$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronUp$3e$__["ChevronUp"], {
+                                                                                    className: "w-4 h-4"
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                                                                    lineNumber: 329,
+                                                                                    columnNumber: 61
+                                                                                }, this)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                                                lineNumber: 251,
-                                                                                columnNumber: 61
+                                                                                lineNumber: 322,
+                                                                                columnNumber: 57
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                                                type: "button",
+                                                                                size: "sm",
+                                                                                variant: "outline",
+                                                                                onClick: ()=>moveFAQ(index, 'down'),
+                                                                                disabled: index === currentData.faqs.length - 1,
+                                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$chevron$2d$down$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ChevronDown$3e$__["ChevronDown"], {
+                                                                                    className: "w-4 h-4"
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                                                                    lineNumber: 338,
+                                                                                    columnNumber: 61
+                                                                                }, this)
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                                                                lineNumber: 331,
+                                                                                columnNumber: 57
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                                                type: "button",
+                                                                                size: "sm",
+                                                                                variant: "destructive",
+                                                                                onClick: ()=>removeFAQ(index),
+                                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trash$2d$2$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Trash2$3e$__["Trash2"], {
+                                                                                    className: "w-4 h-4"
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                                                                    lineNumber: 346,
+                                                                                    columnNumber: 61
+                                                                                }, this)
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                                                                lineNumber: 340,
+                                                                                columnNumber: 57
                                                                             }, this)
-                                                                        }, void 0, false, {
-                                                                            fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                                            lineNumber: 244,
-                                                                            columnNumber: 57
-                                                                        }, this)
-                                                                    }, void 0, false, {
+                                                                        ]
+                                                                    }, void 0, true, {
                                                                         fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                                        lineNumber: 243,
+                                                                        lineNumber: 321,
                                                                         columnNumber: 53
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                                lineNumber: 229,
+                                                                lineNumber: 309,
                                                                 columnNumber: 49
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1520,30 +1713,30 @@ function FAQEditorPage() {
                                                                                 children: "*"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                                                lineNumber: 259,
+                                                                                lineNumber: 353,
                                                                                 columnNumber: 62
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                                        lineNumber: 258,
+                                                                        lineNumber: 352,
                                                                         columnNumber: 53
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
                                                                         value: faq.question,
                                                                         onChange: (e)=>updateFAQ(index, 'question', e.target.value),
-                                                                        placeholder: "Soruyu buraya yazın (örn: IVF tedavisi nedir?)",
+                                                                        placeholder: activeLocale === 'tr' ? 'Sorunuzu buraya yazın' : 'Write your question here',
                                                                         required: true,
                                                                         className: "font-medium"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                                        lineNumber: 261,
+                                                                        lineNumber: 355,
                                                                         columnNumber: 53
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                                lineNumber: 257,
+                                                                lineNumber: 351,
                                                                 columnNumber: 49
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1557,25 +1750,25 @@ function FAQEditorPage() {
                                                                                 children: "*"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                                                lineNumber: 273,
+                                                                                lineNumber: 366,
                                                                                 columnNumber: 63
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                                        lineNumber: 272,
+                                                                        lineNumber: 365,
                                                                         columnNumber: 53
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
                                                                         value: faq.answer,
                                                                         onChange: (e)=>updateFAQ(index, 'answer', e.target.value),
-                                                                        placeholder: "Cevabı buraya yazın (detaylı ve açıklayıcı olun)",
+                                                                        placeholder: activeLocale === 'tr' ? 'Cevabı buraya yazın' : 'Write your answer here',
                                                                         rows: 6,
                                                                         required: true,
                                                                         className: "resize-none"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                                        lineNumber: 275,
+                                                                        lineNumber: 368,
                                                                         columnNumber: 53
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1586,13 +1779,13 @@ function FAQEditorPage() {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                                        lineNumber: 283,
+                                                                        lineNumber: 376,
                                                                         columnNumber: 53
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                                lineNumber: 271,
+                                                                lineNumber: 364,
                                                                 columnNumber: 49
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1604,10 +1797,10 @@ function FAQEditorPage() {
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
                                                                                 htmlFor: `active-${index}`,
                                                                                 className: "cursor-pointer font-normal",
-                                                                                children: "Frontend'de göster"
+                                                                                children: "Frontend'de Göster"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                                                lineNumber: 291,
+                                                                                lineNumber: 383,
                                                                                 columnNumber: 57
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1615,13 +1808,13 @@ function FAQEditorPage() {
                                                                                 children: faq.is_active ? '(Aktif)' : '(Pasif)'
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                                                lineNumber: 294,
+                                                                                lineNumber: 386,
                                                                                 columnNumber: 57
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                                        lineNumber: 290,
+                                                                        lineNumber: 382,
                                                                         columnNumber: 53
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$switch$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Switch"], {
@@ -1630,35 +1823,35 @@ function FAQEditorPage() {
                                                                         onCheckedChange: (checked)=>updateFAQ(index, 'is_active', checked)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                                        lineNumber: 298,
+                                                                        lineNumber: 390,
                                                                         columnNumber: 53
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                                lineNumber: 289,
+                                                                lineNumber: 381,
                                                                 columnNumber: 49
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                        lineNumber: 227,
+                                                        lineNumber: 308,
                                                         columnNumber: 45
                                                     }, this)
                                                 }, index, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                    lineNumber: 226,
+                                                    lineNumber: 307,
                                                     columnNumber: 41
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                            lineNumber: 224,
+                                            lineNumber: 305,
                                             columnNumber: 33
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                    lineNumber: 205,
+                                    lineNumber: 284,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1666,7 +1859,7 @@ function FAQEditorPage() {
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
                                             type: "submit",
-                                            disabled: saving || faqData.faqs.length === 0,
+                                            disabled: saving,
                                             className: "bg-primary-pink hover:bg-pink-700",
                                             children: saving ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                                                 children: [
@@ -1674,7 +1867,7 @@ function FAQEditorPage() {
                                                         className: "w-4 h-4 mr-2 animate-spin"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                        lineNumber: 320,
+                                                        lineNumber: 411,
                                                         columnNumber: 41
                                                     }, this),
                                                     "Kaydediliyor..."
@@ -1685,49 +1878,80 @@ function FAQEditorPage() {
                                                         className: "w-4 h-4 mr-2"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                                        lineNumber: 325,
+                                                        lineNumber: 416,
                                                         columnNumber: 41
                                                     }, this),
-                                                    "Kaydet"
+                                                    "Her İki Dili Kaydet"
                                                 ]
                                             }, void 0, true)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                            lineNumber: 313,
+                                            lineNumber: 404,
                                             columnNumber: 29
                                         }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                            type: "button",
-                                            variant: "outline",
-                                            onClick: fetchData,
-                                            disabled: saving,
-                                            children: "İptal"
-                                        }, void 0, false, {
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex items-center gap-2 text-sm text-gray-600",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    children: [
+                                                        "🇹🇷 TR: ",
+                                                        faqData.tr.faqs.length,
+                                                        " soru (",
+                                                        faqData.tr.faqs.filter((f)=>f.is_active).length,
+                                                        " aktif)"
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                                    lineNumber: 423,
+                                                    columnNumber: 33
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    children: "•"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                                    lineNumber: 424,
+                                                    columnNumber: 33
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    children: [
+                                                        "🇬🇧 EN: ",
+                                                        faqData.en.faqs.length,
+                                                        " soru (",
+                                                        faqData.en.faqs.filter((f)=>f.is_active).length,
+                                                        " aktif)"
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
+                                                    lineNumber: 425,
+                                                    columnNumber: 33
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                            lineNumber: 331,
+                                            lineNumber: 422,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                                    lineNumber: 312,
+                                    lineNumber: 403,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                            lineNumber: 175,
+                            lineNumber: 222,
                             columnNumber: 21
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                        lineNumber: 174,
+                        lineNumber: 221,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                lineNumber: 170,
+                lineNumber: 215,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$MediaPicker$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1736,17 +1960,17 @@ function FAQEditorPage() {
                 onSelect: handleMediaSelect
             }, void 0, false, {
                 fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-                lineNumber: 345,
+                lineNumber: 432,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/(admin)/admin/pages/faq/page.tsx",
-        lineNumber: 163,
+        lineNumber: 192,
         columnNumber: 9
     }, this);
 }
-_s(FAQEditorPage, "RnWN0sVgXlbdAEnzVdi70w6tlXw=", false, function() {
+_s(FAQEditorPage, "teY040HWuO5RvdgS2hgzuIPKlbI=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$use$2d$toast$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useToast"]
     ];

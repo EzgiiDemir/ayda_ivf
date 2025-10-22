@@ -1434,7 +1434,8 @@ function PagesListPage() {
                                         lineNumber: 331,
                                         columnNumber: 25
                                     }, this),
-                                    "Toplu Oluştur (",
+                                    t('bulkCreate'),
+                                    " (",
                                     NAVBAR_PAGES.length,
                                     ")"
                                 ]

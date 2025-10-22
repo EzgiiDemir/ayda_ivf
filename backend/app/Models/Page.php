@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 class Page extends Model
 {
     protected $fillable = [
+        'locale',
+        'parent_id',
         'title',
         'subtitle',
         'slug',
@@ -24,65 +26,35 @@ class Page extends Model
         'updated_at' => 'datetime',
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | Relationships
-    |--------------------------------------------------------------------------
-    */
-
+    // Relations
     public function author()
     {
         return $this->belongsTo(User::class, 'author_id');
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Scopes
-    |--------------------------------------------------------------------------
-    */
+    public function translations()
+    {
+        return $this->hasMany(Page::class, 'parent_id');
+    }
 
-    /**
-     * Scope: Sadece published sayfaları getir
-     */
+    public function parent()
+    {
+        return $this->belongsTo(Page::class, 'parent_id');
+    }
+
+    // Scopes
+    public function scopeForLocale(Builder $query, string $locale): Builder
+    {
+        return $query->where('locale', $locale);
+    }
+
     public function scopePublished(Builder $query): Builder
     {
         return $query->where('status', 'published');
     }
 
-    /**
-     * Scope: Sadece draft sayfaları getir
-     */
     public function scopeDraft(Builder $query): Builder
     {
         return $query->where('status', 'draft');
-    }
-
-    /**
-     * Scope: Arama fonksiyonu
-     */
-    public function scopeSearch(Builder $query, string $search): Builder
-    {
-        return $query->where(function ($q) use ($search) {
-            $q->where('title', 'like', "%{$search}%")
-                ->orWhere('slug', 'like', "%{$search}%")
-                ->orWhere('subtitle', 'like', "%{$search}%")
-                ->orWhere('content', 'like', "%{$search}%");
-        });
-    }
-
-    /**
-     * Scope: Belirli bir author'a ait sayfalar
-     */
-    public function scopeByAuthor(Builder $query, int $authorId): Builder
-    {
-        return $query->where('author_id', $authorId);
-    }
-
-    /**
-     * Scope: Son güncellenenler
-     */
-    public function scopeRecent(Builder $query, int $limit = 10): Builder
-    {
-        return $query->latest('updated_at')->limit($limit);
     }
 }

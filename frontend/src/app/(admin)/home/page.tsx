@@ -9,21 +9,17 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/src/components/ui/use-toast';
-import { Loader2, Save, Home, Plus, Trash2, Image as ImageIcon } from 'lucide-react';
+import { Loader2, Save, Plus, Trash2, Image as ImageIcon, Languages, ChevronUp, ChevronDown } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import MediaPicker from '@/src/components/MediaPicker';
 
 interface HeroSlide {
-    image: {
-        url: string;
-        alt: string;
-    };
+    image: { url: string; alt: string };
     title?: string;
     subtitle?: string;
 }
 
-interface HeroData {
-    locale: string;
+interface HeroLocaleData {
     slides: HeroSlide[];
     dots_pattern: string;
     auto_play: boolean;
@@ -33,19 +29,9 @@ interface HeroData {
     bottom_text: string;
 }
 
-interface WelcomeData {
-    locale: string;
-    image: {
-        url: string;
-        alt: string;
-        width: number;
-        height: number;
-    };
-    gradient: {
-        from: string;
-        via: string;
-        to: string;
-    };
+interface WelcomeLocaleData {
+    image: { url: string; alt: string; width: number; height: number };
+    gradient: { from: string; via: string; to: string };
     title_top: string;
     title: string;
     paragraphs: string[];
@@ -61,8 +47,7 @@ interface TreatmentItem {
     isActive: boolean;
 }
 
-interface TreatmentsData {
-    locale: string;
+interface TreatmentsLocaleData {
     background_logo: string;
     treatments: TreatmentItem[];
     top_title: string;
@@ -73,64 +58,62 @@ interface TreatmentsData {
 }
 
 interface ContactMapData {
-    locale: string;
     show_iframe: boolean;
     map_url: string;
     image: string;
 }
+
+interface HomeData {
+    hero: { tr: HeroLocaleData; en: HeroLocaleData };
+    welcome: { tr: WelcomeLocaleData; en: WelcomeLocaleData };
+    treatments: { tr: TreatmentsLocaleData; en: TreatmentsLocaleData };
+    contactMap: ContactMapData;
+}
+
+const DEFAULT_HERO: HeroLocaleData = {
+    slides: [],
+    dots_pattern: '',
+    auto_play: true,
+    auto_play_interval: 5000,
+    show_indicators: true,
+    right_text: '',
+    bottom_text: '',
+};
+
+const DEFAULT_WELCOME: WelcomeLocaleData = {
+    image: { url: '', alt: '', width: 400, height: 400 },
+    gradient: { from: '#F7DFE6', via: '#FFFFFF', to: '#FFFFFF' },
+    title_top: '',
+    title: '',
+    paragraphs: ['', '', '', '', ''],
+    signature_name: '',
+    signature_title: '',
+};
+
+const DEFAULT_TREATMENTS: TreatmentsLocaleData = {
+    background_logo: '',
+    treatments: [],
+    top_title: '',
+    title: '',
+    description1: '',
+    description2: '',
+    contact_button_text: '',
+};
 
 export default function HomeEditorPage() {
     const { toast } = useToast();
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [activeTab, setActiveTab] = useState('hero');
-
-    // Media Picker
+    const [activeLocale, setActiveLocale] = useState<'tr' | 'en'>('tr');
     const [showMediaPicker, setShowMediaPicker] = useState(false);
     const [mediaTarget, setMediaTarget] = useState<string>('');
 
-    // Hero State
-    const [heroData, setHeroData] = useState<HeroData>({
-        locale: 'tr',
-        slides: [],
-        dots_pattern: '',
-        auto_play: true,
-        auto_play_interval: 5000,
-        show_indicators: true,
-        right_text: '',
-        bottom_text: '',
-    });
-
-    // Welcome State
-    const [welcomeData, setWelcomeData] = useState<WelcomeData>({
-        locale: 'tr',
-        image: { url: '', alt: '', width: 400, height: 400 },
-        gradient: { from: '#F7DFE6', via: '#FFFFFF', to: '#FFFFFF' },
-        title_top: '',
-        title: '',
-        paragraphs: ['', '', '', '', ''],
-        signature_name: '',
-        signature_title: '',
-    });
-
-    // Treatments State
-    const [treatmentsData, setTreatmentsData] = useState<TreatmentsData>({
-        locale: 'tr',
-        background_logo: '',
-        treatments: [],
-        top_title: '',
-        title: '',
-        description1: '',
-        description2: '',
-        contact_button_text: '',
-    });
-
-    // Contact Map State
-    const [contactMapData, setContactMapData] = useState<ContactMapData>({
-        locale: 'tr',
-        show_iframe: true,
-        map_url: '',
-        image: '',
+    const [homeData, setHomeData] = useState<HomeData>({
+        hero: { tr: { ...DEFAULT_HERO }, en: { ...DEFAULT_HERO } },
+        welcome: { tr: { ...DEFAULT_WELCOME }, en: { ...DEFAULT_WELCOME } },
+        treatments: { tr: { ...DEFAULT_TREATMENTS }, en: { ...DEFAULT_TREATMENTS } },
+        contactMap: { show_iframe: true, map_url: '', image: '' },
     });
 
     useEffect(() => {
@@ -140,180 +123,154 @@ export default function HomeEditorPage() {
     const fetchData = async () => {
         try {
             setLoading(true);
-            const [heroRes, welcomeRes, treatmentsRes, contactMapRes] = await Promise.all([
+            const [heroTr, heroEn, welcomeTr, welcomeEn, treatmentsTr, treatmentsEn, contactMap] = await Promise.all([
                 axios.get('/hero?locale=tr').catch(() => ({ data: { data: null } })),
+                axios.get('/hero?locale=en').catch(() => ({ data: { data: null } })),
                 axios.get('/welcome?locale=tr').catch(() => ({ data: { data: null } })),
+                axios.get('/welcome?locale=en').catch(() => ({ data: { data: null } })),
                 axios.get('/treatments?locale=tr').catch(() => ({ data: { data: null } })),
-                axios.get('/contact-map?locale=tr').catch(() => ({ data: { data: null } })),
+                axios.get('/treatments?locale=en').catch(() => ({ data: { data: null } })),
+                axios.get('/contact-map').catch(() => ({ data: { data: null } })),
             ]);
 
-            // Hero Data
-            if (heroRes.data.data) {
-                setHeroData({
-                    ...heroData,
-                    ...heroRes.data.data,
-                    slides: heroRes.data.data.slides || [],
-                });
-            }
+            setHomeData({
+                hero: {
+                    tr: heroTr.data.data || { ...DEFAULT_HERO },
+                    en: heroEn.data.data || { ...DEFAULT_HERO },
+                },
+                welcome: {
+                    tr: welcomeTr.data.data || { ...DEFAULT_WELCOME },
+                    en: welcomeEn.data.data || { ...DEFAULT_WELCOME },
+                },
+                treatments: {
+                    tr: treatmentsTr.data.data || { ...DEFAULT_TREATMENTS },
+                    en: treatmentsEn.data.data || { ...DEFAULT_TREATMENTS },
+                },
+                contactMap: contactMap.data.data || { show_iframe: true, map_url: '', image: '' },
+            });
 
-            // Welcome Data
-            if (welcomeRes.data.data) {
-                setWelcomeData({
-                    ...welcomeData,
-                    ...welcomeRes.data.data,
-                    paragraphs: welcomeRes.data.data.paragraphs || ['', '', '', '', ''],
-                    image: welcomeRes.data.data.image || { url: '', alt: '', width: 400, height: 400 },
-                    gradient: welcomeRes.data.data.gradient || { from: '#F7DFE6', via: '#FFFFFF', to: '#FFFFFF' },
-                });
-            }
-
-            // Treatments Data
-            if (treatmentsRes.data.data) {
-                setTreatmentsData({
-                    ...treatmentsData,
-                    ...treatmentsRes.data.data,
-                    treatments: treatmentsRes.data.data.treatments || [],
-                });
-            }
-
-            // Contact Map Data
-            if (contactMapRes.data.data) {
-                setContactMapData({
-                    ...contactMapData,
-                    ...contactMapRes.data.data,
-                });
-            }
+            toast({ title: '✅ Başarılı', description: 'Ana sayfa verileri yüklendi' });
         } catch (error: any) {
-            console.error('Fetch error:', error);
+            console.error('❌ Fetch error:', error);
+            toast({ title: '❌ Hata', description: 'Veriler yüklenirken hata oluştu', variant: 'destructive' });
         } finally {
             setLoading(false);
         }
     };
-    const handleSaveHero = async (e: React.FormEvent) => {
-        e.preventDefault();
+
+    const handleSave = async (section: 'hero' | 'welcome' | 'treatments' | 'contactMap') => {
         setSaving(true);
         try {
-            console.log('Sending hero data:', JSON.stringify(heroData, null, 2));
-            await axios.put('/hero', heroData);
-            toast({ title: 'Başarılı', description: 'Hero section güncellendi' });
+            if (section === 'contactMap') {
+                await axios.put('/contact-map', homeData.contactMap);
+            } else {
+                await Promise.all([
+                    axios.put(`/${section}`, { ...homeData[section].tr, locale: 'tr' }),
+                    axios.put(`/${section}`, { ...homeData[section].en, locale: 'en' }),
+                ]);
+            }
+            toast({ title: '✅ Başarılı', description: `${section} bölümü her iki dil için kaydedildi` });
         } catch (error: any) {
-            console.error('Hero save error:', error.response?.data);
-            toast({
-                title: 'Hata',
-                description: error.response?.data?.message || 'Güncelleme başarısız',
-                variant: 'destructive',
-            });
+            console.error('❌ Save error:', error);
+            toast({ title: '❌ Hata', description: 'Kayıt başarısız', variant: 'destructive' });
         } finally {
             setSaving(false);
         }
     };
 
-    const handleSaveWelcome = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setSaving(true);
-        try {
-            await axios.put('/welcome', welcomeData);
-            toast({ title: 'Başarılı', description: 'Welcome section güncellendi' });
-        } catch (error: any) {
-            toast({
-                title: 'Hata',
-                description: error.response?.data?.message || 'Güncelleme başarısız',
-                variant: 'destructive',
-            });
-        } finally {
-            setSaving(false);
-        }
-    };
-
-    const handleSaveTreatments = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setSaving(true);
-        try {
-            await axios.put('/treatments', treatmentsData);
-            toast({ title: 'Başarılı', description: 'Treatments section güncellendi' });
-        } catch (error: any) {
-            toast({
-                title: 'Hata',
-                description: error.response?.data?.message || 'Güncelleme başarısız',
-                variant: 'destructive',
-            });
-        } finally {
-            setSaving(false);
-        }
-    };
-
-    const handleSaveContactMap = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setSaving(true);
-        try {
-            await axios.put('/contact-map', contactMapData);
-            toast({ title: 'Başarılı', description: 'Contact Map section güncellendi' });
-        } catch (error: any) {
-            toast({
-                title: 'Hata',
-                description: error.response?.data?.message || 'Güncelleme başarısız',
-                variant: 'destructive',
-            });
-        } finally {
-            setSaving(false);
-        }
-    };
-
-    // Hero: Add Slide
+    // Hero Functions
     const addSlide = () => {
-        setHeroData({
-            ...heroData,
-            slides: [...heroData.slides, { image: { url: '', alt: '' } }],
+        const current = homeData.hero[activeLocale];
+        setHomeData({
+            ...homeData,
+            hero: {
+                ...homeData.hero,
+                [activeLocale]: {
+                    ...current,
+                    slides: [...current.slides, { image: { url: '', alt: '' } }],
+                },
+            },
         });
     };
 
-    // Hero: Remove Slide
     const removeSlide = (index: number) => {
-        setHeroData({
-            ...heroData,
-            slides: heroData.slides.filter((_, i) => i !== index),
+        const current = homeData.hero[activeLocale];
+        setHomeData({
+            ...homeData,
+            hero: {
+                ...homeData.hero,
+                [activeLocale]: {
+                    ...current,
+                    slides: current.slides.filter((_, i) => i !== index),
+                },
+            },
         });
     };
 
-    // Hero: Update Slide
     const updateSlide = (index: number, field: string, value: string) => {
-        const newSlides = [...heroData.slides];
-        if (field === 'url') {
-            newSlides[index].image.url = value;
-        } else if (field === 'alt') {
-            newSlides[index].image.alt = value;
-        } else if (field === 'title') {
-            newSlides[index].title = value;
-        } else if (field === 'subtitle') {
-            newSlides[index].subtitle = value;
-        }
-        setHeroData({ ...heroData, slides: newSlides });
+        const current = homeData.hero[activeLocale];
+        const newSlides = [...current.slides];
+        if (field === 'url') newSlides[index].image.url = value;
+        else if (field === 'alt') newSlides[index].image.alt = value;
+        else if (field === 'title') newSlides[index].title = value;
+        else if (field === 'subtitle') newSlides[index].subtitle = value;
+
+        setHomeData({
+            ...homeData,
+            hero: { ...homeData.hero, [activeLocale]: { ...current, slides: newSlides } },
+        });
     };
 
-    // Treatments: Add Treatment
+    // Treatment Functions
     const addTreatment = () => {
-        setTreatmentsData({
-            ...treatmentsData,
-            treatments: [
-                ...treatmentsData.treatments,
-                { id: '', href: '', label: '', order: treatmentsData.treatments.length + 1, isActive: true },
-            ],
+        const current = homeData.treatments[activeLocale];
+        setHomeData({
+            ...homeData,
+            treatments: {
+                ...homeData.treatments,
+                [activeLocale]: {
+                    ...current,
+                    treatments: [...current.treatments, { id: '', href: '', label: '', order: current.treatments.length + 1, isActive: true }],
+                },
+            },
         });
     };
 
-    // Treatments: Remove Treatment
     const removeTreatment = (index: number) => {
-        setTreatmentsData({
-            ...treatmentsData,
-            treatments: treatmentsData.treatments.filter((_, i) => i !== index),
+        const current = homeData.treatments[activeLocale];
+        setHomeData({
+            ...homeData,
+            treatments: {
+                ...homeData.treatments,
+                [activeLocale]: {
+                    ...current,
+                    treatments: current.treatments.filter((_, i) => i !== index),
+                },
+            },
         });
     };
 
-    // Treatments: Update Treatment
     const updateTreatment = (index: number, field: keyof TreatmentItem, value: any) => {
-        const newTreatments = [...treatmentsData.treatments];
+        const current = homeData.treatments[activeLocale];
+        const newTreatments = [...current.treatments];
         newTreatments[index][field] = value as never;
-        setTreatmentsData({ ...treatmentsData, treatments: newTreatments });
+        setHomeData({
+            ...homeData,
+            treatments: { ...homeData.treatments, [activeLocale]: { ...current, treatments: newTreatments } },
+        });
+    };
+
+    const moveTreatment = (index: number, direction: 'up' | 'down') => {
+        const current = homeData.treatments[activeLocale];
+        const newTreatments = [...current.treatments];
+        const newIndex = direction === 'up' ? index - 1 : index + 1;
+        if (newIndex < 0 || newIndex >= newTreatments.length) return;
+        [newTreatments[index], newTreatments[newIndex]] = [newTreatments[newIndex], newTreatments[index]];
+        newTreatments.forEach((t, i) => t.order = i + 1);
+        setHomeData({
+            ...homeData,
+            treatments: { ...homeData.treatments, [activeLocale]: { ...current, treatments: newTreatments } },
+        });
     };
 
     // Media Picker Handler
@@ -322,13 +279,16 @@ export default function HomeEditorPage() {
             const index = parseInt(mediaTarget.replace('hero-slide-', ''));
             updateSlide(index, 'url', url);
         } else if (mediaTarget === 'hero-dots') {
-            setHeroData({ ...heroData, dots_pattern: url });
+            const current = homeData.hero[activeLocale];
+            setHomeData({ ...homeData, hero: { ...homeData.hero, [activeLocale]: { ...current, dots_pattern: url } } });
         } else if (mediaTarget === 'welcome-image') {
-            setWelcomeData({ ...welcomeData, image: { ...welcomeData.image, url } });
+            const current = homeData.welcome[activeLocale];
+            setHomeData({ ...homeData, welcome: { ...homeData.welcome, [activeLocale]: { ...current, image: { ...current.image, url } } } });
         } else if (mediaTarget === 'treatments-logo') {
-            setTreatmentsData({ ...treatmentsData, background_logo: url });
+            const current = homeData.treatments[activeLocale];
+            setHomeData({ ...homeData, treatments: { ...homeData.treatments, [activeLocale]: { ...current, background_logo: url } } });
         } else if (mediaTarget === 'contact-image') {
-            setContactMapData({ ...contactMapData, image: url });
+            setHomeData({ ...homeData, contactMap: { ...homeData.contactMap, image: url } });
         }
         setShowMediaPicker(false);
         setMediaTarget('');
@@ -342,13 +302,32 @@ export default function HomeEditorPage() {
         );
     }
 
+    const currentHero = homeData.hero[activeLocale];
+    const currentWelcome = homeData.welcome[activeLocale];
+    const currentTreatments = homeData.treatments[activeLocale];
+
     return (
         <div className="space-y-6">
-            {/* Header */}
-            <div>
+            <div className="flex items-center justify-between">
                 <h1 className="text-3xl font-bold text-primary-pink flex items-center gap-2">
-                    Ana Sayfa
+                    Home
                 </h1>
+                <div className="flex gap-2">
+                    <Button
+                        variant={activeLocale === 'tr' ? 'default' : 'outline'}
+                        onClick={() => setActiveLocale('tr')}
+                        className={activeLocale === 'tr' ? 'bg-primary-pink' : ''}
+                    >
+                        🇹🇷 Türkçe
+                    </Button>
+                    <Button
+                        variant={activeLocale === 'en' ? 'default' : 'outline'}
+                        onClick={() => setActiveLocale('en')}
+                        className={activeLocale === 'en' ? 'bg-primary-pink' : ''}
+                    >
+                        🇬🇧 English
+                    </Button>
+                </div>
             </div>
 
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -363,11 +342,12 @@ export default function HomeEditorPage() {
                 <TabsContent value="hero">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Hero Section</CardTitle>
+                            <CardTitle className="flex items-center gap-2">
+                                Hero Section ({activeLocale === 'tr' ? '🇹🇷 Türkçe' : '🇬🇧 English'})
+                            </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <form onSubmit={handleSaveHero} className="space-y-6">
-                                {/* Slides */}
+                            <form onSubmit={(e) => { e.preventDefault(); handleSave('hero'); }} className="space-y-6">
                                 <div className="space-y-4">
                                     <div className="flex items-center justify-between">
                                         <Label>Slides *</Label>
@@ -377,17 +357,12 @@ export default function HomeEditorPage() {
                                         </Button>
                                     </div>
 
-                                    {heroData.slides.map((slide, index) => (
+                                    {currentHero.slides.map((slide, index) => (
                                         <Card key={index} className="p-4">
                                             <div className="space-y-3">
                                                 <div className="flex items-center justify-between">
                                                     <Label>Slide {index + 1}</Label>
-                                                    <Button
-                                                        type="button"
-                                                        size="sm"
-                                                        variant="destructive"
-                                                        onClick={() => removeSlide(index)}
-                                                    >
+                                                    <Button type="button" size="sm" variant="destructive" onClick={() => removeSlide(index)}>
                                                         <Trash2 className="w-4 h-4" />
                                                     </Button>
                                                 </div>
@@ -396,139 +371,88 @@ export default function HomeEditorPage() {
                                                     <Label>Görsel URL</Label>
                                                     <div className="flex gap-2">
                                                         <Input
-                                                            value={slide.image.url || ''}
+                                                            value={slide.image.url}
                                                             onChange={(e) => updateSlide(index, 'url', e.target.value)}
                                                             placeholder="https://..."
                                                         />
                                                         <Button
                                                             type="button"
                                                             variant="outline"
-                                                            onClick={() => {
-                                                                setMediaTarget(`hero-slide-${index}`);
-                                                                setShowMediaPicker(true);
-                                                            }}
+                                                            onClick={() => { setMediaTarget(`hero-slide-${index}`); setShowMediaPicker(true); }}
                                                         >
                                                             <ImageIcon className="w-4 h-4" />
                                                         </Button>
                                                     </div>
                                                 </div>
 
-                                                <div className="space-y-2">
-                                                    <Label>Alt Text</Label>
-                                                    <Input
-                                                        value={slide.image.alt || ''}
-                                                        onChange={(e) => updateSlide(index, 'alt', e.target.value)}
-                                                        placeholder="Görsel açıklaması"
-                                                    />
-                                                </div>
+                                                <Input
+                                                    value={slide.image.alt}
+                                                    onChange={(e) => updateSlide(index, 'alt', e.target.value)}
+                                                    placeholder="Alt text"
+                                                />
 
-                                                <div className="space-y-2">
-                                                    <Label>Merkez Başlık (Opsiyonel)</Label>
-                                                    <Input
-                                                        value={slide.title || ''}
-                                                        onChange={(e) => updateSlide(index, 'title', e.target.value)}
-                                                        placeholder="Ana başlık"
-                                                    />
-                                                </div>
+                                                <Input
+                                                    value={slide.title || ''}
+                                                    onChange={(e) => updateSlide(index, 'title', e.target.value)}
+                                                    placeholder={activeLocale === 'tr' ? 'Merkez Başlık' : 'Center Title'}
+                                                />
 
-                                                <div className="space-y-2">
-                                                    <Label>Merkez Alt Başlık (Opsiyonel)</Label>
-                                                    <Input
-                                                        value={slide.subtitle || ''}
-                                                        onChange={(e) => updateSlide(index, 'subtitle', e.target.value)}
-                                                        placeholder="Alt başlık"
-                                                    />
-                                                </div>
+                                                <Input
+                                                    value={slide.subtitle || ''}
+                                                    onChange={(e) => updateSlide(index, 'subtitle', e.target.value)}
+                                                    placeholder={activeLocale === 'tr' ? 'Alt Başlık' : 'Subtitle'}
+                                                />
                                             </div>
                                         </Card>
                                     ))}
                                 </div>
 
-                                {/* Dots Pattern */}
                                 <div className="space-y-2">
                                     <Label>Dots Pattern URL</Label>
                                     <div className="flex gap-2">
                                         <Input
-                                            value={heroData.dots_pattern || ''}
-                                            onChange={(e) => setHeroData({ ...heroData, dots_pattern: e.target.value })}
-                                            placeholder="https://..."
+                                            value={currentHero.dots_pattern}
+                                            onChange={(e) => setHomeData({ ...homeData, hero: { ...homeData.hero, [activeLocale]: { ...currentHero, dots_pattern: e.target.value } } })}
                                         />
-                                        <Button
-                                            type="button"
-                                            variant="outline"
-                                            onClick={() => {
-                                                setMediaTarget('hero-dots');
-                                                setShowMediaPicker(true);
-                                            }}
-                                        >
+                                        <Button type="button" variant="outline" onClick={() => { setMediaTarget('hero-dots'); setShowMediaPicker(true); }}>
                                             <ImageIcon className="w-4 h-4" />
                                         </Button>
                                     </div>
                                 </div>
 
-                                {/* Settings */}
                                 <div className="grid grid-cols-2 gap-4">
-                                    <div className="space-y-2">
-                                        <Label>Sağ Taraf Yazısı</Label>
-                                        <Input
-                                            value={heroData.right_text || ''}
-                                            onChange={(e) => setHeroData({ ...heroData, right_text: e.target.value })}
-                                            placeholder="FERTILITY CLINIC"
-                                        />
-                                    </div>
+                                    <Input
+                                        value={currentHero.right_text}
+                                        onChange={(e) => setHomeData({ ...homeData, hero: { ...homeData.hero, [activeLocale]: { ...currentHero, right_text: e.target.value } } })}
+                                        placeholder={activeLocale === 'tr' ? 'Sağ Yazı' : 'Right Text'}
+                                    />
 
-                                    <div className="space-y-2">
-                                        <Label>Alt Yazı</Label>
-                                        <Input
-                                            value={heroData.bottom_text || ''}
-                                            onChange={(e) => setHeroData({ ...heroData, bottom_text: e.target.value })}
-                                            placeholder="creating miracles"
-                                        />
-                                    </div>
+                                    <Input
+                                        value={currentHero.bottom_text}
+                                        onChange={(e) => setHomeData({ ...homeData, hero: { ...homeData.hero, [activeLocale]: { ...currentHero, bottom_text: e.target.value } } })}
+                                        placeholder={activeLocale === 'tr' ? 'Alt Yazı' : 'Bottom Text'}
+                                    />
 
                                     <div className="flex items-center justify-between">
                                         <Label>Otomatik Oynat</Label>
                                         <Switch
-                                            checked={heroData.auto_play}
-                                            onCheckedChange={(checked) => setHeroData({ ...heroData, auto_play: checked })}
+                                            checked={currentHero.auto_play}
+                                            onCheckedChange={(checked) => setHomeData({ ...homeData, hero: { ...homeData.hero, [activeLocale]: { ...currentHero, auto_play: checked } } })}
                                         />
                                     </div>
 
-                                    <div className="space-y-2">
-                                        <Label>Oynatma Süresi (ms)</Label>
-                                        <Input
-                                            type="number"
-                                            value={heroData.auto_play_interval || 5000}
-                                            onChange={(e) => setHeroData({ ...heroData, auto_play_interval: parseInt(e.target.value) || 5000 })}
-                                            min="1000"
-                                            step="1000"
-                                        />
-                                    </div>
-
-                                    <div className="flex items-center justify-between">
-                                        <Label>Göstergeleri Göster</Label>
-                                        <Switch
-                                            checked={heroData.show_indicators}
-                                            onCheckedChange={(checked) => setHeroData({ ...heroData, show_indicators: checked })}
-                                        />
-                                    </div>
+                                    <Input
+                                        type="number"
+                                        value={currentHero.auto_play_interval}
+                                        onChange={(e) => setHomeData({ ...homeData, hero: { ...homeData.hero, [activeLocale]: { ...currentHero, auto_play_interval: parseInt(e.target.value) || 5000 } } })}
+                                        min="1000"
+                                        step="1000"
+                                    />
                                 </div>
 
-                                <div className="pt-4 border-t">
-                                    <Button type="submit" disabled={saving} className="bg-primary-pink hover:bg-pink-700">
-                                        {saving ? (
-                                            <>
-                                                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                                                Kaydediliyor...
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Save className="w-4 h-4 mr-2" />
-                                                Kaydet
-                                            </>
-                                        )}
-                                    </Button>
-                                </div>
+                                <Button type="submit" disabled={saving} className="bg-primary-pink hover:bg-pink-700">
+                                    {saving ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Kaydediliyor...</> : <><Save className="w-4 h-4 mr-2" />Her İki Dili Kaydet</>}
+                                </Button>
                             </form>
                         </CardContent>
                     </Card>
@@ -538,143 +462,66 @@ export default function HomeEditorPage() {
                 <TabsContent value="welcome">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Welcome Section</CardTitle>
+                            <CardTitle className="flex items-center gap-2">
+                                Welcome Section ({activeLocale === 'tr' ? '🇹🇷 Türkçe' : '🇬🇧 English'})
+                            </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <form onSubmit={handleSaveWelcome} className="space-y-4">
-                                {/* Text Fields */}
-                                <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
-                                    <h3 className="font-semibold">Yazı İçerikleri</h3>
+                            <form onSubmit={(e) => { e.preventDefault(); handleSave('welcome'); }} className="space-y-4">
+                                <Input
+                                    value={currentWelcome.title_top}
+                                    onChange={(e) => setHomeData({ ...homeData, welcome: { ...homeData.welcome, [activeLocale]: { ...currentWelcome, title_top: e.target.value } } })}
+                                    placeholder={activeLocale === 'tr' ? 'Üst Başlık' : 'Top Title'}
+                                />
 
-                                    <div className="space-y-2">
-                                        <Label>Üst Başlık</Label>
-                                        <Input
-                                            value={welcomeData.title_top || ''}
-                                            onChange={(e) => setWelcomeData({ ...welcomeData, title_top: e.target.value })}
-                                            placeholder="HOŞGELDİNİZ"
-                                        />
-                                    </div>
+                                <Input
+                                    value={currentWelcome.title}
+                                    onChange={(e) => setHomeData({ ...homeData, welcome: { ...homeData.welcome, [activeLocale]: { ...currentWelcome, title: e.target.value } } })}
+                                    placeholder={activeLocale === 'tr' ? 'Ana Başlık' : 'Main Title'}
+                                />
 
-                                    <div className="space-y-2">
-                                        <Label>Ana Başlık</Label>
-                                        <Input
-                                            value={welcomeData.title || ''}
-                                            onChange={(e) => setWelcomeData({ ...welcomeData, title: e.target.value })}
-                                            placeholder="AYDA IVF"
-                                        />
-                                    </div>
+                                {currentWelcome.paragraphs.map((p, idx) => (
+                                    <Textarea
+                                        key={idx}
+                                        value={p}
+                                        onChange={(e) => {
+                                            const newParagraphs = [...currentWelcome.paragraphs];
+                                            newParagraphs[idx] = e.target.value;
+                                            setHomeData({ ...homeData, welcome: { ...homeData.welcome, [activeLocale]: { ...currentWelcome, paragraphs: newParagraphs } } });
+                                        }}
+                                        placeholder={`Paragraf ${idx + 1}`}
+                                        rows={2}
+                                    />
+                                ))}
 
-                                    {welcomeData.paragraphs.map((p, index) => (
-                                        <div key={index} className="space-y-2">
-                                            <Label>Paragraf {index + 1}</Label>
-                                            <Textarea
-                                                value={p || ''}
-                                                onChange={(e) => {
-                                                    const newParagraphs = [...welcomeData.paragraphs];
-                                                    newParagraphs[index] = e.target.value;
-                                                    setWelcomeData({ ...welcomeData, paragraphs: newParagraphs });
-                                                }}
-                                                placeholder={`Paragraf ${index + 1} içeriği...`}
-                                                rows={2}
-                                            />
-                                        </div>
-                                    ))}
-
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="space-y-2">
-                                            <Label>İmza - İsim</Label>
-                                            <Input
-                                                value={welcomeData.signature_name || ''}
-                                                onChange={(e) => setWelcomeData({ ...welcomeData, signature_name: e.target.value })}
-                                                placeholder="Dr. Ayda Yılmaz"
-                                            />
-                                        </div>
-
-                                        <div className="space-y-2">
-                                            <Label>İmza - Ünvan</Label>
-                                            <Input
-                                                value={welcomeData.signature_title || ''}
-                                                onChange={(e) => setWelcomeData({ ...welcomeData, signature_title: e.target.value })}
-                                                placeholder="Kurucu Doktor"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="space-y-2">
-                                    <Label>Görsel URL</Label>
-                                    <div className="flex gap-2">
-                                        <Input
-                                            value={welcomeData.image.url || ''}
-                                            onChange={(e) => setWelcomeData({ ...welcomeData, image: { ...welcomeData.image, url: e.target.value } })}
-                                            placeholder="https://..."
-                                        />
-                                        <Button
-                                            type="button"
-                                            variant="outline"
-                                            onClick={() => {
-                                                setMediaTarget('welcome-image');
-                                                setShowMediaPicker(true);
-                                            }}
-                                        >
-                                            <ImageIcon className="w-4 h-4" />
-                                        </Button>
-                                    </div>
-                                </div>
-
-                                <div className="space-y-2">
-                                    <Label>Alt Text</Label>
+                                <div className="grid grid-cols-2 gap-4">
                                     <Input
-                                        value={welcomeData.image.alt || ''}
-                                        onChange={(e) => setWelcomeData({ ...welcomeData, image: { ...welcomeData.image, alt: e.target.value } })}
-                                        placeholder="Görsel açıklaması"
+                                        value={currentWelcome.signature_name}
+                                        onChange={(e) => setHomeData({ ...homeData, welcome: { ...homeData.welcome, [activeLocale]: { ...currentWelcome, signature_name: e.target.value } } })}
+                                        placeholder={activeLocale === 'tr' ? 'İmza - İsim' : 'Signature - Name'}
+                                    />
+
+                                    <Input
+                                        value={currentWelcome.signature_title}
+                                        onChange={(e) => setHomeData({ ...homeData, welcome: { ...homeData.welcome, [activeLocale]: { ...currentWelcome, signature_title: e.target.value } } })}
+                                        placeholder={activeLocale === 'tr' ? 'İmza - Ünvan' : 'Signature - Title'}
                                     />
                                 </div>
 
-                                <div className="grid grid-cols-3 gap-4">
-                                    <div className="space-y-2">
-                                        <Label>Gradient From</Label>
-                                        <Input
-                                            type="color"
-                                            value={welcomeData.gradient.from || '#F7DFE6'}
-                                            onChange={(e) => setWelcomeData({ ...welcomeData, gradient: { ...welcomeData.gradient, from: e.target.value } })}
-                                        />
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <Label>Gradient Via</Label>
-                                        <Input
-                                            type="color"
-                                            value={welcomeData.gradient.via || '#FFFFFF'}
-                                            onChange={(e) => setWelcomeData({ ...welcomeData, gradient: { ...welcomeData.gradient, via: e.target.value } })}
-                                        />
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <Label>Gradient To</Label>
-                                        <Input
-                                            type="color"
-                                            value={welcomeData.gradient.to || '#FFFFFF'}
-                                            onChange={(e) => setWelcomeData({ ...welcomeData, gradient: { ...welcomeData.gradient, to: e.target.value } })}
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="pt-4 border-t">
-                                    <Button type="submit" disabled={saving} className="bg-primary-pink hover:bg-pink-700">
-                                        {saving ? (
-                                            <>
-                                                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                                                Kaydediliyor...
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Save className="w-4 h-4 mr-2" />
-                                                Kaydet
-                                            </>
-                                        )}
+                                <div className="flex gap-2">
+                                    <Input
+                                        value={currentWelcome.image.url}
+                                        onChange={(e) => setHomeData({ ...homeData, welcome: { ...homeData.welcome, [activeLocale]: { ...currentWelcome, image: { ...currentWelcome.image, url: e.target.value } } } })}
+                                        placeholder="Görsel URL"
+                                    />
+                                    <Button type="button" variant="outline" onClick={() => { setMediaTarget('welcome-image'); setShowMediaPicker(true); }}>
+                                        <ImageIcon className="w-4 h-4" />
                                     </Button>
                                 </div>
+
+                                <Button type="submit" disabled={saving} className="bg-primary-pink hover:bg-pink-700">
+                                    {saving ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Kaydediliyor...</> : <><Save className="w-4 h-4 mr-2" />Her İki Dili Kaydet</>}
+                                </Button>
                             </form>
                         </CardContent>
                     </Card>
@@ -684,173 +531,113 @@ export default function HomeEditorPage() {
                 <TabsContent value="treatments">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Treatments Section</CardTitle>
+                            <CardTitle className="flex items-center gap-2">
+                                Treatments Section ({activeLocale === 'tr' ? '🇹🇷 Türkçe' : '🇬🇧 English'})
+                            </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <form onSubmit={handleSaveTreatments} className="space-y-6">
-                                {/* Text Fields */}
-                                <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
-                                    <h3 className="font-semibold">Yazı İçerikleri</h3>
+                            <form onSubmit={(e) => { e.preventDefault(); handleSave('treatments'); }} className="space-y-6">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <Input
+                                        value={currentTreatments.top_title}
+                                        onChange={(e) => setHomeData({ ...homeData, treatments: { ...homeData.treatments, [activeLocale]: { ...currentTreatments, top_title: e.target.value } } })}
+                                        placeholder={activeLocale === 'tr' ? 'Üst Başlık' : 'Top Title'}
+                                    />
 
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="space-y-2">
-                                            <Label>Üst Başlık</Label>
-                                            <Input
-                                                value={treatmentsData.top_title || ''}
-                                                onChange={(e) => setTreatmentsData({ ...treatmentsData, top_title: e.target.value })}
-                                                placeholder="TEDAVİLERİMİZ"
-                                            />
-                                        </div>
-
-                                        <div className="space-y-2">
-                                            <Label>Ana Başlık</Label>
-                                            <Input
-                                                value={treatmentsData.title || ''}
-                                                onChange={(e) => setTreatmentsData({ ...treatmentsData, title: e.target.value })}
-                                                placeholder="Tedavi Yöntemlerimiz"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <Label>Açıklama 1</Label>
-                                        <Textarea
-                                            value={treatmentsData.description1 || ''}
-                                            onChange={(e) => setTreatmentsData({ ...treatmentsData, description1: e.target.value })}
-                                            placeholder="İlk açıklama paragrafı..."
-                                            rows={2}
-                                        />
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <Label>Açıklama 2</Label>
-                                        <Textarea
-                                            value={treatmentsData.description2 || ''}
-                                            onChange={(e) => setTreatmentsData({ ...treatmentsData, description2: e.target.value })}
-                                            placeholder="İkinci açıklama paragrafı..."
-                                            rows={2}
-                                        />
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <Label>İletişim Butonu Yazısı</Label>
-                                        <Input
-                                            value={treatmentsData.contact_button_text || ''}
-                                            onChange={(e) => setTreatmentsData({ ...treatmentsData, contact_button_text: e.target.value })}
-                                            placeholder="İletişime Geçin"
-                                        />
-                                    </div>
+                                    <Input
+                                        value={currentTreatments.title}
+                                        onChange={(e) => setHomeData({ ...homeData, treatments: { ...homeData.treatments, [activeLocale]: { ...currentTreatments, title: e.target.value } } })}
+                                        placeholder={activeLocale === 'tr' ? 'Ana Başlık' : 'Main Title'}
+                                    />
                                 </div>
 
-                                <div className="space-y-2">
-                                    <Label>Background Logo URL</Label>
-                                    <div className="flex gap-2">
-                                        <Input
-                                            value={treatmentsData.background_logo || ''}
-                                            onChange={(e) => setTreatmentsData({ ...treatmentsData, background_logo: e.target.value })}
-                                            placeholder="https://..."
-                                        />
-                                        <Button
-                                            type="button"
-                                            variant="outline"
-                                            onClick={() => {
-                                                setMediaTarget('treatments-logo');
-                                                setShowMediaPicker(true);
-                                            }}
-                                        >
-                                            <ImageIcon className="w-4 h-4" />
-                                        </Button>
-                                    </div>
+                                <Textarea
+                                    value={currentTreatments.description1}
+                                    onChange={(e) => setHomeData({ ...homeData, treatments: { ...homeData.treatments, [activeLocale]: { ...currentTreatments, description1: e.target.value } } })}
+                                    placeholder={activeLocale === 'tr' ? 'Açıklama 1' : 'Description 1'}
+                                    rows={2}
+                                />
+
+                                <Textarea
+                                    value={currentTreatments.description2}
+                                    onChange={(e) => setHomeData({ ...homeData, treatments: { ...homeData.treatments, [activeLocale]: { ...currentTreatments, description2: e.target.value } } })}
+                                    placeholder={activeLocale === 'tr' ? 'Açıklama 2' : 'Description 2'}
+                                    rows={2}
+                                />
+
+                                <Input
+                                    value={currentTreatments.contact_button_text}
+                                    onChange={(e) => setHomeData({ ...homeData, treatments: { ...homeData.treatments, [activeLocale]: { ...currentTreatments, contact_button_text: e.target.value } } })}
+                                    placeholder={activeLocale === 'tr' ? 'Buton Yazısı' : 'Button Text'}
+                                />
+
+                                <div className="flex gap-2">
+                                    <Input
+                                        value={currentTreatments.background_logo}
+                                        onChange={(e) => setHomeData({ ...homeData, treatments: { ...homeData.treatments, [activeLocale]: { ...currentTreatments, background_logo: e.target.value } } })}
+                                        placeholder="Background Logo URL"
+                                    />
+                                    <Button type="button" variant="outline" onClick={() => { setMediaTarget('treatments-logo'); setShowMediaPicker(true); }}>
+                                        <ImageIcon className="w-4 h-4" />
+                                    </Button>
                                 </div>
 
                                 <div className="space-y-4">
                                     <div className="flex items-center justify-between">
-                                        <Label>Tedavi Yöntemleri</Label>
+                                        <Label>Tedavi Listesi</Label>
                                         <Button type="button" size="sm" onClick={addTreatment} variant="outline">
                                             <Plus className="w-4 h-4 mr-2" />
                                             Tedavi Ekle
                                         </Button>
                                     </div>
 
-                                    {treatmentsData.treatments.map((treatment, index) => (
-                                        <Card key={index} className="p-4">
+                                    {currentTreatments.treatments.map((treatment, idx) => (
+                                        <Card key={idx} className="p-4">
                                             <div className="space-y-3">
                                                 <div className="flex items-center justify-between">
-                                                    <Label>Tedavi {index + 1}</Label>
-                                                    <Button
-                                                        type="button"
-                                                        size="sm"
-                                                        variant="destructive"
-                                                        onClick={() => removeTreatment(index)}
-                                                    >
-                                                        <Trash2 className="w-4 h-4" />
-                                                    </Button>
-                                                </div>
-
-                                                <div className="grid grid-cols-2 gap-3">
-                                                    <div className="space-y-2">
-                                                        <Label>ID</Label>
-                                                        <Input
-                                                            value={treatment.id || ''}
-                                                            onChange={(e) => updateTreatment(index, 'id', e.target.value)}placeholder="ivf"
-                                                        />
-                                                    </div>
-
-                                                    <div className="space-y-2">
-                                                        <Label>Href</Label>
-                                                        <Input
-                                                            value={treatment.href || ''}
-                                                            onChange={(e) => updateTreatment(index, 'href', e.target.value)}
-                                                            placeholder="/ivf-icsi"
-                                                        />
-                                                    </div>
-
-                                                    <div className="space-y-2">
-                                                        <Label>Label</Label>
-                                                        <Input
-                                                            value={treatment.label || ''}
-                                                            onChange={(e) => updateTreatment(index, 'label', e.target.value)}
-                                                            placeholder="IVF-ICSI"
-                                                        />
-                                                    </div>
-
-                                                    <div className="space-y-2">
-                                                        <Label>Sıra</Label>
-                                                        <Input
-                                                            type="number"
-                                                            value={treatment.order || 0}
-                                                            onChange={(e) => updateTreatment(index, 'order', parseInt(e.target.value) || 0)}
-                                                        />
+                                                    <Label>Tedavi {idx + 1}</Label>
+                                                    <div className="flex gap-2">
+                                                        <Button type="button" size="sm" variant="outline" onClick={() => moveTreatment(idx, 'up')} disabled={idx === 0}>
+                                                            <ChevronUp className="w-4 h-4" />
+                                                        </Button>
+                                                        <Button type="button" size="sm" variant="outline" onClick={() => moveTreatment(idx, 'down')} disabled={idx === currentTreatments.treatments.length - 1}>
+                                                            <ChevronDown className="w-4 h-4" />
+                                                        </Button>
+                                                        <Button type="button" size="sm" variant="destructive" onClick={() => removeTreatment(idx)}>
+                                                            <Trash2 className="w-4 h-4" />
+                                                        </Button>
                                                     </div>
                                                 </div>
 
-                                                <div className="flex items-center justify-between">
-                                                    <Label>Aktif</Label>
-                                                    <Switch
-                                                        checked={treatment.isActive}
-                                                        onCheckedChange={(checked) => updateTreatment(index, 'isActive', checked)}
+                                                <div className="grid grid-cols-3 gap-3">
+                                                    <Input
+                                                        value={treatment.label}
+                                                        onChange={(e) => updateTreatment(idx, 'label', e.target.value)}
+                                                        placeholder={activeLocale === 'tr' ? 'Etiket' : 'Label'}
                                                     />
+
+                                                    <Input
+                                                        value={treatment.href}
+                                                        onChange={(e) => updateTreatment(idx, 'href', e.target.value)}
+                                                        placeholder="/ivf"
+                                                    />
+
+                                                    <div className="flex items-center justify-between">
+                                                        <Label className="text-sm">Aktif</Label>
+                                                        <Switch
+                                                            checked={treatment.isActive}
+                                                            onCheckedChange={(checked) => updateTreatment(idx, 'isActive', checked)}
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </Card>
                                     ))}
                                 </div>
 
-                                <div className="pt-4 border-t">
-                                    <Button type="submit" disabled={saving} className="bg-primary-pink hover:bg-pink-700">
-                                        {saving ? (
-                                            <>
-                                                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                                                Kaydediliyor...
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Save className="w-4 h-4 mr-2" />
-                                                Kaydet
-                                            </>
-                                        )}
-                                    </Button>
-                                </div>
+                                <Button type="submit" disabled={saving} className="bg-primary-pink hover:bg-pink-700">
+                                    {saving ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Kaydediliyor...</> : <><Save className="w-4 h-4 mr-2" />Her İki Dili Kaydet</>}
+                                </Button>
                             </form>
                         </CardContent>
                     </Card>
@@ -860,24 +647,24 @@ export default function HomeEditorPage() {
                 <TabsContent value="contact">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Contact Map Section</CardTitle>
+                            <CardTitle>Contact Map Section (Ortak - Common)</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <form onSubmit={handleSaveContactMap} className="space-y-4">
+                            <form onSubmit={(e) => { e.preventDefault(); handleSave('contactMap'); }} className="space-y-4">
                                 <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                                     <Label>Google Maps Iframe Kullan</Label>
                                     <Switch
-                                        checked={contactMapData.show_iframe}
-                                        onCheckedChange={(checked) => setContactMapData({ ...contactMapData, show_iframe: checked })}
+                                        checked={homeData.contactMap.show_iframe}
+                                        onCheckedChange={(checked) => setHomeData({ ...homeData, contactMap: { ...homeData.contactMap, show_iframe: checked } })}
                                     />
                                 </div>
 
-                                {contactMapData.show_iframe ? (
+                                {homeData.contactMap.show_iframe ? (
                                     <div className="space-y-2">
                                         <Label>Google Maps Embed URL</Label>
                                         <Textarea
-                                            value={contactMapData.map_url || ''}
-                                            onChange={(e) => setContactMapData({ ...contactMapData, map_url: e.target.value })}
+                                            value={homeData.contactMap.map_url}
+                                            onChange={(e) => setHomeData({ ...homeData, contactMap: { ...homeData.contactMap, map_url: e.target.value } })}
                                             placeholder="https://www.google.com/maps/embed?pb=..."
                                             rows={3}
                                         />
@@ -890,49 +677,30 @@ export default function HomeEditorPage() {
                                         <Label>Statik Görsel URL (Alternatif)</Label>
                                         <div className="flex gap-2">
                                             <Input
-                                                value={contactMapData.image || ''}
-                                                onChange={(e) => setContactMapData({ ...contactMapData, image: e.target.value })}
+                                                value={homeData.contactMap.image}
+                                                onChange={(e) => setHomeData({ ...homeData, contactMap: { ...homeData.contactMap, image: e.target.value } })}
                                                 placeholder="https://..."
                                             />
                                             <Button
                                                 type="button"
                                                 variant="outline"
-                                                onClick={() => {
-                                                    setMediaTarget('contact-image');
-                                                    setShowMediaPicker(true);
-                                                }}
+                                                onClick={() => { setMediaTarget('contact-image'); setShowMediaPicker(true); }}
                                             >
                                                 <ImageIcon className="w-4 h-4" />
                                             </Button>
                                         </div>
-                                        <p className="text-xs text-gray-500">
-                                            Harita yerine gösterilecek statik görsel (screenshot veya custom görsel)
-                                        </p>
                                     </div>
                                 )}
 
-                                <div className="pt-4 border-t">
-                                    <Button type="submit" disabled={saving} className="bg-primary-pink hover:bg-pink-700">
-                                        {saving ? (
-                                            <>
-                                                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                                                Kaydediliyor...
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Save className="w-4 h-4 mr-2" />
-                                                Kaydet
-                                            </>
-                                        )}
-                                    </Button>
-                                </div>
+                                <Button type="submit" disabled={saving} className="bg-primary-pink hover:bg-pink-700">
+                                    {saving ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Kaydediliyor...</> : <><Save className="w-4 h-4 mr-2" />Kaydet</>}
+                                </Button>
                             </form>
                         </CardContent>
                     </Card>
                 </TabsContent>
             </Tabs>
 
-            {/* Media Picker */}
             <MediaPicker
                 open={showMediaPicker}
                 onOpenChange={setShowMediaPicker}
