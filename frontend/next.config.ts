@@ -13,7 +13,12 @@ export default withNextIntl({
             },
             {
                 protocol: 'https',
-                hostname: 'Api.aydaivf.com',
+                hostname: 'api.aydaivf.com',
+                pathname: '/storage/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'api.aydaivf.com',
                 pathname: '/uploads/**',
             },
             {
@@ -21,6 +26,6 @@ export default withNextIntl({
                 hostname: '**.aydaivf.com',
             },
         ],
-        domains: ['localhost', 'Api.aydaivf.com'],
+        domains: ['localhost', 'api.aydaivf.com'],
     },
 });

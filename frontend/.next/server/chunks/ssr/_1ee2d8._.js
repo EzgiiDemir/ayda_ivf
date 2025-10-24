@@ -25,7 +25,7 @@ const DEFAULT_HERO_CONFIG = {
     meta: ''
 };
 const HERO_API_CONFIG = {
-    baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
+    baseURL: ("TURBOPACK compile-time value", "http://localhost:8000/api") || 'http://localhost:8000',
     endpoint: '/api/hero',
     timeout: 10000
 };
@@ -458,7 +458,7 @@ const DEFAULT_WELCOME_CONFIG = {
     }
 };
 const WELCOME_API_CONFIG = {
-    baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
+    baseURL: ("TURBOPACK compile-time value", "http://localhost:8000/api") || 'http://localhost:8000',
     endpoint: '/api/welcome',
     timeout: 5000
 };
@@ -922,7 +922,7 @@ const DEFAULT_TREATMENTS_CONFIG = {
     }
 };
 const TREATMENTS_API_CONFIG = {
-    baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
+    baseURL: ("TURBOPACK compile-time value", "http://localhost:8000/api") || 'http://localhost:8000',
     endpoint: '/api/treatments',
     timeout: 5000
 };
@@ -1305,7 +1305,7 @@ const DEFAULT_CONTACT_MAP_CONFIG = {
     }
 };
 const CONTACT_MAP_API_CONFIG = {
-    baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
+    baseURL: ("TURBOPACK compile-time value", "http://localhost:8000/api") || 'http://localhost:8000',
     endpoint: '/api/contact-map',
     timeout: 5000
 };

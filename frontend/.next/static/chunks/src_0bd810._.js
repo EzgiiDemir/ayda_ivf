@@ -189,7 +189,7 @@ function Navbar() {
                 "Navbar.useEffect.fetchNavbarData": async ()=>{
                     try {
                         setLoading(true);
-                        const apiUrl = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+                        const apiUrl = ("TURBOPACK compile-time value", "http://localhost:8000/api") || 'http://localhost:8000';
                         // 🔥 ÖNEMLİ: locale parametresini URL'ye ekle
                         console.log(`🔍 Fetching navbar for locale: ${locale}`);
                         const response = await __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get(`${apiUrl}/api/navbar?locale=${locale}`);
@@ -817,7 +817,7 @@ function Footer({ locale }) {
                 "Footer.useEffect.fetchFooterData": async ()=>{
                     try {
                         setLoading(true);
-                        const apiUrl = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+                        const apiUrl = ("TURBOPACK compile-time value", "http://localhost:8000/api") || 'http://localhost:8000';
                         const response = await __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].get(`${apiUrl}/api/footer?locale=${locale}`);
                         if (response.data?.success && response.data?.data) {
                             setConfig(response.data.data);
