@@ -20,6 +20,8 @@ import {
     HelpCircle,
     FileType,
     Layout,
+    Plus,
+    Star,
 } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -70,7 +72,7 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [currentLocale, setCurrentLocale] = useState('tr');
-    const [openMenus, setOpenMenus] = useState<string[]>(['pages']);
+    const [openMenus, setOpenMenus] = useState<string[]>(['pages', 'specialPages']);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -126,21 +128,15 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
                     name: 'Navbar',
                     translationKey: 'navbar',
                     icon: <Menu className="w-4 h-4" />,
-                    href: '/admin/layout/navbar',
+                    href: '/layout/navbar',
                 },
                 {
                     name: 'Footer',
                     translationKey: 'footer',
                     icon: <Layout className="w-4 h-4" />,
-                    href: '/admin/layout/footer',
+                    href: '/layout/footer',
                 },
             ],
-        },
-        {
-            name: 'Ana Sayfa',
-            translationKey: 'home',
-            icon: <Home className="w-5 h-5" />,
-            href: '/home',
         },
         {
             name: 'Sayfalar',
@@ -154,10 +150,41 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
                     href: '/pages',
                 },
                 {
-                    name: 'Özel Sayfalar',
-                    translationKey: 'specialPages',
-                    icon: <ChevronRight className="w-4 h-4" />,
-                    href: '#special',
+                    name: 'Yeni Sayfa Oluştur',
+                    translationKey: 'createPage',
+                    icon: <Plus className="w-4 h-4" />,
+                    href: '/pages/create',
+                },
+            ],
+        },
+        {
+            name: 'Özel Sayfalar',
+            translationKey: 'specialPages',
+            icon: <Star className="w-5 h-5" />,
+            submenu: [
+                {
+                    name: 'Ana Sayfa',
+                    translationKey: 'home',
+                    icon: <Home className="w-4 h-4" />,
+                    href: '/home',
+                },
+                {
+                    name: 'İletişim',
+                    translationKey: 'contact',
+                    icon: <Mail className="w-4 h-4" />,
+                    href: '/pages/contact',
+                },
+                {
+                    name: 'İletişim Form Kayıtları',
+                    translationKey: 'contactSubmissions',
+                    icon: <FileText className="w-4 h-4" />,
+                    href: '/pages/contact/submissions',
+                },
+                {
+                    name: 'FAQ',
+                    translationKey: 'faq',
+                    icon: <HelpCircle className="w-4 h-4" />,
+                    href: '/pages/faq',
                 },
             ],
         },
@@ -166,27 +193,6 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
             translationKey: 'media',
             icon: <Image className="w-5 h-5" />,
             href: '/media',
-        },
-        {
-            name: 'Ayarlar',
-            translationKey: 'settings',
-            icon: <Settings className="w-5 h-5" />,
-            href: '/settings',
-        },
-    ];
-
-    const specialPages: SubMenuItem[] = [
-        {
-            name: 'İletişim',
-            translationKey: 'contact',
-            icon: <Mail className="w-4 h-4" />,
-            href: '/admin/pages/contact',
-        },
-        {
-            name: 'FAQ',
-            translationKey: 'faq',
-            icon: <HelpCircle className="w-4 h-4" />,
-            href: '/admin/pages/faq',
         },
     ];
 
@@ -236,9 +242,7 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
                     <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
                         {menuItems.map((item) => {
                             if (item.submenu) {
-                                const isAnySubmenuActive =
-                                    item.submenu.some(sub => pathname === sub.href) ||
-                                    specialPages.some(sp => pathname === sp.href);
+                                const isAnySubmenuActive = item.submenu.some(sub => pathname === sub.href);
                                 const isOpen = openMenus.includes(item.translationKey);
 
                                 return (
@@ -283,43 +287,6 @@ function AdminLayoutContent({ children }: { children: ReactNode }) {
                                         {sidebarOpen && (
                                             <CollapsibleContent className="mt-1 space-y-1">
                                                 {item.submenu.map((subItem) => {
-                                                    if (subItem.href === '#special') {
-                                                        return (
-                                                            <div key={subItem.href} className="ml-4">
-                                                                <div className="text-xs font-semibold text-gray-400 uppercase px-3 py-2">
-                                                                    {t(subItem.translationKey as any)}
-                                                                </div>
-                                                                {specialPages.map((specialPage) => {
-                                                                    const isActive = pathname === specialPage.href;
-                                                                    return (
-                                                                        <Link
-                                                                            key={specialPage.href}
-                                                                            href={specialPage.href}
-                                                                            className={`flex items-center px-3 py-2 rounded-lg transition-all duration-200 group ${
-                                                                                isActive
-                                                                                    ? 'bg-pink-100 text-primary-pink font-medium'
-                                                                                    : 'text-gray-600 hover:bg-gray-50'
-                                                                            }`}
-                                                                        >
-                                                                            <span
-                                                                                className={
-                                                                                    isActive
-                                                                                        ? 'text-primary-pink'
-                                                                                        : 'text-gray-400'
-                                                                                }
-                                                                            >
-                                                                                {specialPage.icon}
-                                                                            </span>
-                                                                            <span className="ml-2 text-sm">
-                                                                                {t(specialPage.translationKey as any)}
-                                                                            </span>
-                                                                        </Link>
-                                                                    );
-                                                                })}
-                                                            </div>
-                                                        );
-                                                    }
-
                                                     const isActive = pathname === subItem.href;
                                                     return (
                                                         <Link

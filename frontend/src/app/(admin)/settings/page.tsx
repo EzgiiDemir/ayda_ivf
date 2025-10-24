@@ -90,7 +90,6 @@ export default function SettingsPage() {
                 axios.get('/settings/social'),
             ]);
 
-            // Backend response format: { success: true, data: {...} }
             setSiteSettings(generalRes.data.data || generalRes.data);
             setSeoSettings(seoRes.data.data || seoRes.data);
             setSocialSettings(socialRes.data.data || socialRes.data);
@@ -113,7 +112,6 @@ export default function SettingsPage() {
         try {
             const response = await axios.put('/settings/general', siteSettings);
 
-            // Update state with response data
             if (response.data.data) {
                 setSiteSettings(response.data.data);
             }
@@ -140,7 +138,6 @@ export default function SettingsPage() {
         try {
             const response = await axios.put('/settings/seo', seoSettings);
 
-            // Update state with response data
             if (response.data.data) {
                 setSeoSettings(response.data.data);
             }
@@ -167,7 +164,6 @@ export default function SettingsPage() {
         try {
             const response = await axios.put('/settings/social', socialSettings);
 
-            // Update state with response data
             if (response.data.data) {
                 setSocialSettings(response.data.data);
             }

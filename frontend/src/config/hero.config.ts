@@ -4,7 +4,7 @@ export const DEFAULT_HERO_CONFIG: HeroConfig = {
     slides: [],
     rightText: 'FERTILITY CLINIC',
     bottomText: 'creating miracles',
-    dotsPattern: '', // ✅ string olmalı
+    dotsPattern: '',
     autoPlay: true,
     autoPlayInterval: 6000,
     showControls: true,
@@ -15,14 +15,12 @@ export const DEFAULT_HERO_CONFIG: HeroConfig = {
     meta: '',
 };
 
-// API Configuration
 export const HERO_API_CONFIG = {
     baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
     endpoint: '/api/hero',
     timeout: 10000,
 };
 
-// Cache Configuration
 export const HERO_CACHE_CONFIG = {
     key: 'hero_config',
     ttl: 3600000, // 1 hour

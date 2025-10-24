@@ -145,8 +145,6 @@ class ContactMapService {
     }
 }
 
-// Export singleton instance
 export const contactMapService = new ContactMapService();
 
-// Export class for testing
 export { ContactMapService };

@@ -1,4 +1,3 @@
-// src/services/faq.service.ts
 import axios, { AxiosError } from 'axios';
 import { FAQConfig, FAQApiResponse } from '@/src/types/faq.types';
 import { FAQ_API_CONFIG, FAQ_CACHE_CONFIG, DEFAULT_FAQ_CONFIG } from '@/src/config/faq.config';

@@ -6,7 +6,7 @@ var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_
 {
 __turbopack_export_value__((__turbopack_import__) => {
     return Promise.all([
-  "static/chunks/_03e8f7._.js",
+  "static/chunks/_59be21._.js",
   "static/chunks/src_components_Tiptap_tsx_0af89f._.js"
 ].map((chunk) => __turbopack_load__(chunk))).then(() => {
         return __turbopack_import__("[project]/src/components/Tiptap.tsx [app-client] (ecmascript)");

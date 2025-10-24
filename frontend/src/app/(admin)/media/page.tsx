@@ -302,17 +302,14 @@ export default function MediaPage() {
         return <File className="w-6 h-6" />;
     };
 
-    // URL formatını düzeltme fonksiyonu
     const getImageUrl = (url: string): string => {
         if (!url) return '';
 
-        // Eğer URL zaten tam bir URL ise (http:// veya https:// ile başlıyorsa)
         if (url.startsWith('http://') || url.startsWith('https://')) {
             console.log('✅ Full URL:', url);
             return url;
         }
 
-        // Eğer URL relative path ise
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
         const fullUrl = url.startsWith('/') ? `${apiUrl}${url}` : `${apiUrl}/${url}`;
 
@@ -452,7 +449,7 @@ export default function MediaPage() {
                 </CardContent>
             </Card>
 
-            {/* Media Grid/List */}
+            {/* Media Grid */}
             {loading ? (
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                     {Array.from({ length: 10 }).map((_, i) => (
@@ -547,17 +544,6 @@ export default function MediaPage() {
                                         >
                                             <Copy className="w-3 h-3 mr-1" />
                                             URL
-                                        </Button>
-                                        <Button
-                                            variant="outline"
-                                            size="sm"
-                                            className="h-7 px-2"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                handleDownload(file);
-                                            }}
-                                        >
-                                            <Download className="w-3 h-3" />
                                         </Button>
                                         <Button
                                             variant="outline"
@@ -679,14 +665,6 @@ export default function MediaPage() {
                                                         title={tMedia('copyUrl')}
                                                     >
                                                         <Copy className="w-4 h-4" />
-                                                    </Button>
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="icon"
-                                                        onClick={() => handleDownload(file)}
-                                                        title={tMedia('download')}
-                                                    >
-                                                        <Download className="w-4 h-4" />
                                                     </Button>
                                                     <Button
                                                         variant="ghost"

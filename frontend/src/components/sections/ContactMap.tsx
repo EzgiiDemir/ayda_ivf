@@ -32,7 +32,6 @@ export default function ContactMap() {
         fetchConfig();
     }, [locale]);
 
-    // Loading skeleton
     if (isLoading) {
         return (
             <section>
@@ -58,7 +57,6 @@ export default function ContactMap() {
                     />
                 </div>
             ) : (
-                // Static Image
                 <div
                     className="w-full aspect-[16/11] md:aspect-[16/6]"
                     style={{

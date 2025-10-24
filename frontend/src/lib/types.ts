@@ -1,4 +1,3 @@
-// User Types
 export interface User {
     id: number;
     name: string;
@@ -13,7 +12,6 @@ export interface AuthResponse {
     token: string;
 }
 
-// Page Types
 export interface Page {
     id: number;
     title: string;
@@ -41,7 +39,6 @@ export interface PageFormData {
     status: 'published' | 'draft';
 }
 
-// Media Types
 export interface MediaFile {
     id: number;
     name: string;
@@ -60,7 +57,6 @@ export interface MediaUploadResponse {
     message: string;
 }
 
-// Settings Types
 export interface SiteSettings {
     siteName: string;
     siteDescription: string;
@@ -98,7 +94,6 @@ export interface Settings {
     social: SocialSettings;
 }
 
-// Dashboard Types
 export interface DashboardStats {
     totalPages: number;
     publishedPages: number;
@@ -118,7 +113,6 @@ export interface RecentActivity {
     createdAt: string;
 }
 
-// API Response Types
 export interface ApiResponse<T> {
     success: boolean;
     data?: T;
@@ -159,8 +153,6 @@ export interface MediaFilters {
     sortBy?: 'name' | 'size' | 'createdAt';
     sortOrder?: 'asc' | 'desc';
 }
-
-// Form Validation Types
 export interface ValidationError {
     field: string;
     message: string;

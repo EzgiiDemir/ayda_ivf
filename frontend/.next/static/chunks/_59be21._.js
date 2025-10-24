@@ -16,41 +16,1023 @@ var _s = __turbopack_refresh__.signature();
 'use client';
 ;
 ;
-function RawEditor() {
+function RawEditor({ content = '', onChange, placeholder = 'İçeriğinizi buraya yazın...', className = '' }) {
     _s();
+    const editorRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const isUpdatingRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(false);
+    const [isPurifyReady, setIsPurifyReady] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [html, setHtml] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('');
-    const handleInput = (e)=>{
-        const clean = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$dompurify$2f$dist$2f$purify$2e$es$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].sanitize(e.currentTarget.innerHTML, {
-            ALLOWED_ATTR: [
-                'style',
-                'class',
-                'id',
-                'href',
-                'src',
-                'alt'
-            ]
-        });
-        setHtml(clean);
+    // Toolbar state
+    const [foreColor, setForeColor] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('#000000');
+    const [backColor, setBackColor] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('#FFFF00');
+    const [fontSize, setFontSize] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('16');
+    const [showColorPicker, setShowColorPicker] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [showBgColorPicker, setShowBgColorPicker] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "RawEditor.useEffect": ()=>{
+            if ("TURBOPACK compile-time truthy", 1) setIsPurifyReady(true);
+        }
+    }["RawEditor.useEffect"], []);
+    const sanitizeConfig = {
+        ALLOWED_TAGS: [
+            'p',
+            'br',
+            'strong',
+            'b',
+            'em',
+            'i',
+            'u',
+            's',
+            'strike',
+            'h1',
+            'h2',
+            'h3',
+            'h4',
+            'h5',
+            'h6',
+            'ul',
+            'ol',
+            'li',
+            'a',
+            'img',
+            'blockquote',
+            'code',
+            'pre',
+            'span',
+            'div',
+            'font',
+            'table',
+            'thead',
+            'tbody',
+            'tr',
+            'th',
+            'td',
+            'mark',
+            'small',
+            'sub',
+            'sup',
+            'hr'
+        ],
+        ALLOWED_ATTR: [
+            'style',
+            'class',
+            'id',
+            'href',
+            'target',
+            'rel',
+            'src',
+            'alt',
+            'width',
+            'height',
+            'align',
+            'valign',
+            'colspan',
+            'rowspan',
+            'color',
+            'size',
+            'face',
+            'data-*'
+        ],
+        KEEP_CONTENT: true,
+        ALLOWED_URI_REGEXP: /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|cid|xmpp|data):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i
     };
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "space-y-4",
-        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            contentEditable: true,
-            suppressContentEditableWarning: true,
-            onInput: handleInput,
-            className: "border p-4 min-h-[200px]"
+    const sanitizeToString = (dirty)=>{
+        const res = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$dompurify$2f$dist$2f$purify$2e$es$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].sanitize(dirty, sanitizeConfig);
+        return typeof res === 'string' ? res : String(res);
+    };
+    const emitChange = (newHtml)=>{
+        setHtml(newHtml);
+        if (onChange) onChange(newHtml);
+    };
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "RawEditor.useEffect": ()=>{
+            if (!isPurifyReady) return;
+            if (content && editorRef.current && !isUpdatingRef.current) {
+                const sanitized = sanitizeToString(content);
+                if ((editorRef.current.innerHTML ?? '') !== sanitized) {
+                    editorRef.current.innerHTML = sanitized;
+                    setHtml(sanitized);
+                }
+            }
+        }
+    }["RawEditor.useEffect"], [
+        content,
+        isPurifyReady
+    ]);
+    const handleInput = (e)=>{
+        if (!isPurifyReady) return;
+        isUpdatingRef.current = true;
+        const rawHtml = e.currentTarget.innerHTML;
+        const clean = sanitizeToString(rawHtml);
+        emitChange(clean);
+        setTimeout(()=>{
+            isUpdatingRef.current = false;
+        }, 0);
+    };
+    const handlePaste = (e)=>{
+        e.preventDefault();
+        if (!isPurifyReady || !editorRef.current) return;
+        let pasted = e.clipboardData.getData('text/html');
+        if (!pasted) {
+            pasted = e.clipboardData.getData('text/plain');
+            pasted = pasted.split('\n').map((line)=>line.trim() ? `<p>${escapeHtml(line)}</p>` : '<br>').join('');
+        }
+        const clean = sanitizeToString(pasted);
+        const sel = window.getSelection();
+        if (!sel?.rangeCount) return;
+        const range = sel.getRangeAt(0);
+        range.deleteContents();
+        const frag = range.createContextualFragment(clean);
+        range.insertNode(frag);
+        range.collapse(false);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        handleInput({
+            currentTarget: editorRef.current
+        });
+    };
+    const exec = (cmd, value)=>{
+        try {
+            document.execCommand(cmd, false, value);
+            editorRef.current?.focus();
+        } catch (err) {
+            console.warn('execCommand failed', err);
+        }
+    };
+    const applyForeColor = (color)=>{
+        const sel = window.getSelection();
+        if (!sel || sel.rangeCount === 0) return;
+        const range = sel.getRangeAt(0);
+        if (range.collapsed) return;
+        const span = document.createElement('span');
+        span.style.color = color;
+        try {
+            const contents = range.extractContents();
+            span.appendChild(contents);
+            range.insertNode(span);
+            // Seçimi koru
+            range.selectNodeContents(span);
+            sel.removeAllRanges();
+            sel.addRange(range);
+            setForeColor(color);
+            setShowColorPicker(false);
+            if (editorRef.current) {
+                handleInput({
+                    currentTarget: editorRef.current
+                });
+            }
+        } catch (err) {
+            console.warn('Color apply failed', err);
+        }
+    };
+    const applyBackColor = (color)=>{
+        const sel = window.getSelection();
+        if (!sel || sel.rangeCount === 0) return;
+        const range = sel.getRangeAt(0);
+        if (range.collapsed) return;
+        const span = document.createElement('span');
+        span.style.backgroundColor = color;
+        try {
+            const contents = range.extractContents();
+            span.appendChild(contents);
+            range.insertNode(span);
+            // Seçimi koru
+            range.selectNodeContents(span);
+            sel.removeAllRanges();
+            sel.addRange(range);
+            setBackColor(color);
+            setShowBgColorPicker(false);
+            if (editorRef.current) {
+                handleInput({
+                    currentTarget: editorRef.current
+                });
+            }
+        } catch (err) {
+            console.warn('Background color apply failed', err);
+        }
+    };
+    const insertLink = ()=>{
+        const url = prompt("Bağlantı URL'si (https://...)");
+        if (!url) return;
+        exec('createLink', url);
+        setTimeout(()=>{
+            if (editorRef.current) {
+                handleInput({
+                    currentTarget: editorRef.current
+                });
+            }
+        }, 0);
+    };
+    const insertImage = ()=>{
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = (e)=>{
+            const file = e.target.files?.[0];
+            if (!file) return;
+            // Dosya boyutu kontrolü (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Resim boyutu 5MB\'dan küçük olmalıdır!');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (event)=>{
+                const base64 = event.target?.result;
+                // Resmi ekle
+                const img = document.createElement('img');
+                img.src = base64;
+                img.style.maxWidth = '100%';
+                img.style.height = 'auto';
+                img.style.display = 'block';
+                img.style.margin = '0.5rem 0';
+                img.style.borderRadius = '4px';
+                const sel = window.getSelection();
+                if (sel && sel.rangeCount > 0) {
+                    const range = sel.getRangeAt(0);
+                    range.insertNode(img);
+                    range.collapse(false);
+                } else if (editorRef.current) {
+                    editorRef.current.appendChild(img);
+                }
+                setTimeout(()=>{
+                    if (editorRef.current) {
+                        handleInput({
+                            currentTarget: editorRef.current
+                        });
+                    }
+                }, 0);
+            };
+            reader.readAsDataURL(file);
+        };
+        input.click();
+    };
+    const setHeading = (tag)=>{
+        exec('formatBlock', tag);
+        setTimeout(()=>{
+            if (editorRef.current) {
+                handleInput({
+                    currentTarget: editorRef.current
+                });
+            }
+        }, 0);
+    };
+    const setFontSizeCustom = (sizePx)=>{
+        const sel = window.getSelection();
+        if (!sel || !sel.rangeCount) return;
+        const range = sel.getRangeAt(0);
+        if (range.collapsed) return;
+        const span = document.createElement('span');
+        span.style.fontSize = `${sizePx}px`;
+        try {
+            span.appendChild(range.extractContents());
+            range.insertNode(span);
+            setFontSize(sizePx);
+            if (editorRef.current) {
+                handleInput({
+                    currentTarget: editorRef.current
+                });
+            }
+        } catch (err) {
+            console.warn(err);
+        }
+    };
+    const alignText = (dir)=>{
+        const cmdMap = {
+            left: 'justifyLeft',
+            center: 'justifyCenter',
+            right: 'justifyRight',
+            justify: 'justifyFull'
+        };
+        exec(cmdMap[dir]);
+        setTimeout(()=>{
+            if (editorRef.current) {
+                handleInput({
+                    currentTarget: editorRef.current
+                });
+            }
+        }, 0);
+    };
+    function escapeHtml(unsafe) {
+        return unsafe.replace(/[&<>"']/g, function(m) {
+            switch(m){
+                case '&':
+                    return '&amp;';
+                case '<':
+                    return '&lt;';
+                case '>':
+                    return '&gt;';
+                case '"':
+                    return '&quot;';
+                case "'":
+                    return '&#039;';
+                default:
+                    return m;
+            }
+        });
+    }
+    const colorPresets = [
+        '#000000',
+        '#FFFFFF',
+        '#FF0000',
+        '#00FF00',
+        '#0000FF',
+        '#FFFF00',
+        '#FF00FF',
+        '#00FFFF',
+        '#FFA500',
+        '#800080',
+        '#FFC0CB',
+        '#808080',
+        '#8B4513',
+        '#006400',
+        '#000080',
+        '#FF6347',
+        '#4B0082',
+        '#FFD700'
+    ];
+    if (!isPurifyReady) {
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: `border rounded-lg p-4 min-h-[200px] bg-gray-50 ${className}`,
+            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                className: "text-gray-400",
+                children: "Editör yükleniyor..."
+            }, void 0, false, {
+                fileName: "[project]/src/components/Tiptap.tsx",
+                lineNumber: 315,
+                columnNumber: 17
+            }, this)
         }, void 0, false, {
             fileName: "[project]/src/components/Tiptap.tsx",
-            lineNumber: 18,
+            lineNumber: 314,
             columnNumber: 13
-        }, this)
-    }, void 0, false, {
+        }, this);
+    }
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: `w-full space-y-3 ${className}`,
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "bg-white border rounded-lg p-2 shadow-sm",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex flex-wrap gap-2 items-center pb-2 border-b",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex gap-1",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        type: "button",
+                                        onClick: ()=>exec('bold'),
+                                        className: "w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 font-bold transition-colors",
+                                        title: "Kalın (Ctrl+B)",
+                                        children: "B"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 328,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        type: "button",
+                                        onClick: ()=>exec('italic'),
+                                        className: "w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 italic transition-colors",
+                                        title: "İtalik (Ctrl+I)",
+                                        children: "I"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 336,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        type: "button",
+                                        onClick: ()=>exec('underline'),
+                                        className: "w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 underline transition-colors",
+                                        title: "Altı Çizili (Ctrl+U)",
+                                        children: "U"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 344,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        type: "button",
+                                        onClick: ()=>exec('strikeThrough'),
+                                        className: "w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 line-through transition-colors",
+                                        title: "Üstü Çizili",
+                                        children: "S"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 352,
+                                        columnNumber: 25
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/Tiptap.tsx",
+                                lineNumber: 327,
+                                columnNumber: 21
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                onChange: (e)=>setHeading(e.target.value),
+                                defaultValue: "p",
+                                className: "px-2 py-1 text-sm border rounded hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "p",
+                                        children: "Paragraf"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 368,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "h1",
+                                        children: "Başlık 1"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 369,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "h2",
+                                        children: "Başlık 2"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 370,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "h3",
+                                        children: "Başlık 3"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 371,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "h4",
+                                        children: "Başlık 4"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 372,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "h5",
+                                        children: "Başlık 5"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 373,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "h6",
+                                        children: "Başlık 6"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 374,
+                                        columnNumber: 25
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/Tiptap.tsx",
+                                lineNumber: 363,
+                                columnNumber: 21
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                value: fontSize,
+                                onChange: (e)=>setFontSizeCustom(e.target.value),
+                                className: "px-2 py-1 text-sm border rounded hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "12",
+                                        children: "12px"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 383,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "14",
+                                        children: "14px"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 384,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "16",
+                                        children: "16px"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 385,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "18",
+                                        children: "18px"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 386,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "20",
+                                        children: "20px"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 387,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "24",
+                                        children: "24px"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 388,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "28",
+                                        children: "28px"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 389,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "32",
+                                        children: "32px"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 390,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                        value: "36",
+                                        children: "36px"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 391,
+                                        columnNumber: 25
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/Tiptap.tsx",
+                                lineNumber: 378,
+                                columnNumber: 21
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex gap-1",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "relative",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                type: "button",
+                                                onClick: ()=>{
+                                                    setShowColorPicker(!showColorPicker);
+                                                    setShowBgColorPicker(false);
+                                                },
+                                                className: "w-8 h-8 flex flex-col items-center justify-center rounded hover:bg-gray-100 transition-colors",
+                                                title: "Metin Rengi",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                        className: "text-sm font-bold",
+                                                        children: "A"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                                        lineNumber: 407,
+                                                        columnNumber: 33
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "w-6 h-1 rounded mt-0.5",
+                                                        style: {
+                                                            backgroundColor: foreColor
+                                                        }
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                                        lineNumber: 408,
+                                                        columnNumber: 33
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/components/Tiptap.tsx",
+                                                lineNumber: 398,
+                                                columnNumber: 29
+                                            }, this),
+                                            showColorPicker && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "absolute top-full left-0 mt-1 bg-white border rounded-lg shadow-lg p-3 z-50 min-w-[180px]",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "grid grid-cols-6 gap-1 mb-2",
+                                                        children: colorPresets.map((color)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                type: "button",
+                                                                onClick: ()=>applyForeColor(color),
+                                                                className: "w-6 h-6 rounded border-2 hover:scale-110 transition-transform",
+                                                                style: {
+                                                                    backgroundColor: color
+                                                                },
+                                                                title: color
+                                                            }, color, false, {
+                                                                fileName: "[project]/src/components/Tiptap.tsx",
+                                                                lineNumber: 414,
+                                                                columnNumber: 45
+                                                            }, this))
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                                        lineNumber: 412,
+                                                        columnNumber: 37
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                        type: "color",
+                                                        value: foreColor,
+                                                        onChange: (e)=>applyForeColor(e.target.value),
+                                                        className: "w-full h-8 cursor-pointer rounded"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                                        lineNumber: 424,
+                                                        columnNumber: 37
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/components/Tiptap.tsx",
+                                                lineNumber: 411,
+                                                columnNumber: 33
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 397,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "relative",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                type: "button",
+                                                onClick: ()=>{
+                                                    setShowBgColorPicker(!showBgColorPicker);
+                                                    setShowColorPicker(false);
+                                                },
+                                                className: "w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 transition-colors",
+                                                title: "Arka Plan Rengi",
+                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    className: "px-1.5 py-0.5 text-xs font-bold rounded",
+                                                    style: {
+                                                        backgroundColor: backColor
+                                                    },
+                                                    children: "A"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/Tiptap.tsx",
+                                                    lineNumber: 445,
+                                                    columnNumber: 33
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/Tiptap.tsx",
+                                                lineNumber: 436,
+                                                columnNumber: 29
+                                            }, this),
+                                            showBgColorPicker && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "absolute top-full left-0 mt-1 bg-white border rounded-lg shadow-lg p-3 z-50 min-w-[180px]",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "grid grid-cols-6 gap-1 mb-2",
+                                                        children: colorPresets.map((color)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                                type: "button",
+                                                                onClick: ()=>applyBackColor(color),
+                                                                className: "w-6 h-6 rounded border-2 hover:scale-110 transition-transform",
+                                                                style: {
+                                                                    backgroundColor: color
+                                                                },
+                                                                title: color
+                                                            }, color, false, {
+                                                                fileName: "[project]/src/components/Tiptap.tsx",
+                                                                lineNumber: 453,
+                                                                columnNumber: 45
+                                                            }, this))
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                                        lineNumber: 451,
+                                                        columnNumber: 37
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                        type: "color",
+                                                        value: backColor,
+                                                        onChange: (e)=>applyBackColor(e.target.value),
+                                                        className: "w-full h-8 cursor-pointer rounded"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                                        lineNumber: 463,
+                                                        columnNumber: 37
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/components/Tiptap.tsx",
+                                                lineNumber: 450,
+                                                columnNumber: 33
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 435,
+                                        columnNumber: 25
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/Tiptap.tsx",
+                                lineNumber: 395,
+                                columnNumber: 21
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/Tiptap.tsx",
+                        lineNumber: 325,
+                        columnNumber: 17
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex flex-wrap gap-2 items-center pt-2",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex gap-1",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        type: "button",
+                                        onClick: ()=>{
+                                            exec('insertUnorderedList');
+                                            setTimeout(()=>editorRef.current && handleInput({
+                                                    currentTarget: editorRef.current
+                                                }), 0);
+                                        },
+                                        className: "px-2 py-1 text-sm rounded hover:bg-gray-100 transition-colors flex items-center gap-1",
+                                        title: "Madde İşaretli Liste",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                children: "•"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/Tiptap.tsx",
+                                                lineNumber: 488,
+                                                columnNumber: 29
+                                            }, this),
+                                            " Liste"
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 479,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        type: "button",
+                                        onClick: ()=>{
+                                            exec('insertOrderedList');
+                                            setTimeout(()=>editorRef.current && handleInput({
+                                                    currentTarget: editorRef.current
+                                                }), 0);
+                                        },
+                                        className: "px-2 py-1 text-sm rounded hover:bg-gray-100 transition-colors flex items-center gap-1",
+                                        title: "Numaralı Liste",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                children: "1."
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/Tiptap.tsx",
+                                                lineNumber: 499,
+                                                columnNumber: 29
+                                            }, this),
+                                            " Liste"
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 490,
+                                        columnNumber: 25
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/Tiptap.tsx",
+                                lineNumber: 478,
+                                columnNumber: 21
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex gap-1 border-l pl-2",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        type: "button",
+                                        onClick: ()=>alignText('left'),
+                                        className: "w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 transition-colors",
+                                        title: "Sola Hizala",
+                                        children: "☰"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 505,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        type: "button",
+                                        onClick: ()=>alignText('center'),
+                                        className: "w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 transition-colors",
+                                        title: "Ortala",
+                                        children: "☰"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 508,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        type: "button",
+                                        onClick: ()=>alignText('right'),
+                                        className: "w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 transition-colors",
+                                        title: "Sağa Hizala",
+                                        children: "☰"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 511,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        type: "button",
+                                        onClick: ()=>alignText('justify'),
+                                        className: "w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 transition-colors",
+                                        title: "İki Yana Yasla",
+                                        children: "☰"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 514,
+                                        columnNumber: 25
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/Tiptap.tsx",
+                                lineNumber: 504,
+                                columnNumber: 21
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex gap-1 border-l pl-2",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        type: "button",
+                                        onClick: ()=>{
+                                            exec('indent');
+                                            setTimeout(()=>editorRef.current && handleInput({
+                                                    currentTarget: editorRef.current
+                                                }), 0);
+                                        },
+                                        className: "px-2 py-1 text-sm rounded hover:bg-gray-100 transition-colors",
+                                        title: "Girintili",
+                                        children: "→"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 521,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        type: "button",
+                                        onClick: ()=>{
+                                            exec('outdent');
+                                            setTimeout(()=>editorRef.current && handleInput({
+                                                    currentTarget: editorRef.current
+                                                }), 0);
+                                        },
+                                        className: "px-2 py-1 text-sm rounded hover:bg-gray-100 transition-colors",
+                                        title: "Çıkıntılı",
+                                        children: "←"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 522,
+                                        columnNumber: 25
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/Tiptap.tsx",
+                                lineNumber: 520,
+                                columnNumber: 21
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex gap-1 border-l pl-2",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        type: "button",
+                                        onClick: insertLink,
+                                        className: "px-2 py-1 text-sm rounded hover:bg-gray-100 transition-colors",
+                                        title: "Link Ekle",
+                                        children: "🔗"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 527,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        type: "button",
+                                        onClick: insertImage,
+                                        className: "px-2 py-1 text-md rounded hover:bg-gray-100 transition-colors",
+                                        title: "Resim Ekle",
+                                        children: "📷️"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 528,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        type: "button",
+                                        onClick: ()=>{
+                                            exec('insertHorizontalRule');
+                                            setTimeout(()=>editorRef.current && handleInput({
+                                                    currentTarget: editorRef.current
+                                                }), 0);
+                                        },
+                                        className: "px-2 py-1 text-sm rounded hover:bg-gray-100 transition-colors",
+                                        title: "Yatay Çizgi",
+                                        children: "―"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 529,
+                                        columnNumber: 25
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/Tiptap.tsx",
+                                lineNumber: 526,
+                                columnNumber: 21
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex gap-1 border-l pl-2 ml-auto",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        type: "button",
+                                        onClick: ()=>exec('undo'),
+                                        className: "w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 transition-colors",
+                                        title: "Geri Al",
+                                        children: "↶"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 534,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        type: "button",
+                                        onClick: ()=>exec('redo'),
+                                        className: "w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 transition-colors",
+                                        title: "Yinele",
+                                        children: "↷"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 535,
+                                        columnNumber: 25
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                        type: "button",
+                                        onClick: ()=>{
+                                            exec('removeFormat');
+                                            setTimeout(()=>editorRef.current && handleInput({
+                                                    currentTarget: editorRef.current
+                                                }), 0);
+                                        },
+                                        className: "px-2 py-1 text-sm rounded hover:bg-red-50 text-red-600 transition-colors",
+                                        title: "Formatı Temizle",
+                                        children: "✕"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/Tiptap.tsx",
+                                        lineNumber: 536,
+                                        columnNumber: 25
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/Tiptap.tsx",
+                                lineNumber: 533,
+                                columnNumber: 21
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/Tiptap.tsx",
+                        lineNumber: 476,
+                        columnNumber: 17
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/components/Tiptap.tsx",
+                lineNumber: 323,
+                columnNumber: 13
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                ref: editorRef,
+                contentEditable: true,
+                suppressContentEditableWarning: true,
+                onInput: handleInput,
+                onPaste: handlePaste,
+                className: "w-full border-2 rounded-lg p-4 min-h-[300px] max-h-[600px] overflow-y-auto focus:outline-none focus:border-blue-500 bg-white transition-colors",
+                style: {
+                    wordWrap: 'break-word',
+                    overflowWrap: 'break-word'
+                }
+            }, void 0, false, {
+                fileName: "[project]/src/components/Tiptap.tsx",
+                lineNumber: 542,
+                columnNumber: 13
+            }, this)
+        ]
+    }, void 0, true, {
         fileName: "[project]/src/components/Tiptap.tsx",
-        lineNumber: 17,
+        lineNumber: 321,
         columnNumber: 9
     }, this);
 }
-_s(RawEditor, "WrhNIyogbf5f33dd9gKWFqsSjHM=");
+_s(RawEditor, "gVGX/yO5mk76F/Q7x+DnyhRHMRU=");
 _c = RawEditor;
 var _c;
 __turbopack_refresh__.register(_c, "RawEditor");

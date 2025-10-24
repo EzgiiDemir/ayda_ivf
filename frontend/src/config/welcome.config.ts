@@ -28,14 +28,12 @@ export const DEFAULT_WELCOME_CONFIG: WelcomeConfig = {
     },
 };
 
-// API Configuration
 export const WELCOME_API_CONFIG = {
     baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
     endpoint: '/api/welcome',
     timeout: 5000,
 };
 
-// Cache Configuration
 export const WELCOME_CACHE_CONFIG = {
     key: 'welcome_config',
     ttl: 3600000, // 1 hour

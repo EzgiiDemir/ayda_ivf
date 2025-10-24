@@ -26,7 +26,6 @@ class Page extends Model
         'updated_at' => 'datetime',
     ];
 
-    // Relations
     public function author()
     {
         return $this->belongsTo(User::class, 'author_id');
@@ -42,7 +41,6 @@ class Page extends Model
         return $this->belongsTo(Page::class, 'parent_id');
     }
 
-    // Scopes
     public function scopeForLocale(Builder $query, string $locale): Builder
     {
         return $query->where('locale', $locale);

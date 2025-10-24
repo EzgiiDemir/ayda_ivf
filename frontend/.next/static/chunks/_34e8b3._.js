@@ -5,7 +5,6 @@
 
 var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, k: __turbopack_refresh__, m: module, z: __turbopack_require_stub__ } = __turbopack_context__;
 {
-// src/config/contact.config.ts
 __turbopack_esm__({
     "CONTACT_API_CONFIG": (()=>CONTACT_API_CONFIG),
     "CONTACT_CACHE_CONFIG": (()=>CONTACT_CACHE_CONFIG),
@@ -44,7 +43,6 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 
 var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, k: __turbopack_refresh__, m: module, z: __turbopack_require_stub__ } = __turbopack_context__;
 {
-// src/services/contact.service.ts
 __turbopack_esm__({
     "ContactService": (()=>ContactService),
     "contactService": (()=>contactService)
@@ -564,7 +562,6 @@ if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelper
 
 var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, k: __turbopack_refresh__, m: module, z: __turbopack_require_stub__ } = __turbopack_context__;
 {
-// src/app/[locale]/contact/page.tsx
 __turbopack_esm__({
     "default": (()=>ContactPage)
 });
@@ -618,7 +615,7 @@ function ContactPage() {
                     className: "bg-gray-300 w-full aspect-[16/7] md:aspect-[16/5] max-h-[400px] animate-pulse"
                 }, void 0, false, {
                     fileName: "[project]/src/app/[locale]/contact/page.tsx",
-                    lineNumber: 38,
+                    lineNumber: 37,
                     columnNumber: 17
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -630,31 +627,31 @@ function ContactPage() {
                                 className: "h-6 bg-gray-200 animate-pulse rounded w-1/2 mx-auto"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/[locale]/contact/page.tsx",
-                                lineNumber: 41,
+                                lineNumber: 40,
                                 columnNumber: 25
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "h-8 bg-gray-200 animate-pulse rounded w-2/3 mx-auto"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/[locale]/contact/page.tsx",
-                                lineNumber: 42,
+                                lineNumber: 41,
                                 columnNumber: 25
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/[locale]/contact/page.tsx",
-                        lineNumber: 40,
+                        lineNumber: 39,
                         columnNumber: 21
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/[locale]/contact/page.tsx",
-                    lineNumber: 39,
+                    lineNumber: 38,
                     columnNumber: 17
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/app/[locale]/contact/page.tsx",
-            lineNumber: 37,
+            lineNumber: 36,
             columnNumber: 13
         }, this);
     }
@@ -671,7 +668,7 @@ function ContactPage() {
                 }
             }, void 0, false, {
                 fileName: "[project]/src/app/[locale]/contact/page.tsx",
-                lineNumber: 52,
+                lineNumber: 51,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -684,7 +681,7 @@ function ContactPage() {
                                 children: config.form_top_title
                             }, void 0, false, {
                                 fileName: "[project]/src/app/[locale]/contact/page.tsx",
-                                lineNumber: 65,
+                                lineNumber: 64,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -692,13 +689,13 @@ function ContactPage() {
                                 children: config.form_title
                             }, void 0, false, {
                                 fileName: "[project]/src/app/[locale]/contact/page.tsx",
-                                lineNumber: 68,
+                                lineNumber: 67,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/[locale]/contact/page.tsx",
-                        lineNumber: 64,
+                        lineNumber: 63,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$contact$2f$ContactForm$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -706,19 +703,19 @@ function ContactPage() {
                         submitButtonText: config.submit_button_text
                     }, void 0, false, {
                         fileName: "[project]/src/app/[locale]/contact/page.tsx",
-                        lineNumber: 73,
+                        lineNumber: 72,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/[locale]/contact/page.tsx",
-                lineNumber: 63,
+                lineNumber: 62,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/[locale]/contact/page.tsx",
-        lineNumber: 50,
+        lineNumber: 49,
         columnNumber: 9
     }, this);
 }

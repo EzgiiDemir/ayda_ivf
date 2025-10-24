@@ -1,5 +1,4 @@
 <?php
-// app/Models/NavbarDropdown.php
 
 namespace App\Models;
 

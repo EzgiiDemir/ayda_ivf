@@ -999,6 +999,11 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e
 var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/components/ui/label.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$use$2d$toast$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/components/ui/use-toast.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$MediaPicker$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/components/MediaPicker.tsx [app-client] (ecmascript)");
+(()=>{
+    const e = new Error("Cannot find module '@/src/components/RawEditor'");
+    e.code = 'MODULE_NOT_FOUND';
+    throw e;
+})();
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Image$3e$__ = __turbopack_import__("[project]/node_modules/lucide-react/dist/esm/icons/image.js [app-client] (ecmascript) <export default as Image>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__ = __turbopack_import__("[project]/node_modules/lucide-react/dist/esm/icons/plus.js [app-client] (ecmascript) <export default as Plus>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trash$2d$2$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Trash2$3e$__ = __turbopack_import__("[project]/node_modules/lucide-react/dist/esm/icons/trash-2.js [app-client] (ecmascript) <export default as Trash2>");
@@ -1007,6 +1012,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 ;
 var _s = __turbopack_refresh__.signature();
 'use client';
+;
 ;
 ;
 ;
@@ -1198,12 +1204,12 @@ function ContactEditorPage() {
                 className: "h-12 w-12 animate-spin text-primary-pink"
             }, void 0, false, {
                 fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                lineNumber: 227,
+                lineNumber: 228,
                 columnNumber: 17
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-            lineNumber: 226,
+            lineNumber: 227,
             columnNumber: 13
         }, this);
     }
@@ -1219,7 +1225,7 @@ function ContactEditorPage() {
                         children: "Contact"
                     }, void 0, false, {
                         fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                        lineNumber: 237,
+                        lineNumber: 238,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1232,7 +1238,7 @@ function ContactEditorPage() {
                                 children: "🇹🇷 Türkçe"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                lineNumber: 241,
+                                lineNumber: 242,
                                 columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1242,19 +1248,19 @@ function ContactEditorPage() {
                                 children: "🇬🇧 English"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                lineNumber: 248,
+                                lineNumber: 249,
                                 columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                        lineNumber: 240,
+                        lineNumber: 241,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                lineNumber: 236,
+                lineNumber: 237,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -1268,12 +1274,12 @@ function ContactEditorPage() {
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                            lineNumber: 260,
+                            lineNumber: 261,
                             columnNumber: 21
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                        lineNumber: 259,
+                        lineNumber: 260,
                         columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1288,7 +1294,7 @@ function ContactEditorPage() {
                                             children: "Banner Görseli"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                            lineNumber: 268,
+                                            lineNumber: 269,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1300,7 +1306,7 @@ function ContactEditorPage() {
                                                     placeholder: "https://..."
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 270,
+                                                    lineNumber: 271,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1311,18 +1317,18 @@ function ContactEditorPage() {
                                                         className: "w-4 h-4"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                        lineNumber: 280,
+                                                        lineNumber: 281,
                                                         columnNumber: 37
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 275,
+                                                    lineNumber: 276,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                            lineNumber: 269,
+                                            lineNumber: 270,
                                             columnNumber: 29
                                         }, this),
                                         currentData.banner_image && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1333,18 +1339,18 @@ function ContactEditorPage() {
                                                 className: "w-full h-48 object-cover rounded-md"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                lineNumber: 285,
+                                                lineNumber: 286,
                                                 columnNumber: 37
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                            lineNumber: 284,
+                                            lineNumber: 285,
                                             columnNumber: 33
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                    lineNumber: 267,
+                                    lineNumber: 268,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1355,7 +1361,7 @@ function ContactEditorPage() {
                                             children: "Form Başlıkları"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                            lineNumber: 296,
+                                            lineNumber: 297,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1365,22 +1371,22 @@ function ContactEditorPage() {
                                                     children: "Üst Başlık"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 299,
+                                                    lineNumber: 300,
                                                     columnNumber: 33
                                                 }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                    value: currentData.form_top_title,
-                                                    onChange: (e)=>updateField('form_top_title', e.target.value),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(RawEditor, {
+                                                    content: currentData.form_top_title,
+                                                    onChange: (html)=>updateField('form_top_title', html),
                                                     placeholder: activeLocale === 'tr' ? 'İLETİŞİM' : 'CONTACT'
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 300,
+                                                    lineNumber: 301,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                            lineNumber: 298,
+                                            lineNumber: 299,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1390,28 +1396,28 @@ function ContactEditorPage() {
                                                     children: "Ana Başlık"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 308,
+                                                    lineNumber: 309,
                                                     columnNumber: 33
                                                 }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                    value: currentData.form_title,
-                                                    onChange: (e)=>updateField('form_title', e.target.value),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(RawEditor, {
+                                                    content: currentData.form_title,
+                                                    onChange: (html)=>updateField('form_title', html),
                                                     placeholder: activeLocale === 'tr' ? 'Bizimle İletişime Geçin' : 'Get In Touch With Us'
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 309,
+                                                    lineNumber: 310,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                            lineNumber: 307,
+                                            lineNumber: 308,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                    lineNumber: 295,
+                                    lineNumber: 296,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1422,7 +1428,7 @@ function ContactEditorPage() {
                                             children: "Form Alanları"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                            lineNumber: 319,
+                                            lineNumber: 320,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -1433,7 +1439,7 @@ function ContactEditorPage() {
                                                     children: "Ad-Soyad Alanı"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 323,
+                                                    lineNumber: 324,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1447,7 +1453,7 @@ function ContactEditorPage() {
                                                                     children: "Etiket"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 326,
+                                                                    lineNumber: 327,
                                                                     columnNumber: 41
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1460,13 +1466,13 @@ function ContactEditorPage() {
                                                                     placeholder: activeLocale === 'tr' ? 'Ad - Soyad' : 'Full Name'
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 327,
+                                                                    lineNumber: 328,
                                                                     columnNumber: 41
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                            lineNumber: 325,
+                                                            lineNumber: 326,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1477,7 +1483,7 @@ function ContactEditorPage() {
                                                                     children: "Placeholder"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 334,
+                                                                    lineNumber: 335,
                                                                     columnNumber: 41
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1490,13 +1496,13 @@ function ContactEditorPage() {
                                                                     placeholder: activeLocale === 'tr' ? 'Lütfen Ad - Soyad giriniz' : 'Please enter your full name'
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 335,
+                                                                    lineNumber: 336,
                                                                     columnNumber: 41
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                            lineNumber: 333,
+                                                            lineNumber: 334,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1507,7 +1513,7 @@ function ContactEditorPage() {
                                                                     children: "Hata Mesajı (Zorunlu)"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 342,
+                                                                    lineNumber: 343,
                                                                     columnNumber: 41
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1520,25 +1526,25 @@ function ContactEditorPage() {
                                                                     placeholder: activeLocale === 'tr' ? 'Lütfen adınızı ve soyadınızı girin' : 'Please enter your full name'
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 343,
+                                                                    lineNumber: 344,
                                                                     columnNumber: 41
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                            lineNumber: 341,
+                                                            lineNumber: 342,
                                                             columnNumber: 37
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 324,
+                                                    lineNumber: 325,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                            lineNumber: 322,
+                                            lineNumber: 323,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -1549,7 +1555,7 @@ function ContactEditorPage() {
                                                     children: "E-posta Alanı"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 354,
+                                                    lineNumber: 355,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1563,7 +1569,7 @@ function ContactEditorPage() {
                                                                     children: "Etiket"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 357,
+                                                                    lineNumber: 358,
                                                                     columnNumber: 41
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1576,13 +1582,13 @@ function ContactEditorPage() {
                                                                     placeholder: activeLocale === 'tr' ? 'E-posta' : 'Email'
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 358,
+                                                                    lineNumber: 359,
                                                                     columnNumber: 41
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                            lineNumber: 356,
+                                                            lineNumber: 357,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1593,7 +1599,7 @@ function ContactEditorPage() {
                                                                     children: "Placeholder"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 365,
+                                                                    lineNumber: 366,
                                                                     columnNumber: 41
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1606,13 +1612,13 @@ function ContactEditorPage() {
                                                                     placeholder: activeLocale === 'tr' ? 'Lütfen E-posta giriniz' : 'Please enter your email'
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 366,
+                                                                    lineNumber: 367,
                                                                     columnNumber: 41
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                            lineNumber: 364,
+                                                            lineNumber: 365,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1623,7 +1629,7 @@ function ContactEditorPage() {
                                                                     children: "Hata Mesajı (Zorunlu)"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 373,
+                                                                    lineNumber: 374,
                                                                     columnNumber: 41
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1636,13 +1642,13 @@ function ContactEditorPage() {
                                                                     placeholder: activeLocale === 'tr' ? 'Lütfen e-posta adresinizi girin' : 'Please enter your email'
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 374,
+                                                                    lineNumber: 375,
                                                                     columnNumber: 41
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                            lineNumber: 372,
+                                                            lineNumber: 373,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1653,7 +1659,7 @@ function ContactEditorPage() {
                                                                     children: "Hata Mesajı (Geçersiz)"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 381,
+                                                                    lineNumber: 382,
                                                                     columnNumber: 41
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1666,25 +1672,25 @@ function ContactEditorPage() {
                                                                     placeholder: activeLocale === 'tr' ? 'Geçerli bir e-posta adresi girin' : 'Please enter a valid email'
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 382,
+                                                                    lineNumber: 383,
                                                                     columnNumber: 41
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                            lineNumber: 380,
+                                                            lineNumber: 381,
                                                             columnNumber: 37
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 355,
+                                                    lineNumber: 356,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                            lineNumber: 353,
+                                            lineNumber: 354,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -1695,7 +1701,7 @@ function ContactEditorPage() {
                                                     children: "Konu Alanı"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 393,
+                                                    lineNumber: 394,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1709,7 +1715,7 @@ function ContactEditorPage() {
                                                                     children: "Etiket"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 396,
+                                                                    lineNumber: 397,
                                                                     columnNumber: 41
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1722,13 +1728,13 @@ function ContactEditorPage() {
                                                                     placeholder: activeLocale === 'tr' ? 'Konu' : 'Subject'
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 397,
+                                                                    lineNumber: 398,
                                                                     columnNumber: 41
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                            lineNumber: 395,
+                                                            lineNumber: 396,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1739,7 +1745,7 @@ function ContactEditorPage() {
                                                                     children: "Placeholder"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 404,
+                                                                    lineNumber: 405,
                                                                     columnNumber: 41
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1752,13 +1758,13 @@ function ContactEditorPage() {
                                                                     placeholder: activeLocale === 'tr' ? 'Lütfen bir konu seçin' : 'Please select a subject'
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 405,
+                                                                    lineNumber: 406,
                                                                     columnNumber: 41
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                            lineNumber: 403,
+                                                            lineNumber: 404,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1769,7 +1775,7 @@ function ContactEditorPage() {
                                                                     children: "Hata Mesajı (Zorunlu)"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 412,
+                                                                    lineNumber: 413,
                                                                     columnNumber: 41
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1782,25 +1788,25 @@ function ContactEditorPage() {
                                                                     placeholder: activeLocale === 'tr' ? 'Lütfen bir konu seçin' : 'Please select a subject'
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 413,
+                                                                    lineNumber: 414,
                                                                     columnNumber: 41
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                            lineNumber: 411,
+                                                            lineNumber: 412,
                                                             columnNumber: 37
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 394,
+                                                    lineNumber: 395,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                            lineNumber: 392,
+                                            lineNumber: 393,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -1811,7 +1817,7 @@ function ContactEditorPage() {
                                                     children: "Mesaj Alanı"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 424,
+                                                    lineNumber: 425,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1825,7 +1831,7 @@ function ContactEditorPage() {
                                                                     children: "Etiket"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 427,
+                                                                    lineNumber: 428,
                                                                     columnNumber: 41
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1838,13 +1844,13 @@ function ContactEditorPage() {
                                                                     placeholder: activeLocale === 'tr' ? 'Mesaj' : 'Message'
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 428,
+                                                                    lineNumber: 429,
                                                                     columnNumber: 41
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                            lineNumber: 426,
+                                                            lineNumber: 427,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1855,7 +1861,7 @@ function ContactEditorPage() {
                                                                     children: "Placeholder"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 435,
+                                                                    lineNumber: 436,
                                                                     columnNumber: 41
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1868,13 +1874,13 @@ function ContactEditorPage() {
                                                                     placeholder: activeLocale === 'tr' ? 'Lütfen mesajınızı giriniz' : 'Please enter your message'
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 436,
+                                                                    lineNumber: 437,
                                                                     columnNumber: 41
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                            lineNumber: 434,
+                                                            lineNumber: 435,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1885,7 +1891,7 @@ function ContactEditorPage() {
                                                                     children: "Hata Mesajı (Zorunlu)"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 443,
+                                                                    lineNumber: 444,
                                                                     columnNumber: 41
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1898,31 +1904,31 @@ function ContactEditorPage() {
                                                                     placeholder: activeLocale === 'tr' ? 'Lütfen mesajınızı girin' : 'Please enter your message'
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 444,
+                                                                    lineNumber: 445,
                                                                     columnNumber: 41
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                            lineNumber: 442,
+                                                            lineNumber: 443,
                                                             columnNumber: 37
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 425,
+                                                    lineNumber: 426,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                            lineNumber: 423,
+                                            lineNumber: 424,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                    lineNumber: 318,
+                                    lineNumber: 319,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1935,7 +1941,7 @@ function ContactEditorPage() {
                                                     children: "Form Konuları"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 457,
+                                                    lineNumber: 458,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1954,7 +1960,7 @@ function ContactEditorPage() {
                                                             }
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                            lineNumber: 459,
+                                                            lineNumber: 460,
                                                             columnNumber: 37
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1967,26 +1973,26 @@ function ContactEditorPage() {
                                                                     className: "w-4 h-4 mr-2"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                    lineNumber: 472,
+                                                                    lineNumber: 473,
                                                                     columnNumber: 41
                                                                 }, this),
                                                                 "Ekle"
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                            lineNumber: 471,
+                                                            lineNumber: 472,
                                                             columnNumber: 37
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 458,
+                                                    lineNumber: 459,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                            lineNumber: 456,
+                                            lineNumber: 457,
                                             columnNumber: 29
                                         }, this),
                                         currentData.form_subjects.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1994,7 +2000,7 @@ function ContactEditorPage() {
                                             children: "Henüz konu eklenmemiş"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                            lineNumber: 479,
+                                            lineNumber: 480,
                                             columnNumber: 33
                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "space-y-2",
@@ -2007,7 +2013,7 @@ function ContactEditorPage() {
                                                             placeholder: "Konu adı"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                            lineNumber: 486,
+                                                            lineNumber: 487,
                                                             columnNumber: 45
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2019,29 +2025,29 @@ function ContactEditorPage() {
                                                                 className: "w-4 h-4"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                                lineNumber: 497,
+                                                                lineNumber: 498,
                                                                 columnNumber: 49
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                            lineNumber: 491,
+                                                            lineNumber: 492,
                                                             columnNumber: 45
                                                         }, this)
                                                     ]
                                                 }, index, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 485,
+                                                    lineNumber: 486,
                                                     columnNumber: 41
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                            lineNumber: 483,
+                                            lineNumber: 484,
                                             columnNumber: 33
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                    lineNumber: 455,
+                                    lineNumber: 456,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2052,7 +2058,7 @@ function ContactEditorPage() {
                                             children: "Buton Metinleri"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                            lineNumber: 507,
+                                            lineNumber: 508,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2062,7 +2068,7 @@ function ContactEditorPage() {
                                                     children: "Gönder Butonu"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 510,
+                                                    lineNumber: 511,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2071,13 +2077,13 @@ function ContactEditorPage() {
                                                     placeholder: activeLocale === 'tr' ? 'Gönder' : 'Submit'
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 511,
+                                                    lineNumber: 512,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                            lineNumber: 509,
+                                            lineNumber: 510,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2087,7 +2093,7 @@ function ContactEditorPage() {
                                                     children: "Yükleniyor Metni"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 519,
+                                                    lineNumber: 520,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2096,19 +2102,19 @@ function ContactEditorPage() {
                                                     placeholder: activeLocale === 'tr' ? 'Gönderiliyor...' : 'Sending...'
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 520,
+                                                    lineNumber: 521,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                            lineNumber: 518,
+                                            lineNumber: 519,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                    lineNumber: 506,
+                                    lineNumber: 507,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2119,7 +2125,7 @@ function ContactEditorPage() {
                                             children: "Sistem Mesajları"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                            lineNumber: 530,
+                                            lineNumber: 531,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2129,25 +2135,25 @@ function ContactEditorPage() {
                                                     children: "Başarı Mesajı"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 533,
+                                                    lineNumber: 534,
                                                     columnNumber: 33
                                                 }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                    value: currentData.messages.success,
-                                                    onChange: (e)=>updateNestedField([
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(RawEditor, {
+                                                    content: currentData.messages.success,
+                                                    onChange: (html)=>updateNestedField([
                                                             'messages',
                                                             'success'
-                                                        ], e.target.value),
+                                                        ], html),
                                                     placeholder: activeLocale === 'tr' ? 'Mesajınız başarıyla gönderildi!' : 'Your message has been sent successfully!'
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 534,
+                                                    lineNumber: 535,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                            lineNumber: 532,
+                                            lineNumber: 533,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2157,31 +2163,31 @@ function ContactEditorPage() {
                                                     children: "Hata Mesajı"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 542,
+                                                    lineNumber: 543,
                                                     columnNumber: 33
                                                 }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                    value: currentData.messages.error,
-                                                    onChange: (e)=>updateNestedField([
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(RawEditor, {
+                                                    content: currentData.messages.error,
+                                                    onChange: (html)=>updateNestedField([
                                                             'messages',
                                                             'error'
-                                                        ], e.target.value),
+                                                        ], html),
                                                     placeholder: activeLocale === 'tr' ? 'Bir hata oluştu. Lütfen tekrar deneyin.' : 'An error occurred. Please try again.'
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 543,
+                                                    lineNumber: 544,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                            lineNumber: 541,
+                                            lineNumber: 542,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                    lineNumber: 529,
+                                    lineNumber: 530,
                                     columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2197,7 +2203,7 @@ function ContactEditorPage() {
                                                         className: "w-4 h-4 mr-2 animate-spin"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                        lineNumber: 555,
+                                                        lineNumber: 556,
                                                         columnNumber: 41
                                                     }, this),
                                                     "Kaydediliyor..."
@@ -2208,7 +2214,7 @@ function ContactEditorPage() {
                                                         className: "w-4 h-4 mr-2"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                        lineNumber: 560,
+                                                        lineNumber: 561,
                                                         columnNumber: 41
                                                     }, this),
                                                     "Her İki Dili Kaydet"
@@ -2216,7 +2222,7 @@ function ContactEditorPage() {
                                             }, void 0, true)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                            lineNumber: 552,
+                                            lineNumber: 553,
                                             columnNumber: 29
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2230,14 +2236,14 @@ function ContactEditorPage() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 567,
+                                                    lineNumber: 568,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                     children: "•"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 568,
+                                                    lineNumber: 569,
                                                     columnNumber: 33
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2248,36 +2254,36 @@ function ContactEditorPage() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                                    lineNumber: 569,
+                                                    lineNumber: 570,
                                                     columnNumber: 33
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                            lineNumber: 566,
+                                            lineNumber: 567,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                                    lineNumber: 551,
+                                    lineNumber: 552,
                                     columnNumber: 25
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                            lineNumber: 265,
+                            lineNumber: 266,
                             columnNumber: 21
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                        lineNumber: 264,
+                        lineNumber: 265,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                lineNumber: 258,
+                lineNumber: 259,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$MediaPicker$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -2286,13 +2292,13 @@ function ContactEditorPage() {
                 onSelect: handleMediaSelect
             }, void 0, false, {
                 fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-                lineNumber: 576,
+                lineNumber: 577,
                 columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/(admin)/admin/pages/contact/page.tsx",
-        lineNumber: 235,
+        lineNumber: 236,
         columnNumber: 9
     }, this);
 }

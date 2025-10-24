@@ -17,7 +17,7 @@ class DashboardController extends Controller
             'publishedPages' => Page::published()->count(),
             'draftPages' => Page::draft()->count(),
             'totalMedia' => Media::count(),
-            'totalVisits' => 0, // Bu veriyi analytics'ten alabilirsiniz
+            'totalVisits' => 0,
             'activeUsers' => User::where('created_at', '>=', now()->subDays(30))->count(),
         ];
 
@@ -46,7 +46,6 @@ class DashboardController extends Controller
     {
         $limit = $request->get('limit', 10);
 
-        // Recent pages
         $recentPages = Page::with('author:id,name,email')
             ->orderBy('created_at', 'desc')
             ->limit($limit)
@@ -62,7 +61,6 @@ class DashboardController extends Controller
                 ];
             });
 
-        // Recent media
         $recentMedia = Media::with('uploader:id,name,email')
             ->orderBy('created_at', 'desc')
             ->limit($limit)
@@ -78,7 +76,6 @@ class DashboardController extends Controller
                 ];
             });
 
-        // Merge and sort
         $activities = $recentPages->concat($recentMedia)
             ->sortByDesc('created_at')
             ->take($limit)

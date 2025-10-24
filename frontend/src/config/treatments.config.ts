@@ -84,14 +84,12 @@ export const DEFAULT_TREATMENTS_CONFIG: TreatmentsConfig = {
     },
 };
 
-// API Configuration
 export const TREATMENTS_API_CONFIG = {
     baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
     endpoint: '/api/treatments',
     timeout: 5000,
 };
 
-// Cache Configuration
 export const TREATMENTS_CACHE_CONFIG = {
     key: 'treatments_config',
     ttl: 3600000, // 1 hour

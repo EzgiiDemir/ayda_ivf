@@ -69,6 +69,8 @@
   "admin": {
     "bulkCreate": "Toplu Oluştur",
     "title": "Admin Panel",
+    "contactSubmissions": "İletişim Mesajları",
+    "createPage": "Yeni Sayfa Oluştur",
     "subtitle": "Yönetim Paneli",
     "dashboard": "Dashboard",
     "layout": "Düzen",

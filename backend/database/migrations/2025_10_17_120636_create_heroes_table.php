@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('heroes', function (Blueprint $table) {
             $table->id();
             $table->string('locale', 2)->default('tr');
-            $table->json('slides'); // [{image: {url, alt}, title, subtitle}]
+            $table->json('slides');
             $table->string('dots_pattern')->nullable();
             $table->boolean('auto_play')->default(true);
             $table->integer('auto_play_interval')->default(5000);

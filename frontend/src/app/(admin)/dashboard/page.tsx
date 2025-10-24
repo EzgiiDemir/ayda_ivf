@@ -5,11 +5,9 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import {
     FileText,
-    Upload,
-    Settings as SettingsIcon,
     ArrowRight
 } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -93,30 +91,6 @@ export default function DashboardPage() {
         },
     ];
 
-    const quickActions = [
-        {
-            title: tDashboard('managePages'),
-            description: tDashboard('editPages'),
-            href: '/pages',
-            icon: FileText,
-            color: 'bg-primary-pink',
-        },
-        {
-            title: tDashboard('uploadMedia'),
-            description: tDashboard('addFiles'),
-            href: '/media',
-            icon: Upload,
-            color: 'bg-primary-pink',
-        },
-        {
-            title: t('settings'),
-            description: tDashboard('siteSettings'),
-            href: '/settings',
-            icon: SettingsIcon,
-            color: 'bg-primary-pink',
-        },
-    ];
-
     if (error) {
         return (
             <div className="space-y-6">
@@ -159,7 +133,7 @@ export default function DashboardPage() {
                 )}
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6">
                 <Card className="lg:col-span-2">
                     <CardHeader>
                         <div className="flex items-center justify-between">
@@ -220,34 +194,6 @@ export default function DashboardPage() {
                                     </Link>
                                 ))
                             )}
-                        </div>
-                    </CardContent>
-                </Card>
-
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="text-primary-pink">{tDashboard('quickActions')}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="space-y-3">
-                            {quickActions.map((action, index) => {
-                                const Icon = action.icon;
-                                return (
-                                    <Link
-                                        key={index}
-                                        href={action.href}
-                                        className="flex items-center p-4 bg-pink-50 rounded-lg hover:bg-pink-100 transition-colors group"
-                                    >
-                                        <div className={`w-10 h-10 ${action.color} rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                                            <Icon className="w-5 h-5 text-white" />
-                                        </div>
-                                        <div className="ml-3">
-                                            <h3 className="font-semibold text-gray-800">{action.title}</h3>
-                                            <p className="text-sm text-gray-600">{action.description}</p>
-                                        </div>
-                                    </Link>
-                                );
-                            })}
                         </div>
                     </CardContent>
                 </Card>

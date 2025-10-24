@@ -1,4 +1,3 @@
-// components/MediaPicker.tsx
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -7,7 +6,6 @@ import axios from '@/src/lib/axios'
 import Image from 'next/image'
 import {
     Search,
-    Loader2,
     Check,
     ChevronLeft,
     ChevronRight,

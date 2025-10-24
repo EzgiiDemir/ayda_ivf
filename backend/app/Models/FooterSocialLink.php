@@ -1,5 +1,4 @@
 <?php
-// app/Models/FooterSocialLink.php
 
 namespace App\Models;
 

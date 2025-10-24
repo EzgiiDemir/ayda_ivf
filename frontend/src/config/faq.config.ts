@@ -1,4 +1,3 @@
-// src/config/faq.config.ts
 import { FAQConfig } from '@/src/types/faq.types';
 
 export const DEFAULT_FAQ_CONFIG: FAQConfig = {

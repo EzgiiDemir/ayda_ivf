@@ -25,7 +25,6 @@ export interface WelcomeConfig {
     };
 }
 
-// API Response types
 export interface WelcomeApiResponse {
     data: WelcomeConfig;
     success: boolean;

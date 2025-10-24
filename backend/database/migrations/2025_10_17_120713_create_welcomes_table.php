@@ -11,11 +11,11 @@ return new class extends Migration
         Schema::create('welcomes', function (Blueprint $table) {
             $table->id();
             $table->string('locale', 2)->default('tr');
-            $table->json('image'); // {url, alt, width, height}
-            $table->json('gradient'); // {from, via, to}
+            $table->json('image');
+            $table->json('gradient');
             $table->string('title_top')->nullable();
             $table->string('title')->nullable();
-            $table->json('paragraphs')->nullable(); // [p1, p2, p3, p4, p5]
+            $table->json('paragraphs')->nullable();
             $table->string('signature_name')->nullable();
             $table->string('signature_title')->nullable();
             $table->timestamps();

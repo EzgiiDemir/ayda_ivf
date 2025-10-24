@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 
 class TreatmentsController extends Controller
 {
-    // Public: Frontend için
     public function index(Request $request)
     {
         $locale = $request->get('locale', 'tr');
@@ -49,7 +48,6 @@ class TreatmentsController extends Controller
         ]);
     }
 
-    // Admin: Güncelleme
     public function update(Request $request)
     {
         $validated = $request->validate([

@@ -1,4 +1,3 @@
-// types/navbar.types.ts
 
 export interface NavLink {
     id: string;

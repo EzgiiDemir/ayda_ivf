@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('locale', 2)->default('tr');
             $table->string('background_logo')->nullable();
-            $table->json('treatments'); // [{id, href, label, order, isActive}]
+            $table->json('treatments');
             $table->string('top_title')->nullable();
             $table->string('title')->nullable();
             $table->text('description1')->nullable();

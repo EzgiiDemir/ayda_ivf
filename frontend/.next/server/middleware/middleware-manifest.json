@@ -47,12 +47,12 @@
           "originalSource": "/home/:path*"
         },
         {
-          "regexp": "/:nextData(_next/data/[^/]{1,})?/contact/submissions/:path*{(\\\\.json)}?",
-          "originalSource": "/contact/submissions/:path*"
+          "regexp": "/:nextData(_next/data/[^/]{1,})?/layout/:path*{(\\\\.json)}?",
+          "originalSource": "/layout/:path*"
         },
         {
-          "regexp": "/:nextData(_next/data/[^/]{1,})?/((?!login|register|dashboard|pages|media|settings|home|admin|contact/submissions|api|_next|_vercel|.*\\..*).*){(\\\\.json)}?",
-          "originalSource": "/((?!login|register|dashboard|pages|media|settings|home|admin|contact/submissions|api|_next|_vercel|.*\\..*).*)"
+          "regexp": "/:nextData(_next/data/[^/]{1,})?/((?!login|register|dashboard|pages|media|settings|home|admin|layout|api|_next|_vercel|.*\\..*).*){(\\\\.json)}?",
+          "originalSource": "/((?!login|register|dashboard|pages|media|settings|home|admin|layout|api|_next|_vercel|.*\\..*).*)"
         },
         {
           "regexp": "/:nextData(_next/data/[^/]{1,})?/(/?index|/?index\\\\.json)?",

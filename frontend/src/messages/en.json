@@ -78,6 +78,8 @@
   },
 
   "admin": {
+    "createPage": "Create New Page",
+    "contactSubmissions": "Contact Form Messages",
     "bulkCreate": "Bulk Create",
     "title": "Admin Panel",
     "subtitle": "Management Panel",

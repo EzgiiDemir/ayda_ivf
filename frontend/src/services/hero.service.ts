@@ -26,7 +26,6 @@ class HeroService {
         try {
             const config = await this.fetchFromApi(locale);
 
-            // Save to cache
             if (HERO_CACHE_CONFIG.enabled) {
                 this.saveToCache(locale, config);
             }
@@ -35,7 +34,6 @@ class HeroService {
         } catch (error) {
             console.error('[HeroService] Failed to fetch config:', error);
 
-            // Return default config as fallback
             return DEFAULT_HERO_CONFIG;
         }
     }
@@ -49,7 +47,6 @@ class HeroService {
     private async fetchFromApi(locale: string): Promise<HeroConfig> {
         const url = `${HERO_API_CONFIG.baseURL}${HERO_API_CONFIG.endpoint}`;
 
-        // Debug logging
         console.log('[HeroService] Request Details:', {
             url,
             locale,
@@ -225,8 +222,6 @@ class HeroService {
 
 }
 
-// Export singleton instance
 export const heroService = new HeroService();
 
-// Export class for testing
 export { HeroService };

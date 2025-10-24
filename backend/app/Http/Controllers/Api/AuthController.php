@@ -50,7 +50,6 @@ class AuthController extends Controller
             ]);
         }
 
-        // Delete old tokens
         $user->tokens()->delete();
 
         $token = $user->createToken('auth-token')->plainTextToken;

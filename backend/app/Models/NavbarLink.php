@@ -1,5 +1,4 @@
 <?php
-// app/Models/NavbarLink.php
 
 namespace App\Models;
 

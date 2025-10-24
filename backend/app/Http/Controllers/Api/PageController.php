@@ -111,13 +111,11 @@ class PageController extends Controller
 
         Log::info("🔍 Fetching page", ['id' => $id, 'locale' => $locale]);
 
-        // First try to find by ID and locale
         $page = Page::where('id', $id)
             ->where('locale', $locale)
             ->with('author:id,name,email')
             ->first();
 
-        // If not found, try to find translation of parent
         if (!$page) {
             $parent = Page::find($id);
             if ($parent && $parent->locale !== $locale) {
@@ -127,7 +125,6 @@ class PageController extends Controller
             }
         }
 
-        // If still not found, return default structure
         if (!$page) {
             Log::warning("⚠️ Page not found for locale", ['id' => $id, 'locale' => $locale]);
 
@@ -178,7 +175,6 @@ class PageController extends Controller
             $validated['slug'] = Str::slug($validated['title']);
         }
 
-        // Check if slug exists for this locale
         $existingPage = Page::where('slug', $validated['slug'])
             ->where('locale', $validated['locale'])
             ->first();
@@ -222,22 +218,18 @@ class PageController extends Controller
 
         Log::info("🔥 Updating page", ['id' => $id, 'locale' => $locale]);
 
-        // Find page by ID and locale, or create new
         $page = Page::where('id', $id)
             ->where('locale', $locale)
             ->first();
 
-        // If not found with this locale, find translation
         if (!$page) {
             $parent = Page::find($id);
 
             if ($parent) {
-                // Find translation
                 $page = Page::where('parent_id', $parent->parent_id ?: $parent->id)
                     ->where('locale', $locale)
                     ->first();
 
-                // If translation doesn't exist, create it
                 if (!$page) {
                     $validated['parent_id'] = $parent->parent_id ?: $parent->id;
                     $validated['author_id'] = $request->user()->id;
@@ -270,7 +262,6 @@ class PageController extends Controller
             $validated['slug'] = Str::slug($validated['title']);
         }
 
-        // Check unique slug for this locale (except current page)
         $existingPage = Page::where('slug', $validated['slug'])
             ->where('locale', $locale)
             ->where('id', '!=', $page->id)
@@ -299,12 +290,9 @@ class PageController extends Controller
     {
         $page = Page::findOrFail($id);
 
-        // Delete all translations
         if ($page->parent_id) {
-            // This is a translation, delete only this
             $page->delete();
         } else {
-            // This is parent, delete all translations
             Page::where('parent_id', $page->id)->delete();
             $page->delete();
         }

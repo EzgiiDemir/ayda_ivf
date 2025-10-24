@@ -23,6 +23,9 @@ import {
     ArrowDown,
     Zap,
     Loader2,
+    CheckCircle2,
+    XCircle,
+    AlertCircle,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -56,7 +59,6 @@ import {
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
@@ -82,11 +84,17 @@ interface PaginationMeta {
     lastPage: number;
 }
 
+interface BulkCreateResult {
+    slug: string;
+    title: string;
+    status: 'success' | 'error' | 'skipped';
+    message: string;
+}
+
 type StatusFilter = 'all' | 'published' | 'draft';
 type SortField = 'id' | 'title' | 'updated_at' | 'created_at';
 type SortOrder = 'asc' | 'desc';
 
-// Navbar pages to create
 const NAVBAR_PAGES = [
     { title: 'Neden Biz?', slug: 'why-us', subtitle: 'Ayda IVF olarak neden bizi tercih etmelisiniz?' },
     { title: 'Fiyatlarımız', slug: 'our-prices', subtitle: 'Şeffaf ve uygun fiyat politikamız' },
@@ -126,11 +134,10 @@ export default function PagesListPage() {
         lastPage: 1,
     });
 
-    // Bulk create dialog state
     const [showBulkDialog, setShowBulkDialog] = useState(false);
     const [bulkCreating, setBulkCreating] = useState(false);
-    const [createdCount, setCreatedCount] = useState(0);
-    const [bulkErrors, setBulkErrors] = useState<string[]>([]);
+    const [bulkResults, setBulkResults] = useState<BulkCreateResult[]>([]);
+    const [currentProcessing, setCurrentProcessing] = useState('');
 
     useEffect(() => {
         fetchPages();
@@ -166,14 +173,42 @@ export default function PagesListPage() {
         }
     };
 
+    const checkPageExists = async (slug: string): Promise<boolean> => {
+        try {
+            const response = await axios.get('/pages', {
+                params: { search: slug }
+            });
+            return response.data.data.some((page: Page) => page.slug === slug);
+        } catch {
+            return false;
+        }
+    };
+
     const handleBulkCreate = async () => {
         setBulkCreating(true);
-        setCreatedCount(0);
-        setBulkErrors([]);
+        setBulkResults([]);
+        const results: BulkCreateResult[] = [];
 
         for (const page of NAVBAR_PAGES) {
+            setCurrentProcessing(page.title);
+
             try {
+                const exists = await checkPageExists(page.slug);
+
+                if (exists) {
+                    results.push({
+                        slug: page.slug,
+                        title: page.title,
+                        status: 'skipped',
+                        message: 'Sayfa zaten mevcut'
+                    });
+                    setBulkResults([...results]);
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    continue;
+                }
+
                 await axios.post('/pages', {
+                    locale: 'tr',
                     title: page.title,
                     subtitle: page.subtitle,
                     slug: page.slug,
@@ -184,21 +219,52 @@ export default function PagesListPage() {
                     status: 'draft',
                 });
 
-                setCreatedCount(prev => prev + 1);
-                await new Promise(resolve => setTimeout(resolve, 300));
+                await axios.post('/pages', {
+                    locale: 'en',
+                    title: page.title,
+                    subtitle: page.subtitle,
+                    slug: page.slug,
+                    content: `<h1>${page.title}</h1><p>${page.subtitle}</p><p>This page has not been edited yet. Please add content from the admin panel.</p>`,
+                    heroImage: 'https://api.aydaivf.com/uploads/ayda_logo_9e8994bffd.png',
+                    metaTitle: `${page.title} | Ayda IVF`,
+                    metaDescription: page.subtitle,
+                    status: 'draft',
+                });
+
+                results.push({
+                    slug: page.slug,
+                    title: page.title,
+                    status: 'success',
+                    message: 'Başarıyla oluşturuldu (TR + EN)'
+                });
+
             } catch (error: any) {
-                const errorMsg = error.response?.data?.message || `${page.slug} oluşturulamadı`;
-                setBulkErrors(prev => [...prev, errorMsg]);
+                const errorMessage = error.response?.data?.message || error.message || 'Bilinmeyen hata';
+
+                results.push({
+                    slug: page.slug,
+                    title: page.title,
+                    status: 'error',
+                    message: errorMessage
+                });
             }
+
+            setBulkResults([...results]);
+            await new Promise(resolve => setTimeout(resolve, 300));
         }
 
         setBulkCreating(false);
+        setCurrentProcessing('');
+
+        const successCount = results.filter(r => r.status === 'success').length;
+        const skippedCount = results.filter(r => r.status === 'skipped').length;
+        const errorCount = results.filter(r => r.status === 'error').length;
+
         toast({
             title: 'İşlem Tamamlandı',
-            description: `${createdCount} sayfa oluşturuldu.`,
+            description: `✅ ${successCount} oluşturuldu | ⏭️ ${skippedCount} atlandı | ❌ ${errorCount} hata`,
         });
 
-        // Refresh page list
         fetchPages();
     };
 
@@ -315,25 +381,29 @@ export default function PagesListPage() {
         pageNumbers.push(i);
     }
 
+    const successCount = bulkResults.filter(r => r.status === 'success').length;
+    const skippedCount = bulkResults.filter(r => r.status === 'skipped').length;
+    const errorCount = bulkResults.filter(r => r.status === 'error').length;
+
     return (
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6 p-2 sm:p-4 lg:p-0">
             {/* Header */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div>
-                    <h1 className="text-3xl font-bold text-primary-pink">{t('pages')}</h1>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-primary-pink">{t('pages')}</h1>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                     <Button
                         variant="outline"
                         onClick={() => setShowBulkDialog(true)}
-                        className="border-primary-pink text-primary-pink hover:bg-pink-50"
+                        className="border-primary-pink text-primary-pink hover:bg-pink-50 w-full sm:w-auto text-xs sm:text-sm"
                     >
-                        <Zap className="w-4 h-4 mr-2" />
+                        <Zap className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
                         {t('bulkCreate')} ({NAVBAR_PAGES.length})
                     </Button>
-                    <Button asChild className="bg-primary-pink hover:bg-pink-700">
+                    <Button asChild className="bg-primary-pink hover:bg-pink-700 w-full sm:w-auto text-xs sm:text-sm">
                         <Link href="/pages/create">
-                            <Plus className="w-4 h-4 mr-2" />
+                            <Plus className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
                             {tPages('createNew')}
                         </Link>
                     </Button>
@@ -342,33 +412,33 @@ export default function PagesListPage() {
 
             {/* Filters */}
             <Card>
-                <CardContent className="p-4">
-                    <div className="flex flex-col md:flex-row gap-4">
+                <CardContent className="p-3 sm:p-4">
+                    <div className="flex flex-col gap-3 sm:gap-4">
                         {/* Search */}
-                        <div className="flex-1 flex gap-2">
+                        <div className="flex flex-col sm:flex-row gap-2">
                             <div className="relative flex-1">
-                                <Search className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
+                                <Search className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 absolute left-3 top-2 sm:top-2.5" />
                                 <Input
                                     type="text"
                                     placeholder={tCommon('search')}
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                                    className="pl-10"
+                                    className="pl-9 sm:pl-10 text-sm"
                                 />
                             </div>
-                            <Button variant="outline" onClick={handleSearch}>
+                            <Button variant="outline" onClick={handleSearch} className="text-xs sm:text-sm">
                                 {tCommon('search')}
                             </Button>
                         </div>
 
                         {/* Status Filter */}
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 flex-wrap">
                             <Button
                                 variant={filterStatus === 'all' ? 'default' : 'outline'}
                                 size="sm"
                                 onClick={() => setFilterStatus('all')}
-                                className={filterStatus === 'all' ? 'bg-primary-pink hover:bg-pink-700' : ''}
+                                className={`text-xs ${filterStatus === 'all' ? 'bg-primary-pink hover:bg-pink-700' : ''}`}
                             >
                                 {tPages('all')}
                             </Button>
@@ -376,7 +446,7 @@ export default function PagesListPage() {
                                 variant={filterStatus === 'published' ? 'default' : 'outline'}
                                 size="sm"
                                 onClick={() => setFilterStatus('published')}
-                                className={filterStatus === 'published' ? 'bg-green-600 hover:bg-green-700' : ''}
+                                className={`text-xs ${filterStatus === 'published' ? 'bg-green-600 hover:bg-green-700' : ''}`}
                             >
                                 {tCommon('published')}
                             </Button>
@@ -384,29 +454,31 @@ export default function PagesListPage() {
                                 variant={filterStatus === 'draft' ? 'default' : 'outline'}
                                 size="sm"
                                 onClick={() => setFilterStatus('draft')}
-                                className={filterStatus === 'draft' ? 'bg-yellow-400 hover:bg-yellow-500' : ''}
+                                className={`text-xs ${filterStatus === 'draft' ? 'bg-yellow-400 hover:bg-yellow-500' : ''}`}
                             >
                                 {tCommon('draft')}
                             </Button>
                         </div>
-                    </div>
 
-                    {/* Bulk Actions */}
-                    {selectedPages.length > 0 && (
-                        <div className="mt-4 flex items-center gap-4 p-3 bg-pink-50 rounded-lg">
-                            <Badge variant="secondary" className="bg-primary-pink text-white">
-                                {selectedPages.length} {tPages('itemsSelected')}
-                            </Badge>
-                            <Button variant="destructive" size="sm" onClick={handleBulkDelete}>
-                                <Trash2 className="w-4 h-4 mr-2" />
-                                {tCommon('delete')}
-                            </Button>
-                            <Button variant="outline" size="sm" onClick={() => setSelectedPages([])}>
-                                <X className="w-4 h-4 mr-2" />
-                                {tCommon('cancel')}
-                            </Button>
-                        </div>
-                    )}
+                        {/* Bulk Actions */}
+                        {selectedPages.length > 0 && (
+                            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 p-3 bg-pink-50 rounded-lg">
+                                <Badge variant="secondary" className="bg-primary-pink text-white text-xs">
+                                    {selectedPages.length} {tPages('itemsSelected')}
+                                </Badge>
+                                <div className="flex gap-2 w-full sm:w-auto">
+                                    <Button variant="destructive" size="sm" onClick={handleBulkDelete} className="flex-1 sm:flex-none text-xs">
+                                        <Trash2 className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+                                        {tCommon('delete')}
+                                    </Button>
+                                    <Button variant="outline" size="sm" onClick={() => setSelectedPages([])} className="flex-1 sm:flex-none text-xs">
+                                        <X className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+                                        {tCommon('cancel')}
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </CardContent>
             </Card>
 
@@ -416,43 +488,43 @@ export default function PagesListPage() {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead className="w-12">
+                                <TableHead className="w-8 sm:w-12">
                                     <Checkbox
                                         checked={selectedPages.length === pages.length && pages.length > 0}
                                         onCheckedChange={toggleSelectAll}
                                     />
                                 </TableHead>
-                                <TableHead className="w-20">
+                                <TableHead className="w-12 sm:w-20">
                                     <button
                                         onClick={() => handleSort('id')}
-                                        className="flex items-center hover:text-primary-pink font-semibold"
+                                        className="flex items-center hover:text-primary-pink font-semibold text-xs sm:text-sm"
                                     >
                                         ID
                                         <SortIcon field="id" />
                                     </button>
                                 </TableHead>
-                                <TableHead>
+                                <TableHead className="min-w-[150px]">
                                     <button
                                         onClick={() => handleSort('title')}
-                                        className="flex items-center hover:text-primary-pink font-semibold"
+                                        className="flex items-center hover:text-primary-pink font-semibold text-xs sm:text-sm"
                                     >
                                         {tPages('title')}
                                         <SortIcon field="title" />
                                     </button>
                                 </TableHead>
-                                <TableHead>{tPages('slug')}</TableHead>
-                                <TableHead>{tPages('statusPage')}</TableHead>
-                                <TableHead>{tPages('author')}</TableHead>
-                                <TableHead>
+                                <TableHead className="hidden sm:table-cell text-xs sm:text-sm">{tPages('slug')}</TableHead>
+                                <TableHead className="text-xs sm:text-sm">{tPages('statusPage')}</TableHead>
+                                <TableHead className="hidden md:table-cell text-xs sm:text-sm">{tPages('author')}</TableHead>
+                                <TableHead className="hidden lg:table-cell">
                                     <button
                                         onClick={() => handleSort('updated_at')}
-                                        className="flex items-center hover:text-primary-pink font-semibold"
+                                        className="flex items-center hover:text-primary-pink font-semibold text-xs sm:text-sm"
                                     >
                                         {tPages('updatedAt')}
                                         <SortIcon field="updated_at" />
                                     </button>
                                 </TableHead>
-                                <TableHead className="text-right">{tCommon('actions')}</TableHead>
+                                <TableHead className="text-right text-xs sm:text-sm">{tCommon('actions')}</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -461,32 +533,32 @@ export default function PagesListPage() {
                                     <TableRow key={i}>
                                         <TableCell><Skeleton className="h-4 w-4" /></TableCell>
                                         <TableCell><Skeleton className="h-4 w-12" /></TableCell>
-                                        <TableCell><Skeleton className="h-4 w-48" /></TableCell>
-                                        <TableCell><Skeleton className="h-4 w-32" /></TableCell>
+                                        <TableCell><Skeleton className="h-4 w-32 sm:w-48" /></TableCell>
+                                        <TableCell className="hidden sm:table-cell"><Skeleton className="h-4 w-32" /></TableCell>
                                         <TableCell><Skeleton className="h-6 w-16" /></TableCell>
-                                        <TableCell><Skeleton className="h-4 w-24" /></TableCell>
-                                        <TableCell><Skeleton className="h-4 w-28" /></TableCell>
-                                        <TableCell><Skeleton className="h-8 w-20" /></TableCell>
+                                        <TableCell className="hidden md:table-cell"><Skeleton className="h-4 w-24" /></TableCell>
+                                        <TableCell className="hidden lg:table-cell"><Skeleton className="h-4 w-28" /></TableCell>
+                                        <TableCell><Skeleton className="h-8 w-8" /></TableCell>
                                     </TableRow>
                                 ))
                             ) : pages.length === 0 ? (
                                 <TableRow>
-                                    <TableCell colSpan={8} className="text-center py-12">
-                                        <FileText className="w-12 h-12 mx-auto text-gray-400 mb-2" />
+                                    <TableCell colSpan={8} className="text-center py-8 sm:py-12">
+                                        <FileText className="w-10 h-10 sm:w-12 sm:h-12 mx-auto text-gray-400 mb-2" />
                                         <h3 className="text-sm font-medium text-gray-900">{tPages('noPages')}</h3>
-                                        <p className="text-sm text-gray-500 mt-1">{tPages('noPagesDesc')}</p>
-                                        <div className="flex gap-2 justify-center mt-4">
+                                        <p className="text-xs sm:text-sm text-gray-500 mt-1">{tPages('noPagesDesc')}</p>
+                                        <div className="flex flex-col sm:flex-row gap-2 justify-center mt-4">
                                             <Button
                                                 variant="outline"
                                                 onClick={() => setShowBulkDialog(true)}
-                                                className="border-primary-pink text-primary-pink"
+                                                className="border-primary-pink text-primary-pink text-xs sm:text-sm"
                                             >
-                                                <Zap className="w-4 h-4 mr-2" />
+                                                <Zap className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
                                                 Toplu Oluştur
                                             </Button>
-                                            <Button asChild className="bg-primary-pink hover:bg-pink-700">
+                                            <Button asChild className="bg-primary-pink hover:bg-pink-700 text-xs sm:text-sm">
                                                 <Link href="/pages/create">
-                                                    <Plus className="w-4 h-4 mr-2" />
+                                                    <Plus className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
                                                     {tPages('createNew')}
                                                 </Link>
                                             </Button>
@@ -503,38 +575,38 @@ export default function PagesListPage() {
                                             />
                                         </TableCell>
                                         <TableCell>
-                                            <Badge variant="outline" className="font-mono">
+                                            <Badge variant="outline" className="font-mono text-xs">
                                                 #{page.id}
                                             </Badge>
                                         </TableCell>
                                         <TableCell>
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-8 h-8 bg-pink-100 rounded flex items-center justify-center flex-shrink-0">
-                                                    <FileText className="w-4 h-4 text-primary-pink" />
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-6 h-6 sm:w-8 sm:h-8 bg-pink-100 rounded flex items-center justify-center flex-shrink-0">
+                                                    <FileText className="w-3 h-3 sm:w-4 sm:h-4 text-primary-pink" />
                                                 </div>
-                                                <div className="font-semibold text-gray-900">{page.title}</div>
+                                                <div className="font-semibold text-gray-900 text-xs sm:text-sm truncate max-w-[120px] sm:max-w-none">{page.title}</div>
                                             </div>
                                         </TableCell>
-                                        <TableCell>
-                                            <span className="text-sm text-gray-600 font-mono">/{page.slug}</span>
+                                        <TableCell className="hidden sm:table-cell">
+                                            <span className="text-xs text-gray-600 font-mono">/{page.slug}</span>
                                         </TableCell>
                                         <TableCell>
                                             <Badge
                                                 variant={page.status === 'published' ? 'default' : 'secondary'}
-                                                className={
+                                                className={`text-xs ${
                                                     page.status === 'published'
                                                         ? 'bg-green-100 text-green-700 hover:bg-green-100'
                                                         : 'bg-yellow-100 text-yellow-700 hover:bg-yellow-100'
-                                                }
+                                                }`}
                                             >
                                                 {page.status === 'published' ? tCommon('published') : tCommon('draft')}
                                             </Badge>
                                         </TableCell>
-                                        <TableCell>
-                                            <span className="text-sm text-gray-600">{page.author.name}</span>
+                                        <TableCell className="hidden md:table-cell">
+                                            <span className="text-xs text-gray-600">{page.author.name}</span>
                                         </TableCell>
-                                        <TableCell>
-                                            <div className="text-sm text-gray-600">
+                                        <TableCell className="hidden lg:table-cell">
+                                            <div className="text-xs text-gray-600">
                                                 <div>{new Date(page.updated_at).toLocaleDateString('tr-TR')}</div>
                                                 <div className="text-xs text-gray-400">
                                                     {new Date(page.updated_at).toLocaleTimeString('tr-TR', {
@@ -545,32 +617,32 @@ export default function PagesListPage() {
                                             </div>
                                         </TableCell>
                                         <TableCell>
-                                            <div className="flex items-center justify-end gap-2">
+                                            <div className="flex items-center justify-end">
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
-                                                        <Button variant="ghost" size="icon">
-                                                            <MoreHorizontal className="w-4 h-4" />
+                                                        <Button variant="ghost" size="icon" className="h-7 w-7 sm:h-8 sm:w-8">
+                                                            <MoreHorizontal className="w-3 h-3 sm:w-4 sm:h-4" />
                                                         </Button>
                                                     </DropdownMenuTrigger>
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuItem asChild>
-                                                            <Link href={`/pages/${page.id}/edit`} className="cursor-pointer">
-                                                                <Edit className="w-4 h-4 mr-2" />
+                                                            <Link href={`/pages/${page.id}/edit`} className="cursor-pointer text-xs sm:text-sm">
+                                                                <Edit className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
                                                                 {tCommon('edit')}
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuItem asChild>
-                                                            <Link href={`/${page.slug}`} target="_blank" className="cursor-pointer">
-                                                                <Eye className="w-4 h-4 mr-2" />
+                                                            <Link href={`/${page.slug}`} target="_blank" className="cursor-pointer text-xs sm:text-sm">
+                                                                <Eye className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
                                                                 {tCommon('view')}
                                                             </Link>
                                                         </DropdownMenuItem>
                                                         <DropdownMenuSeparator />
                                                         <DropdownMenuItem
                                                             onClick={() => handleDelete(page.id)}
-                                                            className="text-red-600 cursor-pointer"
+                                                            className="text-red-600 cursor-pointer text-xs sm:text-sm"
                                                         >
-                                                            <Trash2 className="w-4 h-4 mr-2" />
+                                                            <Trash2 className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
                                                             {tCommon('delete')}
                                                         </DropdownMenuItem>
                                                     </DropdownMenuContent>
@@ -586,11 +658,11 @@ export default function PagesListPage() {
 
                 {/* Pagination */}
                 {!loading && pages.length > 0 && (
-                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 border-t">
-                        <div className="flex items-center gap-2">
-                            <span className="text-sm text-gray-600">{tPages('showPerPage')}</span>
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 px-3 sm:px-6 py-3 sm:py-4 border-t">
+                        <div className="flex items-center gap-2 w-full sm:w-auto justify-center sm:justify-start">
+                            <span className="text-xs sm:text-sm text-gray-600">{tPages('showPerPage')}</span>
                             <Select value={pagination.perPage.toString()} onValueChange={handlePerPageChange}>
-                                <SelectTrigger className="w-20">
+                                <SelectTrigger className="w-16 sm:w-20 text-xs sm:text-sm">
                                     <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -603,22 +675,24 @@ export default function PagesListPage() {
                             </Select>
                         </div>
 
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-1 overflow-x-auto max-w-full">
                             <Button
                                 variant="outline"
                                 size="icon"
                                 onClick={() => handlePageChange(1)}
                                 disabled={pagination.currentPage === 1}
+                                className="h-7 w-7 sm:h-9 sm:w-9 flex-shrink-0"
                             >
-                                <ChevronsLeft className="w-4 h-4" />
+                                <ChevronsLeft className="w-3 h-3 sm:w-4 sm:h-4" />
                             </Button>
                             <Button
                                 variant="outline"
                                 size="icon"
                                 onClick={() => handlePageChange(pagination.currentPage - 1)}
                                 disabled={pagination.currentPage === 1}
+                                className="h-7 w-7 sm:h-9 sm:w-9 flex-shrink-0"
                             >
-                                <ChevronLeft className="w-4 h-4" />
+                                <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" />
                             </Button>
 
                             {pageNumbers.map((pageNum) => (
@@ -627,7 +701,9 @@ export default function PagesListPage() {
                                     variant={pageNum === pagination.currentPage ? 'default' : 'outline'}
                                     size="icon"
                                     onClick={() => handlePageChange(pageNum)}
-                                    className={pageNum === pagination.currentPage ? 'bg-primary-pink hover:bg-pink-700' : ''}
+                                    className={`h-7 w-7 sm:h-9 sm:w-9 flex-shrink-0 text-xs sm:text-sm ${
+                                        pageNum === pagination.currentPage ? 'bg-primary-pink hover:bg-pink-700' : ''
+                                    }`}
                                 >
                                     {pageNum}
                                 </Button>
@@ -638,16 +714,18 @@ export default function PagesListPage() {
                                 size="icon"
                                 onClick={() => handlePageChange(pagination.currentPage + 1)}
                                 disabled={pagination.currentPage === pagination.lastPage}
+                                className="h-7 w-7 sm:h-9 sm:w-9 flex-shrink-0"
                             >
-                                <ChevronRight className="w-4 h-4" />
+                                <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
                             </Button>
                             <Button
                                 variant="outline"
                                 size="icon"
                                 onClick={() => handlePageChange(pagination.lastPage)}
                                 disabled={pagination.currentPage === pagination.lastPage}
+                                className="h-7 w-7 sm:h-9 sm:w-9 flex-shrink-0"
                             >
-                                <ChevronsRight className="w-4 h-4" />
+                                <ChevronsRight className="w-3 h-3 sm:w-4 sm:h-4" />
                             </Button>
                         </div>
                     </div>
@@ -656,81 +734,150 @@ export default function PagesListPage() {
 
             {/* Bulk Create Dialog */}
             <Dialog open={showBulkDialog} onOpenChange={setShowBulkDialog}>
-                <DialogContent className="max-w-2xl">
+                <DialogContent className="max-w-[95vw] sm:max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
                     <DialogHeader>
-                        <DialogTitle>Toplu Sayfa Oluştur</DialogTitle>
-                        <DialogDescription>
-                            Navbar'daki tüm sayfaları otomatik olarak oluşturun ({NAVBAR_PAGES.length} sayfa).
-                            Sayfalar draft olarak oluşturulacak, sonra düzenleyebilirsiniz.
-                        </DialogDescription>
+                        <DialogTitle className="text-base sm:text-lg">Toplu Sayfa Oluştur</DialogTitle>
                     </DialogHeader>
 
-                    <div className="space-y-4 max-h-96 overflow-y-auto">
-                        {NAVBAR_PAGES.map((page) => (
-                            <div key={page.slug} className="border rounded p-3">
-                                <h4 className="font-semibold">{page.title}</h4>
-                                <p className="text-sm text-gray-600">{page.subtitle}</p>
-                                <p className="text-xs text-gray-400 font-mono">/{page.slug}</p>
-                            </div>
-                        ))}
-                    </div>
+                    {/* Pages List */}
+                    {!bulkCreating && bulkResults.length === 0 && (
+                        <div className="space-y-2 max-h-[40vh] overflow-y-auto px-1">
+                            {NAVBAR_PAGES.map((page) => (
+                                <div key={page.slug} className="border rounded p-2 sm:p-3">
+                                    <h4 className="font-semibold text-xs sm:text-sm">{page.title}</h4>
+                                    <p className="text-xs text-gray-600">{page.subtitle}</p>
+                                    <p className="text-xs text-gray-400 font-mono">/{page.slug}</p>
+                                </div>
+                            ))}
+                        </div>
+                    )}
 
+                    {/* Progress */}
                     {bulkCreating && (
-                        <div className="space-y-2">
+                        <div className="space-y-3 sm:space-y-4">
                             <div className="w-full bg-gray-200 rounded-full h-2">
                                 <div
-                                    className="bg-primary-pink h-2 rounded-full transition-all"
-                                    style={{ width: `${(createdCount / NAVBAR_PAGES.length) * 100}%` }}
+                                    className="bg-primary-pink h-2 rounded-full transition-all duration-300"
+                                    style={{ width: `${(bulkResults.length / NAVBAR_PAGES.length) * 100}%` }}
                                 />
                             </div>
-                            <p className="text-sm text-center text-gray-600">
-                                {createdCount} / {NAVBAR_PAGES.length} sayfa oluşturuldu
-                            </p>
-                        </div>
-                    )}
-
-                    {bulkErrors.length > 0 && (
-                        <div className="bg-yellow-50 border border-yellow-200 rounded p-3">
-                            <p className="text-sm font-semibold text-yellow-800 mb-2">
-                                ⚠️ Bazı sayfalar oluşturulamadı:
-                            </p>
-                            <div className="space-y-1 max-h-32 overflow-y-auto">
-                                {bulkErrors.map((error, i) => (
-                                    <p key={i} className="text-xs text-yellow-700">• {error}</p>
-                                ))}
+                            <div className="text-center">
+                                <p className="text-xs sm:text-sm text-gray-600 font-medium">
+                                    {bulkResults.length} / {NAVBAR_PAGES.length} işlendi
+                                </p>
+                                {currentProcessing && (
+                                    <p className="text-xs text-gray-500 mt-1 flex items-center justify-center gap-2">
+                                        <Loader2 className="w-3 h-3 animate-spin" />
+                                        {currentProcessing}
+                                    </p>
+                                )}
                             </div>
                         </div>
                     )}
 
-                    <DialogFooter>
+                    {/* Results */}
+                    {bulkResults.length > 0 && (
+                        <div className="space-y-2 max-h-[40vh] overflow-y-auto px-1">
+                            {/* Summary */}
+                            <div className="grid grid-cols-3 gap-2 mb-3">
+                                <div className="bg-green-50 border border-green-200 rounded p-2 text-center">
+                                    <div className="flex items-center justify-center gap-1 text-green-700">
+                                        <CheckCircle2 className="w-3 h-3 sm:w-4 sm:h-4" />
+                                        <span className="text-xs sm:text-sm font-semibold">{successCount}</span>
+                                    </div>
+                                    <p className="text-xs text-green-600 mt-1">Başarılı</p>
+                                </div>
+                                <div className="bg-blue-50 border border-blue-200 rounded p-2 text-center">
+                                    <div className="flex items-center justify-center gap-1 text-blue-700">
+                                        <AlertCircle className="w-3 h-3 sm:w-4 sm:h-4" />
+                                        <span className="text-xs sm:text-sm font-semibold">{skippedCount}</span>
+                                    </div>
+                                    <p className="text-xs text-blue-600 mt-1">Atlandı</p>
+                                </div>
+                                <div className="bg-red-50 border border-red-200 rounded p-2 text-center">
+                                    <div className="flex items-center justify-center gap-1 text-red-700">
+                                        <XCircle className="w-3 h-3 sm:w-4 sm:h-4" />
+                                        <span className="text-xs sm:text-sm font-semibold">{errorCount}</span>
+                                    </div>
+                                    <p className="text-xs text-red-600 mt-1">Hata</p>
+                                </div>
+                            </div>
+
+                            {/* Detailed Results */}
+                            {bulkResults.map((result, index) => (
+                                <div
+                                    key={index}
+                                    className={`border rounded p-2 sm:p-3 ${
+                                        result.status === 'success'
+                                            ? 'bg-green-50 border-green-200'
+                                            : result.status === 'skipped'
+                                                ? 'bg-blue-50 border-blue-200'
+                                                : 'bg-red-50 border-red-200'
+                                    }`}
+                                >
+                                    <div className="flex items-start gap-2">
+                                        {result.status === 'success' && (
+                                            <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                                        )}
+                                        {result.status === 'skipped' && (
+                                            <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                                        )}
+                                        {result.status === 'error' && (
+                                            <XCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                                        )}
+                                        <div className="flex-1 min-w-0">
+                                            <h4 className="font-semibold text-xs sm:text-sm truncate">{result.title}</h4>
+                                            <p className="text-xs text-gray-600 font-mono truncate">/{result.slug}</p>
+                                            <p
+                                                className={`text-xs mt-1 ${
+                                                    result.status === 'success'
+                                                        ? 'text-green-700'
+                                                        : result.status === 'skipped'
+                                                            ? 'text-blue-700'
+                                                            : 'text-red-700'
+                                                }`}
+                                            >
+                                                {result.message}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    <DialogFooter className="flex-col sm:flex-row gap-2">
                         <Button
                             variant="outline"
                             onClick={() => {
                                 setShowBulkDialog(false);
-                                setCreatedCount(0);
-                                setBulkErrors([]);
+                                setBulkResults([]);
+                                setCurrentProcessing('');
                             }}
                             disabled={bulkCreating}
+                            className="w-full sm:w-auto text-xs sm:text-sm"
                         >
-                            İptal
+                            {bulkResults.length > 0 ? 'Kapat' : 'İptal'}
                         </Button>
-                        <Button
-                            onClick={handleBulkCreate}
-                            disabled={bulkCreating}
-                            className="bg-primary-pink hover:bg-pink-700"
-                        >
-                            {bulkCreating ? (
-                                <>
-                                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                                    Oluşturuluyor... ({createdCount}/{NAVBAR_PAGES.length})
-                                </>
-                            ) : (
-                                <>
-                                    <Zap className="w-4 h-4 mr-2" />
-                                    {NAVBAR_PAGES.length} Sayfayı Oluştur
-                                </>
-                            )}
-                        </Button>
+                        {bulkResults.length === 0 && (
+                            <Button
+                                onClick={handleBulkCreate}
+                                disabled={bulkCreating}
+                                className="bg-primary-pink hover:bg-pink-700 w-full sm:w-auto text-xs sm:text-sm"
+                            >
+                                {bulkCreating ? (
+                                    <>
+                                        <Loader2 className="w-3 h-3 sm:w-4 sm:h-4 mr-2 animate-spin" />
+                                        Oluşturuluyor... ({bulkResults.length}/{NAVBAR_PAGES.length})
+                                    </>
+                                ) : (
+                                    <>
+                                        <Zap className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+                                        {NAVBAR_PAGES.length} Sayfayı Oluştur
+                                    </>
+                                )}
+                            </Button>
+                        )}
                     </DialogFooter>
                 </DialogContent>
             </Dialog>

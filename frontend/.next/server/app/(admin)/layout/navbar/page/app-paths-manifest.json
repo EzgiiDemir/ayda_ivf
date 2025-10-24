@@ -1,0 +1,3 @@
+{
+  "/(admin)/layout/navbar/page": "app/(admin)/layout/navbar/page.js"
+}

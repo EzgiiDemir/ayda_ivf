@@ -10,7 +10,6 @@ class WelcomeService {
     }
 
     async getWelcomeConfig(locale: string): Promise<WelcomeConfig> {
-        // Check cache first
         if (WELCOME_CACHE_CONFIG.enabled) {
             const cached = this.getFromCache(locale);
             if (cached) {
@@ -22,7 +21,6 @@ class WelcomeService {
         try {
             const config = await this.fetchFromApi(locale);
 
-            // Save to cache
             if (WELCOME_CACHE_CONFIG.enabled) {
                 this.saveToCache(locale, config);
             }

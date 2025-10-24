@@ -82,6 +82,9 @@
     .hover-bg-primary-blue:hover {
         background-color: var(--color-primary-blue);
     }
+    .hover-border-primary-blue
+    { border-color: var(--color-primary-blue); }
+
 }
 .ant-input:hover,
 .ant-input:focus,

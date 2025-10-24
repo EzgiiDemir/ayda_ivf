@@ -47,12 +47,12 @@
           "originalSource": "/home/:path*"
         },
         {
-          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?\\/contact\\/submissions(?:\\/((?:[^\\/#\\?]+?)(?:\\/(?:[^\\/#\\?]+?))*))?(\\\\.json)?[\\/#\\?]?$",
-          "originalSource": "/contact/submissions/:path*"
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?\\/layout(?:\\/((?:[^\\/#\\?]+?)(?:\\/(?:[^\\/#\\?]+?))*))?(\\\\.json)?[\\/#\\?]?$",
+          "originalSource": "/layout/:path*"
         },
         {
-          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/((?!login|register|dashboard|pages|media|settings|home|admin|contact\\/submissions|api|_next|_vercel|.*\\..*).*))(\\\\.json)?[\\/#\\?]?$",
-          "originalSource": "/((?!login|register|dashboard|pages|media|settings|home|admin|contact/submissions|api|_next|_vercel|.*\\..*).*)"
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/((?!login|register|dashboard|pages|media|settings|home|admin|layout|api|_next|_vercel|.*\\..*).*))(\\\\.json)?[\\/#\\?]?$",
+          "originalSource": "/((?!login|register|dashboard|pages|media|settings|home|admin|layout|api|_next|_vercel|.*\\..*).*)"
         },
         {
           "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?(?:\\/(\\/?index|\\/?index\\\\.json))?[\\/#\\?]?$",

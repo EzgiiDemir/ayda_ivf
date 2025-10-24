@@ -11,11 +11,9 @@ return new class extends Migration
             $table->string('locale', 2)->default('tr')->after('id');
             $table->unsignedBigInteger('parent_id')->nullable()->after('locale');
 
-            // Index for faster queries
             $table->index('locale');
             $table->index('parent_id');
 
-            // Unique slug per locale
             $table->dropUnique(['slug']);
             $table->unique(['slug', 'locale']);
         });

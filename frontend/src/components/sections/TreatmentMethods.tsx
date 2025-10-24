@@ -15,7 +15,6 @@ export default function TreatmentMethods() {
     const [config, setConfig] = useState<TreatmentsConfig>(DEFAULT_TREATMENTS_CONFIG);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Fetch config from API - locale parametresi ile
     useEffect(() => {
         const fetchConfig = async () => {
             try {
@@ -33,7 +32,6 @@ export default function TreatmentMethods() {
         fetchConfig();
     }, [locale]);
 
-    // Loading skeleton
     if (isLoading) {
         return (
             <section className="w-full bg-white py-7 md:py-14">

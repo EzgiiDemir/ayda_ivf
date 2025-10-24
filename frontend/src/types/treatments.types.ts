@@ -20,7 +20,6 @@ export interface TreatmentsConfig {
     };
 }
 
-// API Response types
 export interface TreatmentsApiResponse {
     data: TreatmentsConfig;
     success: boolean;

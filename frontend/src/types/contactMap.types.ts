@@ -1,4 +1,3 @@
-// types/contactMap.types.ts
 
 export interface ContactMapConfig {
     image: string;
@@ -10,7 +9,6 @@ export interface ContactMapConfig {
     };
 }
 
-// API Response types
 export interface ContactMapApiResponse {
     data: ContactMapConfig;
     meta?: {

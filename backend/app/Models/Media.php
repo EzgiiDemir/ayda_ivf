@@ -53,7 +53,6 @@ class Media extends Model
         return round($bytes, 2) . ' ' . $units[$i];
     }
 
-    // ✅ YENİ: Type accessor eklendi
     public function getTypeAttribute()
     {
         $mime = $this->mime_type;

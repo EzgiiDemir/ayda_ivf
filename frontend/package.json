@@ -40,7 +40,7 @@
     "@types/node": "^22.13.0",
     "@types/react": "19.0.8",
     "@types/react-dom": "19.0.3",
-    "antd": "^5.27.4",
+    "antd": "^5.27.6",
     "axios": "^1.12.2",
     "chart.js": "^4.4.7",
     "chartjs-adapter-moment": "^1.0.1",

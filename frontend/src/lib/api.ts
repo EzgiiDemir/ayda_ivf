@@ -11,7 +11,6 @@ import type {
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
-// Helper function to get auth token
 const getAuthToken = (): string | null => {
     if (typeof window !== 'undefined') {
         return localStorage.getItem('token');
@@ -19,7 +18,6 @@ const getAuthToken = (): string | null => {
     return null;
 };
 
-// Helper function to handle API errors
 const handleApiError = async (response: Response): Promise<never> => {
     const contentType = response.headers.get('content-type');
 
@@ -31,7 +29,6 @@ const handleApiError = async (response: Response): Promise<never> => {
     throw new Error(`HTTP Error: ${response.status}`);
 };
 
-// Generic API request function
 async function apiRequest<T>(
     endpoint: string,
     options: RequestInit = {}
@@ -57,7 +54,6 @@ async function apiRequest<T>(
     return response.json();
 }
 
-// Auth API
 export const authApi = {
     login: async (email: string, password: string): Promise<AuthResponse> => {
         return apiRequest<AuthResponse>('/api/auth/login', {  // ✅ /api/ (küçük harf)
@@ -89,7 +85,6 @@ export const authApi = {
     },
 };
 
-// Pages API
 export const pagesApi = {
     getAll: async (params?: Record<string, any>): Promise<PaginatedResponse<Page>> => {
         const queryString = params ? `?${new URLSearchParams(params).toString()}` : '';
@@ -128,7 +123,6 @@ export const pagesApi = {
     },
 };
 
-// Media API
 export const mediaApi = {
     getAll: async (params?: Record<string, any>): Promise<PaginatedResponse<MediaFile>> => {
         const queryString = params ? `?${new URLSearchParams(params).toString()}` : '';
@@ -171,7 +165,6 @@ export const mediaApi = {
     },
 };
 
-// Settings API
 export const settingsApi = {
     getAll: async (): Promise<ApiResponse<Settings>> => {
         return apiRequest<ApiResponse<Settings>>('/api/settings');  // ✅ /api/
@@ -199,7 +192,6 @@ export const settingsApi = {
     },
 };
 
-// Dashboard API
 export const dashboardApi = {
     getStats: async (): Promise<ApiResponse<DashboardStats>> => {
         return apiRequest<ApiResponse<DashboardStats>>('/api/dashboard/stats');  // ✅ /api/

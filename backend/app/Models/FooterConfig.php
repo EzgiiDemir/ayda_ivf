@@ -1,5 +1,4 @@
 <?php
-// app/Models/FooterConfig.php
 
 namespace App\Models;
 

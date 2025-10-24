@@ -14,7 +14,6 @@ export default function Hero() {
     const [config, setConfig] = useState<HeroConfig>(DEFAULT_HERO_CONFIG);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Fetch config from API - locale parametresi ile
     useEffect(() => {
         const fetchConfig = async () => {
             try {
@@ -32,7 +31,6 @@ export default function Hero() {
         fetchConfig();
     }, [locale]);
 
-    // Auto-play slides
     useEffect(() => {
         if (!config.autoPlay || config.slides.length <= 1) return;
 
@@ -43,14 +41,12 @@ export default function Hero() {
         return () => clearInterval(timer);
     }, [config.slides.length, config.autoPlayInterval, config.autoPlay]);
 
-    // Loading state
     if (isLoading) {
         return (
             <section className="h-[calc(70dvh-80px)] md:h-[calc(100dvh-80px)] relative overflow-hidden bg-gray-200 animate-pulse" />
         );
     }
 
-    // No slides - show default
     if (!config.slides || config.slides.length === 0) {
         return (
             <section className="h-[calc(70dvh-80px)] md:h-[calc(100dvh-80px)] relative overflow-hidden bg-gray-800 flex items-center justify-center">
@@ -91,7 +87,6 @@ export default function Hero() {
                 </div>
             </div>
 
-            {/* Center Text - Slide'dan gelen başlıklar (LOCALE'E GÖRE) */}
             {config.slides[currentSlide] && (config.slides[currentSlide].title || config.slides[currentSlide].subtitle) && (
                 <div className="z-30 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center px-4">
                     {config.slides[currentSlide].subtitle && (
@@ -107,14 +102,12 @@ export default function Hero() {
                 </div>
             )}
 
-            {/* Right Side Vertical Text - Config'den gelen (LOCALE'E GÖRE) */}
             {config.rightText && (
                 <p className="z-30 font-medium uppercase absolute top-1/2 right-0 -translate-y-1/2 text-xs md:text-xl text-white tracking-[5px] rotate-90 translate-x-[calc(50%-16px)] breakpoint-500:translate-x-[calc(50%-24px)] md:translate-x-[calc(50%-28px)] whitespace-nowrap">
                     {config.rightText}
                 </p>
             )}
 
-            {/* Bottom Text - Config'den gelen (LOCALE'E GÖRE) */}
             {config.bottomText && (
                 <div className="flex flex-col sm:flex-row gap-1 items-start sm:gap-0 sm:justify-between absolute bottom-[5px] w-full px-4 z-30">
                     <p className="capitalize text-xs md:text-sm text-white font-medium">

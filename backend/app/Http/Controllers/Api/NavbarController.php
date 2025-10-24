@@ -6,82 +6,89 @@ use App\Http\Controllers\Controller;
 use App\Models\NavbarConfig;
 use App\Models\NavbarDropdown;
 use App\Models\NavbarLink;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class NavbarController extends Controller
 {
-    // Public: Get navbar config
-    public function index(Request $request)
+    /**
+     * Navbar yapılandırmasını getir (Public)
+     */
+    public function index(Request $request): JsonResponse
     {
-        $locale = $request->get('locale', 'tr');
-        $config = NavbarConfig::where('locale', $locale)
-            ->with(['dropdowns.links', 'links'])
-            ->first();
+        try {
+            $locale = $request->input('locale', 'tr');
 
-        if (!$config) {
+            $config = NavbarConfig::where('locale', $locale)
+                ->with(['dropdowns.links' => fn($q) => $q->where('is_active', true)->orderBy('order')])
+                ->with(['links' => fn($q) => $q->whereNull('dropdown_id')->where('is_active', true)->orderBy('order')])
+                ->first();
+
+            if (!$config) {
+                return response()->json([
+                    'success' => true,
+                    'data' => null,
+                ]);
+            }
+
             return response()->json([
                 'success' => true,
-                'data' => $this->getDefaultConfig($locale)
+                'data' => $this->transformConfig($config),
             ]);
-        }
+        } catch (\Exception $e) {
+            Log::error('Navbar index error: ' . $e->getMessage());
 
-        return response()->json([
-            'success' => true,
-            'data' => $this->transformConfig($config)
-        ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Navbar verileri yüklenirken hata oluştu',
+            ], 500);
+        }
     }
 
-    // Admin: Update navbar config
-    public function update(Request $request)
+    /**
+     * Navbar yapılandırmasını güncelle (Admin)
+     */
+    public function update(Request $request): JsonResponse
     {
-        // ✅ VALIDATION EKLEDIM
-        $validated = $request->validate([
-            'locale' => 'nullable|string|size:2',
-            'logo_url' => 'nullable|string',
-            'logo_alt' => 'nullable|string',
-            'logo_width' => 'nullable|integer',
-            'logo_height' => 'nullable|integer',
-            'phone_number' => 'nullable|string',
-            'whatsapp_number' => 'nullable|string',
-            'email' => 'nullable|string|email',
-            'about' => 'nullable|array',
-            'about.label' => 'required_with:about|string',
-            'about.links' => 'nullable|array',
-            'about.links.*.label' => 'required|string|max:255', // ✅ ZORUNLU
-            'about.links.*.href' => 'required|string|max:255',  // ✅ ZORUNLU
-            'about.links.*.order' => 'nullable|integer',
-            'about.links.*.is_active' => 'nullable|boolean',
-            'treatments' => 'nullable|array',
-            'treatments.label' => 'required_with:treatments|string',
-            'treatments.links' => 'nullable|array',
-            'treatments.links.*.label' => 'required|string|max:255', // ✅ ZORUNLU
-            'treatments.links.*.href' => 'required|string|max:255',  // ✅ ZORUNLU
-            'treatments.links.*.order' => 'nullable|integer',
-            'treatments.links.*.is_active' => 'nullable|boolean',
-            'links' => 'nullable|array',
-            'links.*.label' => 'required|string|max:255', // ✅ ZORUNLU
-            'links.*.href' => 'required|string|max:255',  // ✅ ZORUNLU
-            'links.*.order' => 'nullable|integer',
-            'links.*.is_active' => 'nullable|boolean',
-        ], [
-            // ✅ TÜRKÇE HATA MESAJLARI
-            'about.links.*.label.required' => 'Hakkımızda menüsünde tüm linklerin etiketi zorunludur',
-            'about.links.*.href.required' => 'Hakkımızda menüsünde tüm linklerin URL\'si zorunludur',
-            'treatments.links.*.label.required' => 'Tedaviler menüsünde tüm linklerin etiketi zorunludur',
-            'treatments.links.*.href.required' => 'Tedaviler menüsünde tüm linklerin URL\'si zorunludur',
-            'links.*.label.required' => 'Ana menüde tüm linklerin etiketi zorunludur',
-            'links.*.href.required' => 'Ana menüde tüm linklerin URL\'si zorunludur',
-        ]);
-
-        $locale = $validated['locale'] ?? 'tr';
-
-        DB::beginTransaction();
         try {
-            // Update or create config
+            $validated = $request->validate([
+                'locale' => 'required|string|in:tr,en',
+                'logo_url' => 'nullable|string',
+                'logo_alt' => 'nullable|string',
+                'logo_width' => 'nullable|integer|min:1|max:500',
+                'logo_height' => 'nullable|integer|min:1|max:500',
+                'phone_number' => 'nullable|string',
+                'whatsapp_number' => 'nullable|string',
+                'email' => 'nullable|email',
+                'about' => 'nullable|array',
+                'about.label' => 'required_with:about|string',
+                'about.links' => 'nullable|array',
+                'about.links.*.label' => 'required|string|max:255',
+                'about.links.*.href' => 'required|string|max:255',
+                'about.links.*.order' => 'required|integer|min:1',
+                'about.links.*.is_active' => 'required|boolean',
+                'treatments' => 'nullable|array',
+                'treatments.label' => 'required_with:treatments|string',
+                'treatments.links' => 'nullable|array',
+                'treatments.links.*.label' => 'required|string|max:255',
+                'treatments.links.*.href' => 'required|string|max:255',
+                'treatments.links.*.order' => 'required|integer|min:1',
+                'treatments.links.*.is_active' => 'required|boolean',
+                'links' => 'nullable|array',
+                'links.*.label' => 'required|string|max:255',
+                'links.*.href' => 'required|string|max:255',
+                'links.*.order' => 'required|integer|min:1',
+                'links.*.is_active' => 'required|boolean',
+            ]);
+
+            DB::beginTransaction();
+
+            // Navbar Config güncelle/oluştur
             $config = NavbarConfig::updateOrCreate(
-                ['locale' => $locale],
+                ['locale' => $validated['locale']],
                 [
                     'logo_url' => $validated['logo_url'] ?? null,
                     'logo_alt' => $validated['logo_alt'] ?? null,
@@ -93,77 +100,62 @@ class NavbarController extends Controller
                 ]
             );
 
-            // Delete existing dropdowns and links
+            // Mevcut dropdown ve linkleri sil
             $config->dropdowns()->delete();
             $config->links()->delete();
 
-            // Create About dropdown
-            if (isset($validated['about']) && isset($validated['about']['links']) && count($validated['about']['links']) > 0) {
+            // About dropdown ve linklerini ekle
+            if (!empty($validated['about']['links'])) {
                 $aboutDropdown = $config->dropdowns()->create([
                     'type' => 'about',
-                    'label' => $validated['about']['label'] ?? 'about',
+                    'label' => $validated['about']['label'],
                     'order' => 1,
                     'is_active' => true,
                 ]);
 
-                foreach ($validated['about']['links'] as $index => $link) {
-                    // ✅ BOŞ KONTROLÜ
-                    if (empty(trim($link['label'])) || empty(trim($link['href']))) {
-                        continue;
-                    }
-
+                foreach ($validated['about']['links'] as $link) {
                     NavbarLink::create([
                         'navbar_config_id' => $config->id,
                         'dropdown_id' => $aboutDropdown->id,
-                        'label' => trim($link['label']),
-                        'href' => trim($link['href']),
-                        'order' => $link['order'] ?? ($index + 1),
-                        'is_active' => $link['is_active'] ?? true,
+                        'label' => $link['label'],
+                        'href' => $link['href'],
+                        'order' => $link['order'],
+                        'is_active' => $link['is_active'],
                     ]);
                 }
             }
 
-            // Create Treatments dropdown
-            if (isset($validated['treatments']) && isset($validated['treatments']['links']) && count($validated['treatments']['links']) > 0) {
+            // Treatments dropdown ve linklerini ekle
+            if (!empty($validated['treatments']['links'])) {
                 $treatmentsDropdown = $config->dropdowns()->create([
                     'type' => 'treatments',
-                    'label' => $validated['treatments']['label'] ?? 'treatments',
+                    'label' => $validated['treatments']['label'],
                     'order' => 2,
                     'is_active' => true,
                 ]);
 
-                foreach ($validated['treatments']['links'] as $index => $link) {
-                    // ✅ BOŞ KONTROLÜ
-                    if (empty(trim($link['label'])) || empty(trim($link['href']))) {
-                        continue;
-                    }
-
+                foreach ($validated['treatments']['links'] as $link) {
                     NavbarLink::create([
                         'navbar_config_id' => $config->id,
                         'dropdown_id' => $treatmentsDropdown->id,
-                        'label' => trim($link['label']),
-                        'href' => trim($link['href']),
-                        'order' => $link['order'] ?? ($index + 1),
-                        'is_active' => $link['is_active'] ?? true,
+                        'label' => $link['label'],
+                        'href' => $link['href'],
+                        'order' => $link['order'],
+                        'is_active' => $link['is_active'],
                     ]);
                 }
             }
 
-            // Create main links
-            if (isset($validated['links']) && count($validated['links']) > 0) {
-                foreach ($validated['links'] as $index => $link) {
-                    // ✅ BOŞ KONTROLÜ
-                    if (empty(trim($link['label'])) || empty(trim($link['href']))) {
-                        continue;
-                    }
-
+            // Ana menü linklerini ekle
+            if (!empty($validated['links'])) {
+                foreach ($validated['links'] as $link) {
                     NavbarLink::create([
                         'navbar_config_id' => $config->id,
                         'dropdown_id' => null,
-                        'label' => trim($link['label']),
-                        'href' => trim($link['href']),
-                        'order' => $link['order'] ?? ($index + 1),
-                        'is_active' => $link['is_active'] ?? true,
+                        'label' => $link['label'],
+                        'href' => $link['href'],
+                        'order' => $link['order'],
+                        'is_active' => $link['is_active'],
                     ]);
                 }
             }
@@ -173,27 +165,37 @@ class NavbarController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Navbar başarıyla güncellendi',
+                'data' => [
+                    'about_links_count' => count($validated['about']['links'] ?? []),
+                    'treatments_links_count' => count($validated['treatments']['links'] ?? []),
+                    'main_links_count' => count($validated['links'] ?? []),
+                ],
             ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
+
+        } catch (ValidationException $e) {
             DB::rollBack();
             return response()->json([
                 'success' => false,
-                'message' => 'Validasyon hatası: ' . implode(', ', $e->validator->errors()->all()),
-                'errors' => $e->errors()
+                'message' => 'Doğrulama hatası',
+                'errors' => $e->errors(),
             ], 422);
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Navbar update error: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString()
             ]);
+
             return response()->json([
                 'success' => false,
-                'message' => 'Güncelleme başarısız: ' . $e->getMessage(),
+                'message' => 'Navbar güncellenirken hata oluştu',
             ], 500);
         }
     }
 
-    private function transformConfig($config)
+    /**
+     * Config'i frontend için uygun formata dönüştür
+     */
+    private function transformConfig(NavbarConfig $config): array
     {
         $about = $config->dropdowns->where('type', 'about')->first();
         $treatments = $config->dropdowns->where('type', 'treatments')->first();
@@ -206,7 +208,7 @@ class NavbarController extends Controller
                 'height' => $config->logo_height,
             ],
             'about' => [
-                'label' => $about?->label ?? 'about',
+                'label' => $about?->label,
                 'links' => $about?->links->sortBy('order')->map(fn($link) => [
                         'id' => $link->id,
                         'label' => $link->label,
@@ -216,7 +218,7 @@ class NavbarController extends Controller
                     ])->values()->toArray() ?? [],
             ],
             'treatments' => [
-                'label' => $treatments?->label ?? 'treatments',
+                'label' => $treatments?->label,
                 'links' => $treatments?->links->sortBy('order')->map(fn($link) => [
                         'id' => $link->id,
                         'label' => $link->label,
@@ -236,32 +238,6 @@ class NavbarController extends Controller
                 'phone_number' => $config->phone_number,
                 'whatsapp_number' => $config->whatsapp_number,
                 'email' => $config->email,
-            ],
-        ];
-    }
-
-    private function getDefaultConfig($locale)
-    {
-        return [
-            'logo' => [
-                'url' => 'https://api.aydaivf.com/uploads/ayda_logo_9e8994bffd.png',
-                'alt' => 'Ayda IVF Logo',
-                'width' => 125,
-                'height' => 65,
-            ],
-            'about' => [
-                'label' => 'about',
-                'links' => [],
-            ],
-            'treatments' => [
-                'label' => 'treatments',
-                'links' => [],
-            ],
-            'links' => [],
-            'contact' => [
-                'phone_number' => '+90 533 123 4567',
-                'whatsapp_number' => '+90 533 123 4567',
-                'email' => 'info@aydaivf.com',
             ],
         ];
     }

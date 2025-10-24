@@ -1,5 +1,4 @@
 <?php
-// app/Models/ContactSubmission.php
 
 namespace App\Models;
 

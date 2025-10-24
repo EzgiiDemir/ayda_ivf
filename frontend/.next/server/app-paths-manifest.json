@@ -15,5 +15,11 @@
   "/(admin)/admin/layout/footer/page": "app/(admin)/admin/layout/footer/page.js",
   "/[locale]/contact/page": "app/[locale]/contact/page.js",
   "/[locale]/[slug]/page": "app/[locale]/[slug]/page.js",
-  "/(admin)/pages/[id]/edit/page": "app/(admin)/pages/[id]/edit/page.js"
+  "/(admin)/pages/[id]/edit/page": "app/(admin)/pages/[id]/edit/page.js",
+  "/(admin)/pages/create/page": "app/(admin)/pages/create/page.js",
+  "/(admin)/layout/navbar/page": "app/(admin)/layout/navbar/page.js",
+  "/(admin)/layout/footer/page": "app/(admin)/layout/footer/page.js",
+  "/(admin)/pages/contact/page": "app/(admin)/pages/contact/page.js",
+  "/(admin)/pages/faq/page": "app/(admin)/pages/faq/page.js",
+  "/(admin)/pages/contact/submissions/page": "app/(admin)/pages/contact/submissions/page.js"
 }

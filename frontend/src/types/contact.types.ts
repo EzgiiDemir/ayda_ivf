@@ -1,4 +1,3 @@
-// src/types/contact.types.ts
 export interface ContactConfig {
     banner_image: string;
     form_top_title: string;

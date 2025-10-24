@@ -262,7 +262,6 @@ export default function EditPagePage() {
         setSaving(true)
 
         try {
-            // ✅ TR Payload
             const trPayload = {
                 locale: 'tr',
                 title: pageData.tr.title.trim(),
@@ -275,7 +274,6 @@ export default function EditPagePage() {
                 status: pageData.status,
             }
 
-            // ✅ EN Payload
             const enPayload = {
                 locale: 'en',
                 title: pageData.en.title.trim(),
@@ -291,7 +289,6 @@ export default function EditPagePage() {
             console.log('📤 Sending TR:', trPayload)
             console.log('📤 Sending EN:', enPayload)
 
-            // ✅ Send requests sequentially to see which one fails
             console.log('🔄 Updating TR...')
             await axios.put(`/pages/${pageId}`, trPayload)
             console.log('✅ TR Updated')
@@ -312,7 +309,6 @@ export default function EditPagePage() {
             console.error('❌ Response:', error.response)
             console.error('❌ Response data:', error.response?.data)
 
-            // ✅ Handle 422 Validation Errors
             if (error.response?.status === 422) {
                 const errors = error.response.data?.errors || {}
                 const errorMessages = Object.entries(errors)
@@ -438,9 +434,7 @@ export default function EditPagePage() {
             </div>
 
             <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-                {/* Main Content */}
                 <div className="lg:col-span-2 space-y-4 sm:space-y-6">
-                    {/* Hero Image */}
                     <Card>
                         <CardHeader className="p-4 sm:p-6">
                             <CardTitle className="flex items-center text-base sm:text-lg">
@@ -498,7 +492,6 @@ export default function EditPagePage() {
                         </CardContent>
                     </Card>
 
-                    {/* Title */}
                     <Card>
                         <CardContent className="pt-4 sm:pt-6 p-4 sm:p-6">
                             <div className="space-y-2">
@@ -519,7 +512,6 @@ export default function EditPagePage() {
                         </CardContent>
                     </Card>
 
-                    {/* Subtitle */}
                     <Card>
                         <CardContent className="pt-4 sm:pt-6 p-4 sm:p-6">
                             <div className="space-y-2">
@@ -540,7 +532,6 @@ export default function EditPagePage() {
                         </CardContent>
                     </Card>
 
-                    {/* Slug */}
                     <Card>
                         <CardContent className="pt-4 sm:pt-6 p-4 sm:p-6">
                             <div className="space-y-2">
@@ -566,14 +557,13 @@ export default function EditPagePage() {
                         </CardContent>
                     </Card>
 
-                    {/* Content - TipTap */}
                     <Card>
-                        <CardHeader className="p-4 sm:p-6">
+                        <CardHeader className="p-4">
                             <CardTitle className="text-base sm:text-lg">
                                 İçerik * ({activeLocale === 'tr' ? '🇹🇷' : '🇬🇧'})
                             </CardTitle>
                         </CardHeader>
-                        <CardContent className="p-4 sm:p-6 pt-0">
+                        <CardContent className="p-4 pt-0">
                             <div className="space-y-2">
                                 <Tiptap
                                     key={`${editorKey}-${activeLocale}`}
@@ -587,7 +577,6 @@ export default function EditPagePage() {
                         </CardContent>
                     </Card>
 
-                    {/* SEO Section */}
                     <Card>
                         <CardHeader className="p-4 sm:p-6">
                             <CardTitle className="flex items-center text-base sm:text-lg">
@@ -632,11 +621,9 @@ export default function EditPagePage() {
                     </Card>
                 </div>
 
-                {/* Sidebar */}
                 <div className="lg:col-span-1 space-y-4 sm:space-y-6">
-                    {/* Publish */}
                     <Card>
-                        <CardHeader className="p-4 sm:p-6">
+                        <CardHeader className="p-4">
                             <CardTitle className="text-base sm:text-lg">
                                 Yayınlama
                             </CardTitle>
@@ -687,40 +674,9 @@ export default function EditPagePage() {
                             </div>
                         </CardContent>
                     </Card>
-
-                    {/* Quick Info */}
-                    <Card>
-                        <CardHeader className="p-4 sm:p-6">
-                            <CardTitle className="text-sm sm:text-base">
-                                Sayfa Bilgisi
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-2 text-xs sm:text-sm p-4 sm:p-6 pt-0">
-                            <div className="flex justify-between">
-                                <span className="text-gray-600">Kelime:</span>
-                                <span className="font-medium">
-                                    {currentData.content.replace(/<[^>]*>/g, '').split(/\s+/).filter(Boolean).length}
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-gray-600">Karakter:</span>
-                                <span className="font-medium">
-                                    {currentData.content.replace(/<[^>]*>/g, '').length}
-                                </span>
-                            </div>
-                            <div className="pt-2 border-t">
-                                <div className="flex items-center gap-2 text-xs text-gray-600">
-                                    <span>🇹🇷 TR: {pageData.tr.content.length > 0 ? '✓' : '○'}</span>
-                                    <span>•</span>
-                                    <span>🇬🇧 EN: {pageData.en.content.length > 0 ? '✓' : '○'}</span>
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
                 </div>
             </form>
 
-            {/* Media Picker Modal */}
             <MediaPicker
                 open={showMediaPicker}
                 onOpenChange={setShowMediaPicker}
@@ -728,7 +684,6 @@ export default function EditPagePage() {
                 selectedUrl={currentData.heroImage}
             />
 
-            {/* Preview Dialog */}
             <Dialog open={showPreview} onOpenChange={setShowPreview}>
                 <DialogContent className="max-w-[95vw] sm:max-w-6xl h-[90vh] p-4 sm:p-6">
                     <DialogHeader>
@@ -773,7 +728,6 @@ export default function EditPagePage() {
                 </DialogContent>
             </Dialog>
 
-            {/* Delete Dialog */}
             <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
                 <AlertDialogContent className="max-w-[90vw] sm:max-w-md">
                     <AlertDialogHeader>

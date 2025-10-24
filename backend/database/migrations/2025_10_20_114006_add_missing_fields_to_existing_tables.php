@@ -8,7 +8,6 @@ return new class extends Migration
 {
     public function up()
     {
-        // Check and add FAQ tables if not exist
         if (!Schema::hasTable('faq_pages')) {
             Schema::create('faq_pages', function (Blueprint $table) {
                 $table->id();
@@ -32,7 +31,6 @@ return new class extends Migration
             });
         }
 
-        // Check and add contact_submissions if not exist
         if (!Schema::hasTable('contact_submissions')) {
             Schema::create('contact_submissions', function (Blueprint $table) {
                 $table->id();

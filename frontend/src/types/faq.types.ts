@@ -1,4 +1,3 @@
-// src/types/faq.types.ts
 export interface FAQItem {
     id?: number;
     question: string;

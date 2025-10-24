@@ -52,7 +52,6 @@ export const getFooterConfig = cache(async (locale: string): Promise<FooterConfi
 
         const data = (await res.json()) as FooterApiResponse;
 
-        // transformFooterData fonksiyonu null/undefined güvenli olsun
         return transformFooterData(data);
     } catch (error) {
         console.error('[Footer] Error fetching footer config:', error);

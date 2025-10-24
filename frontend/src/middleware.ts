@@ -15,19 +15,25 @@ export default function middleware(request: NextRequest) {
         pathWithoutLocale === '/login' ||
         pathWithoutLocale === '/register' ||
         pathWithoutLocale === '/dashboard' ||
-        pathWithoutLocale.startsWith('/dashboard') ||
-        pathWithoutLocale.startsWith('/pages') ||
-        pathWithoutLocale.startsWith('/media') ||
-        pathWithoutLocale.startsWith('/settings') ||
+        pathWithoutLocale.startsWith('/dashboard/') ||
+        pathWithoutLocale === '/pages' ||
+        pathWithoutLocale.startsWith('/pages/') ||
+        pathWithoutLocale === '/media' ||
+        pathWithoutLocale.startsWith('/media/') ||
+        pathWithoutLocale === '/settings' ||
+        pathWithoutLocale.startsWith('/settings/') ||
+        pathWithoutLocale === '/layout' ||
+        pathWithoutLocale.startsWith('/layout/') ||
         pathWithoutLocale === '/home' ||
-        pathWithoutLocale.startsWith('/home') ||
-        pathWithoutLocale.startsWith('/contact/submissions'); // ✅ Contact submissions
+        pathWithoutLocale.startsWith('/home/');
 
     if (isAdminRoute) {
         const token = request.cookies.get('token')?.value ?? null;
 
-        if ((pathWithoutLocale === '/login' || pathWithoutLocale === '/register' ||
-            pathWithoutLocale === '/admin/login' || pathWithoutLocale === '/admin/register') && token) {
+        if ((pathWithoutLocale === '/login' ||
+            pathWithoutLocale === '/register' ||
+            pathWithoutLocale === '/admin/login' ||
+            pathWithoutLocale === '/admin/register') && token) {
             const localeMatch = pathname.match(/^\/(tr|en)(\/|$)/);
             const localePrefix = localeMatch ? `/${localeMatch[1]}` : '';
             return NextResponse.redirect(new URL(`${localePrefix}/dashboard`, request.url));
@@ -50,9 +56,8 @@ export const config = {
         '/media/:path*',
         '/settings/:path*',
         '/home/:path*',
-        '/contact/submissions/:path*',
-
-        '/((?!login|register|dashboard|pages|media|settings|home|admin|contact/submissions|api|_next|_vercel|.*\\..*).*)',
+        '/layout/:path*',
+        '/((?!login|register|dashboard|pages|media|settings|home|admin|layout|api|_next|_vercel|.*\\..*).*)',
         '/',
         '/(tr|en)/:path*',
     ],

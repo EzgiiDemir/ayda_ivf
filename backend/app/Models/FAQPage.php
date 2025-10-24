@@ -1,5 +1,4 @@
 <?php
-// app/Models/FAQPage.php
 
 namespace App\Models;
 

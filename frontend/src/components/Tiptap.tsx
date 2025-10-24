@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import DOMPurify from 'dompurify'
 
 interface RawEditorProps {
@@ -16,48 +16,60 @@ export default function RawEditor({
                                       placeholder = 'İçeriğinizi buraya yazın...',
                                       className = ''
                                   }: RawEditorProps) {
-    const [html, setHtml] = useState('')
-    const editorRef = useRef<HTMLDivElement>(null)
+    const editorRef = useRef<HTMLDivElement | null>(null)
     const isUpdatingRef = useRef(false)
-
-    // DOMPurify client-side kontrolü
     const [isPurifyReady, setIsPurifyReady] = useState(false)
+    const [html, setHtml] = useState<string>('')
+
+    const [foreColor, setForeColor] = useState('#000000')
+    const [backColor, setBackColor] = useState('#FFFF00')
+    const [fontSize, setFontSize] = useState('16')
+    const [showColorPicker, setShowColorPicker] = useState(false)
+    const [showBgColorPicker, setShowBgColorPicker] = useState(false)
 
     useEffect(() => {
-        // DOMPurify'ın browser'da hazır olduğundan emin ol
-        if (typeof window !== 'undefined') {
-            setIsPurifyReady(true)
-        }
+        if (typeof window !== 'undefined') setIsPurifyReady(true)
     }, [])
 
-    // İlk içeriği set et
-    useEffect(() => {
-        if (content && editorRef.current && !isUpdatingRef.current) {
-            const sanitized = isPurifyReady
-                ? DOMPurify.sanitize(content, {
-                    ALLOWED_TAGS: [
-                        'p', 'br', 'strong', 'b', 'em', 'i', 'u', 's', 'strike',
-                        'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-                        'ul', 'ol', 'li',
-                        'a', 'img',
-                        'blockquote', 'code', 'pre',
-                        'span', 'div',
-                        'table', 'thead', 'tbody', 'tr', 'th', 'td',
-                        'mark', 'small', 'sub', 'sup'
-                    ],
-                    ALLOWED_ATTR: [
-                        'style', 'class', 'id',
-                        'href', 'target', 'rel',
-                        'src', 'alt', 'width', 'height',
-                        'align', 'valign',
-                        'colspan', 'rowspan',
-                        'data-*'
-                    ],
-                    ALLOWED_URI_REGEXP: /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|cid|xmpp|data):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
-                })
-                : content
+    const sanitizeConfig = {
+        ALLOWED_TAGS: [
+            'p', 'br', 'strong', 'b', 'em', 'i', 'u', 's', 'strike',
+            'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+            'ul', 'ol', 'li',
+            'a', 'img',
+            'blockquote', 'code', 'pre',
+            'span', 'div', 'font',
+            'table', 'thead', 'tbody', 'tr', 'th', 'td',
+            'mark', 'small', 'sub', 'sup', 'hr'
+        ],
+        ALLOWED_ATTR: [
+            'style', 'class', 'id',
+            'href', 'target', 'rel',
+            'src', 'alt', 'width', 'height',
+            'align', 'valign',
+            'colspan', 'rowspan',
+            'color', 'size', 'face',
+            'data-*'
+        ],
+        KEEP_CONTENT: true,
+        ALLOWED_URI_REGEXP: /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|cid|xmpp|data):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
+    } as DOMPurify.Config
 
-            if (editorRef.current.innerHTML !== sanitized) {
+    const sanitizeToString = (dirty: string) => {
+        const res = DOMPurify.sanitize(dirty, sanitizeConfig)
+        return typeof res === 'string' ? res : String(res)
+    }
+
+    const emitChange = (newHtml: string) => {
+        setHtml(newHtml)
+        if (onChange) onChange(newHtml)
+    }
+
+    useEffect(() => {
+        if (!isPurifyReady) return
+        if (content && editorRef.current && !isUpdatingRef.current) {
+            const sanitized = sanitizeToString(content)
+            if ((editorRef.current.innerHTML ?? '') !== sanitized) {
                 editorRef.current.innerHTML = sanitized
                 setHtml(sanitized)
             }
@@ -66,109 +78,232 @@ export default function RawEditor({
 
     const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
         if (!isPurifyReady) return
-
         isUpdatingRef.current = true
-
         const rawHtml = e.currentTarget.innerHTML
-
-        // DOMPurify ile temizle - TÜM STİLLERİ KORU
-        const clean = DOMPurify.sanitize(rawHtml, {
-            ALLOWED_TAGS: [
-                'p', 'br', 'strong', 'b', 'em', 'i', 'u', 's', 'strike',
-                'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-                'ul', 'ol', 'li',
-                'a', 'img',
-                'blockquote', 'code', 'pre',
-                'span', 'div',
-                'table', 'thead', 'tbody', 'tr', 'th', 'td',
-                'mark', 'small', 'sub', 'sup'
-            ],
-            ALLOWED_ATTR: [
-                'style', 'class', 'id',
-                'href', 'target', 'rel',
-                'src', 'alt', 'width', 'height',
-                'align', 'valign',
-                'colspan', 'rowspan',
-                'data-*'
-            ],
-            KEEP_CONTENT: true,
-            ALLOWED_URI_REGEXP: /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|cid|xmpp|data):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
-        })
-
-        setHtml(clean)
-
-        // Parent'a bildir
-        if (onChange) {
-            onChange(clean)
-        }
-
-        setTimeout(() => {
-            isUpdatingRef.current = false
-        }, 0)
+        const clean = sanitizeToString(rawHtml)
+        emitChange(clean)
+        setTimeout(() => { isUpdatingRef.current = false }, 0)
     }
 
     const handlePaste = (e: React.ClipboardEvent<HTMLDivElement>) => {
         e.preventDefault()
-
         if (!isPurifyReady || !editorRef.current) return
 
-        // Önce HTML formatı almayı dene
-        let pastedContent = e.clipboardData.getData('text/html')
-
-        // HTML yoksa plain text al
-        if (!pastedContent) {
-            pastedContent = e.clipboardData.getData('text/plain')
-            // Plain text'i p tag'ine sar ve satır sonlarını koru
-            pastedContent = pastedContent
+        let pasted = e.clipboardData.getData('text/html')
+        if (!pasted) {
+            pasted = e.clipboardData.getData('text/plain')
+            pasted = pasted
                 .split('\n')
-                .map(line => line.trim() ? `<p>${line}</p>` : '<br>')
+                .map(line => line.trim() ? `<p>${escapeHtml(line)}</p>` : '<br>')
                 .join('')
         }
 
-        // İçeriği temizle AMA STİLLERİ KORU
-        const cleanHtml = DOMPurify.sanitize(pastedContent, {
-            ALLOWED_TAGS: [
-                'p', 'br', 'strong', 'b', 'em', 'i', 'u', 's', 'strike',
-                'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-                'ul', 'ol', 'li',
-                'a', 'img',
-                'blockquote', 'code', 'pre',
-                'span', 'div',
-                'table', 'thead', 'tbody', 'tr', 'th', 'td',
-                'mark', 'small', 'sub', 'sup'
-            ],
-            ALLOWED_ATTR: [
-                'style', 'class', 'id',
-                'href', 'target', 'rel',
-                'src', 'alt', 'width', 'height',
-                'align', 'valign',
-                'colspan', 'rowspan',
-                'data-*'
-            ],
-            KEEP_CONTENT: true,
-            ALLOWED_URI_REGEXP: /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|cid|xmpp|data):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
-        })
+        const clean = sanitizeToString(pasted)
 
-        // Seçili alanı bul
-        const selection = window.getSelection()
-        if (!selection?.rangeCount) return
+        const sel = window.getSelection()
+        if (!sel?.rangeCount) return
+        const range = sel.getRangeAt(0)
+        range.deleteContents()
+        const frag = range.createContextualFragment(clean)
+        range.insertNode(frag)
 
-        // Seçili içeriği sil
-        selection.deleteFromDocument()
-        const range = selection.getRangeAt(0)
-
-        // HTML içeriğini ekle
-        const fragment = range.createContextualFragment(cleanHtml)
-        range.insertNode(fragment)
-
-        // Cursor'u eklenen içeriğin sonuna taşı
         range.collapse(false)
-        selection.removeAllRanges()
-        selection.addRange(range)
+        sel.removeAllRanges()
+        sel.addRange(range)
 
-        // Input event'ini tetikle
         handleInput({ currentTarget: editorRef.current } as any)
     }
+
+    const exec = (cmd: string, value?: string) => {
+        try {
+            document.execCommand(cmd, false, value)
+            editorRef.current?.focus()
+        } catch (err) {
+            console.warn('execCommand failed', err)
+        }
+    }
+
+    const applyForeColor = (color: string) => {
+        const sel = window.getSelection()
+        if (!sel || sel.rangeCount === 0) return
+
+        const range = sel.getRangeAt(0)
+        if (range.collapsed) return
+
+        const span = document.createElement('span')
+        span.style.color = color
+
+        try {
+            const contents = range.extractContents()
+            span.appendChild(contents)
+            range.insertNode(span)
+
+            range.selectNodeContents(span)
+            sel.removeAllRanges()
+            sel.addRange(range)
+
+            setForeColor(color)
+            setShowColorPicker(false)
+
+            if (editorRef.current) {
+                handleInput({ currentTarget: editorRef.current } as any)
+            }
+        } catch (err) {
+            console.warn('Color apply failed', err)
+        }
+    }
+
+    const applyBackColor = (color: string) => {
+        const sel = window.getSelection()
+        if (!sel || sel.rangeCount === 0) return
+
+        const range = sel.getRangeAt(0)
+        if (range.collapsed) return
+
+        const span = document.createElement('span')
+        span.style.backgroundColor = color
+
+        try {
+            const contents = range.extractContents()
+            span.appendChild(contents)
+            range.insertNode(span)
+
+            range.selectNodeContents(span)
+            sel.removeAllRanges()
+            sel.addRange(range)
+
+            setBackColor(color)
+            setShowBgColorPicker(false)
+
+            if (editorRef.current) {
+                handleInput({ currentTarget: editorRef.current } as any)
+            }
+        } catch (err) {
+            console.warn('Background color apply failed', err)
+        }
+    }
+
+    const insertLink = () => {
+        const url = prompt("Bağlantı URL'si (https://...)")
+        if (!url) return
+        exec('createLink', url)
+        setTimeout(() => {
+            if (editorRef.current) {
+                handleInput({ currentTarget: editorRef.current } as any)
+            }
+        }, 0)
+    }
+
+    const insertImage = () => {
+        const input = document.createElement('input')
+        input.type = 'file'
+        input.accept = 'image/*'
+
+        input.onchange = (e) => {
+            const file = (e.target as HTMLInputElement).files?.[0]
+            if (!file) return
+
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Resim boyutu 5MB\'dan küçük olmalıdır!')
+                return
+            }
+
+            const reader = new FileReader()
+            reader.onload = (event) => {
+                const base64 = event.target?.result as string
+
+                // Resmi ekle
+                const img = document.createElement('img')
+                img.src = base64
+                img.style.maxWidth = '100%'
+                img.style.height = 'auto'
+                img.style.display = 'block'
+                img.style.margin = '0.5rem 0'
+                img.style.borderRadius = '4px'
+
+                const sel = window.getSelection()
+                if (sel && sel.rangeCount > 0) {
+                    const range = sel.getRangeAt(0)
+                    range.insertNode(img)
+                    range.collapse(false)
+                } else if (editorRef.current) {
+                    editorRef.current.appendChild(img)
+                }
+
+                setTimeout(() => {
+                    if (editorRef.current) {
+                        handleInput({ currentTarget: editorRef.current } as any)
+                    }
+                }, 0)
+            }
+
+            reader.readAsDataURL(file)
+        }
+
+        input.click()
+    }
+
+    const setHeading = (tag: string) => {
+        exec('formatBlock', tag)
+        setTimeout(() => {
+            if (editorRef.current) {
+                handleInput({ currentTarget: editorRef.current } as any)
+            }
+        }, 0)
+    }
+
+    const setFontSizeCustom = (sizePx: string) => {
+        const sel = window.getSelection()
+        if (!sel || !sel.rangeCount) return
+        const range = sel.getRangeAt(0)
+        if (range.collapsed) return
+        const span = document.createElement('span')
+        span.style.fontSize = `${sizePx}px`
+        try {
+            span.appendChild(range.extractContents())
+            range.insertNode(span)
+            setFontSize(sizePx)
+            if (editorRef.current) {
+                handleInput({ currentTarget: editorRef.current } as any)
+            }
+        } catch (err) {
+            console.warn(err)
+        }
+    }
+
+    const alignText = (dir: 'left' | 'center' | 'right' | 'justify') => {
+        const cmdMap = {
+            left: 'justifyLeft',
+            center: 'justifyCenter',
+            right: 'justifyRight',
+            justify: 'justifyFull'
+        }
+        exec(cmdMap[dir])
+        setTimeout(() => {
+            if (editorRef.current) {
+                handleInput({ currentTarget: editorRef.current } as any)
+            }
+        }, 0)
+    }
+
+    function escapeHtml(unsafe: string) {
+        return unsafe.replace(/[&<>"']/g, function(m) {
+            switch (m) {
+                case '&': return '&amp;'
+                case '<': return '&lt;'
+                case '>': return '&gt;'
+                case '"': return '&quot;'
+                case "'": return '&#039;'
+                default: return m
+            }
+        })
+    }
+
+    const colorPresets = [
+        '#000000', '#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00',
+        '#FF00FF', '#00FFFF', '#FFA500', '#800080', '#FFC0CB', '#808080',
+        '#8B4513', '#006400', '#000080', '#FF6347', '#4B0082', '#FFD700'
+    ]
 
     if (!isPurifyReady) {
         return (
@@ -179,222 +314,239 @@ export default function RawEditor({
     }
 
     return (
-        <div className="w-full space-y-4">
-            {/* Editör - Responsive */}
+        <div className={`w-full space-y-3 ${className}`}>
+            {/* Toolbar */}
+            <div className="bg-white border rounded-lg p-2 shadow-sm">
+                {/* Row 1 */}
+                <div className="flex flex-wrap gap-2 items-center pb-2 border-b">
+                    {/* Format Buttons */}
+                    <div className="flex gap-1">
+                        <button
+                            type="button"
+                            onClick={() => exec('bold')}
+                            className="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 font-bold transition-colors"
+                            title="Kalın (Ctrl+B)"
+                        >
+                            B
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => exec('italic')}
+                            className="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 italic transition-colors"
+                            title="İtalik (Ctrl+I)"
+                        >
+                            I
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => exec('underline')}
+                            className="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 underline transition-colors"
+                            title="Altı Çizili (Ctrl+U)"
+                        >
+                            U
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => exec('strikeThrough')}
+                            className="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 line-through transition-colors"
+                            title="Üstü Çizili"
+                        >
+                            S
+                        </button>
+                    </div>
+
+                    {/* Heading */}
+                    <select
+                        onChange={(e) => setHeading(e.target.value)}
+                        defaultValue="p"
+                        className="px-2 py-1 text-sm border rounded hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                        <option value="p">Paragraf</option>
+                        <option value="h1">Başlık 1</option>
+                        <option value="h2">Başlık 2</option>
+                        <option value="h3">Başlık 3</option>
+                        <option value="h4">Başlık 4</option>
+                        <option value="h5">Başlık 5</option>
+                        <option value="h6">Başlık 6</option>
+                    </select>
+
+                    {/* Font Size */}
+                    <select
+                        value={fontSize}
+                        onChange={(e) => setFontSizeCustom(e.target.value)}
+                        className="px-2 py-1 text-sm border rounded hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                        <option value="12">12px</option>
+                        <option value="14">14px</option>
+                        <option value="16">16px</option>
+                        <option value="18">18px</option>
+                        <option value="20">20px</option>
+                        <option value="24">24px</option>
+                        <option value="28">28px</option>
+                        <option value="32">32px</option>
+                        <option value="36">36px</option>
+                    </select>
+
+                    {/* Colors */}
+                    <div className="flex gap-1">
+                        {/* Text Color */}
+                        <div className="relative">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setShowColorPicker(!showColorPicker)
+                                    setShowBgColorPicker(false)
+                                }}
+                                className="w-8 h-8 flex flex-col items-center justify-center rounded hover:bg-gray-100 transition-colors"
+                                title="Metin Rengi"
+                            >
+                                <span className="text-sm font-bold">A</span>
+                                <div className="w-6 h-1 rounded mt-0.5" style={{ backgroundColor: foreColor }} />
+                            </button>
+                            {showColorPicker && (
+                                <div className="absolute top-full left-0 mt-1 bg-white border rounded-lg shadow-lg p-3 z-50 min-w-[180px]">
+                                    <div className="grid grid-cols-6 gap-1 mb-2">
+                                        {colorPresets.map(color => (
+                                            <button
+                                                key={color}
+                                                type="button"
+                                                onClick={() => applyForeColor(color)}
+                                                className="w-6 h-6 rounded border-2 hover:scale-110 transition-transform"
+                                                style={{ backgroundColor: color }}
+                                                title={color}
+                                            />
+                                        ))}
+                                    </div>
+                                    <input
+                                        type="color"
+                                        value={foreColor}
+                                        onChange={(e) => applyForeColor(e.target.value)}
+                                        className="w-full h-8 cursor-pointer rounded"
+                                    />
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Background Color */}
+                        <div className="relative">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setShowBgColorPicker(!showBgColorPicker)
+                                    setShowColorPicker(false)
+                                }}
+                                className="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 transition-colors"
+                                title="Arka Plan Rengi"
+                            >
+                                <span className="px-1.5 py-0.5 text-xs font-bold rounded" style={{ backgroundColor: backColor }}>
+                                    A
+                                </span>
+                            </button>
+                            {showBgColorPicker && (
+                                <div className="absolute top-full left-0 mt-1 bg-white border rounded-lg shadow-lg p-3 z-50 min-w-[180px]">
+                                    <div className="grid grid-cols-6 gap-1 mb-2">
+                                        {colorPresets.map(color => (
+                                            <button
+                                                key={color}
+                                                type="button"
+                                                onClick={() => applyBackColor(color)}
+                                                className="w-6 h-6 rounded border-2 hover:scale-110 transition-transform"
+                                                style={{ backgroundColor: color }}
+                                                title={color}
+                                            />
+                                        ))}
+                                    </div>
+                                    <input
+                                        type="color"
+                                        value={backColor}
+                                        onChange={(e) => applyBackColor(e.target.value)}
+                                        className="w-full h-8 cursor-pointer rounded"
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Row 2 */}
+                <div className="flex flex-wrap gap-2 items-center pt-2">
+                    {/* Lists */}
+                    <div className="flex gap-1">
+                        <button
+                            type="button"
+                            onClick={() => {
+                                exec('insertUnorderedList')
+                                setTimeout(() => editorRef.current && handleInput({ currentTarget: editorRef.current } as any), 0)
+                            }}
+                            className="px-2 py-1 text-sm rounded hover:bg-gray-100 transition-colors flex items-center gap-1"
+                            title="Madde İşaretli Liste"
+                        >
+                            <span>•</span> Liste
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => {
+                                exec('insertOrderedList')
+                                setTimeout(() => editorRef.current && handleInput({ currentTarget: editorRef.current } as any), 0)
+                            }}
+                            className="px-2 py-1 text-sm rounded hover:bg-gray-100 transition-colors flex items-center gap-1"
+                            title="Numaralı Liste"
+                        >
+                            <span>1.</span> Liste
+                        </button>
+                    </div>
+
+                    {/* Alignment */}
+                    <div className="flex gap-1 border-l pl-2">
+                        <button type="button" onClick={() => alignText('left')} className="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 transition-colors" title="Sola Hizala">
+                            ☰
+                        </button>
+                        <button type="button" onClick={() => alignText('center')} className="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 transition-colors" title="Ortala">
+                            ☰
+                        </button>
+                        <button type="button" onClick={() => alignText('right')} className="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 transition-colors" title="Sağa Hizala">
+                            ☰
+                        </button>
+                        <button type="button" onClick={() => alignText('justify')} className="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 transition-colors" title="İki Yana Yasla">
+                            ☰
+                        </button>
+                    </div>
+
+                    {/* Indent */}
+                    <div className="flex gap-1 border-l pl-2">
+                        <button type="button" onClick={() => { exec('indent'); setTimeout(() => editorRef.current && handleInput({ currentTarget: editorRef.current } as any), 0) }} className="px-2 py-1 text-sm rounded hover:bg-gray-100 transition-colors" title="Girintili">→</button>
+                        <button type="button" onClick={() => { exec('outdent'); setTimeout(() => editorRef.current && handleInput({ currentTarget: editorRef.current } as any), 0) }} className="px-2 py-1 text-sm rounded hover:bg-gray-100 transition-colors" title="Çıkıntılı">←</button>
+                    </div>
+
+                    {/* Insert */}
+                    <div className="flex gap-1 border-l pl-2">
+                        <button type="button" onClick={insertLink} className="px-2 py-1 text-sm rounded hover:bg-gray-100 transition-colors" title="Link Ekle">🔗</button>
+                        <button type="button" onClick={insertImage} className="px-2 py-1 text-md rounded hover:bg-gray-100 transition-colors" title="Resim Ekle">📷️</button>
+                        <button type="button" onClick={() => { exec('insertHorizontalRule'); setTimeout(() => editorRef.current && handleInput({ currentTarget: editorRef.current } as any), 0) }} className="px-2 py-1 text-sm rounded hover:bg-gray-100 transition-colors" title="Yatay Çizgi">―</button>
+                    </div>
+
+                    {/* Undo/Redo & Clear */}
+                    <div className="flex gap-1 border-l pl-2 ml-auto">
+                        <button type="button" onClick={() => exec('undo')} className="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 transition-colors" title="Geri Al">↶</button>
+                        <button type="button" onClick={() => exec('redo')} className="w-8 h-8 flex items-center justify-center rounded hover:bg-gray-100 transition-colors" title="Yinele">↷</button>
+                        <button type="button" onClick={() => { exec('removeFormat'); setTimeout(() => editorRef.current && handleInput({ currentTarget: editorRef.current } as any), 0) }} className="px-2 py-1 text-sm rounded hover:bg-red-50 text-red-600 transition-colors" title="Formatı Temizle">✕</button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Editor */}
             <div
                 ref={editorRef}
                 contentEditable
                 suppressContentEditableWarning
                 onInput={handleInput}
                 onPaste={handlePaste}
-                className={`
-                    w-full border rounded-lg p-4 
-                    min-h-[200px] max-h-[600px] 
-                    overflow-y-auto overflow-x-hidden
-                    focus:outline-none focus:ring-2 focus:ring-primary-pink
-                    prose prose-sm sm:prose-base lg:prose-lg max-w-none
-                    ${className}
-                `}
-                data-placeholder={placeholder}
+                className="w-full border-2 rounded-lg p-4 min-h-[300px] max-h-[600px] overflow-y-auto focus:outline-none focus:border-blue-500 bg-white transition-colors"
+                style={{
+                    wordWrap: 'break-word',
+                    overflowWrap: 'break-word'
+                }}
             />
-
-            {/* Debug Panel (Geliştirme için) */}
-            {process.env.NODE_ENV === 'development' && (
-                <details className="mt-4 p-4 bg-gray-100 rounded">
-                    <summary className="cursor-pointer font-medium">HTML Önizleme</summary>
-                    <pre className="mt-2 text-xs overflow-auto max-h-40 bg-white p-2 rounded break-all whitespace-pre-wrap">
-                        {html}
-                    </pre>
-                </details>
-            )}
-
-            {/* Global Styles */}
-            <style jsx global>{`
-                /* Placeholder */
-                [contenteditable][data-placeholder]:empty:before {
-                    content: attr(data-placeholder);
-                    color: #9ca3af;
-                    pointer-events: none;
-                    position: absolute;
-                }
-
-                /* Editör içi responsive stiller */
-                [contenteditable] {
-                    word-wrap: break-word;
-                    overflow-wrap: break-word;
-                }
-
-                /* Kopyalanan içeriğin stillerini koru */
-                [contenteditable] * {
-                    max-width: 100%;
-                }
-
-                /* Resimler responsive */
-                [contenteditable] img {
-                    max-width: 100%;
-                    height: auto;
-                    display: block;
-                    margin: 0.5rem 0;
-                }
-
-                /* Tablolar responsive */
-                [contenteditable] table {
-                    max-width: 100%;
-                    overflow-x: auto;
-                    display: block;
-                    border-collapse: collapse;
-                }
-
-                [contenteditable] table td,
-                [contenteditable] table th {
-                    border: 1px solid #e5e7eb;
-                    padding: 0.5rem;
-                    min-width: 50px;
-                }
-
-                /* Başlıklar responsive */
-                [contenteditable] h1 {
-                    font-size: clamp(1.5rem, 4vw, 2.5rem);
-                    font-weight: bold;
-                    margin: 1rem 0 0.5rem;
-                }
-
-                [contenteditable] h2 {
-                    font-size: clamp(1.25rem, 3vw, 2rem);
-                    font-weight: bold;
-                    margin: 0.875rem 0 0.5rem;
-                }
-
-                [contenteditable] h3 {
-                    font-size: clamp(1.125rem, 2.5vw, 1.5rem);
-                    font-weight: bold;
-                    margin: 0.75rem 0 0.5rem;
-                }
-
-                [contenteditable] h4 {
-                    font-size: clamp(1rem, 2vw, 1.25rem);
-                    font-weight: bold;
-                    margin: 0.625rem 0 0.5rem;
-                }
-
-                [contenteditable] h5 {
-                    font-size: clamp(0.875rem, 1.5vw, 1.125rem);
-                    font-weight: bold;
-                    margin: 0.5rem 0 0.5rem;
-                }
-
-                [contenteditable] h6 {
-                    font-size: clamp(0.75rem, 1.25vw, 1rem);
-                    font-weight: bold;
-                    margin: 0.5rem 0 0.5rem;
-                }
-
-                /* Paragraflar */
-                [contenteditable] p {
-                    margin: 0.5rem 0;
-                    line-height: 1.6;
-                }
-
-                /* Listeler */
-                [contenteditable] ul,
-                [contenteditable] ol {
-                    margin: 0.5rem 0;
-                    padding-left: 1.5rem;
-                }
-
-                [contenteditable] li {
-                    margin: 0.25rem 0;
-                }
-
-                /* Blockquote */
-                [contenteditable] blockquote {
-                    border-left: 4px solid #e5e7eb;
-                    padding-left: 1rem;
-                    margin: 1rem 0;
-                    color: #6b7280;
-                    font-style: italic;
-                }
-
-                /* Code blokları */
-                [contenteditable] code {
-                    background-color: #f3f4f6;
-                    padding: 0.125rem 0.25rem;
-                    border-radius: 0.25rem;
-                    font-family: monospace;
-                    font-size: 0.875em;
-                }
-
-                [contenteditable] pre {
-                    background-color: #1f2937;
-                    color: #f9fafb;
-                    padding: 1rem;
-                    border-radius: 0.5rem;
-                    overflow-x: auto;
-                    margin: 1rem 0;
-                }
-
-                [contenteditable] pre code {
-                    background-color: transparent;
-                    padding: 0;
-                    color: inherit;
-                }
-
-                /* Linkler */
-                [contenteditable] a {
-                    color: #3b82f6;
-                    text-decoration: underline;
-                }
-
-                [contenteditable] a:hover {
-                    color: #2563eb;
-                }
-
-                /* Font boyutları korunur */
-                [contenteditable] [style*="font-size"] {
-                    /* Inline font-size'lar korunur */
-                }
-
-                /* Renkler korunur */
-                [contenteditable] [style*="color"] {
-                    /* Inline color'lar korunur */
-                }
-
-                /* Background renkler korunur */
-                [contenteditable] [style*="background"] {
-                    /* Inline background'lar korunur */
-                }
-
-                /* Text align korunur */
-                [contenteditable] [style*="text-align"] {
-                    /* Inline text-align'lar korunur */
-                }
-
-                /* Mobile responsive */
-                @media (max-width: 640px) {
-                    [contenteditable] {
-                        font-size: 14px;
-                        padding: 0.75rem;
-                    }
-
-                    [contenteditable] table {
-                        font-size: 12px;
-                    }
-                }
-
-                /* Tablet responsive */
-                @media (min-width: 641px) and (max-width: 1024px) {
-                    [contenteditable] {
-                        font-size: 15px;
-                    }
-                }
-
-                /* Desktop */
-                @media (min-width: 1025px) {
-                    [contenteditable] {
-                        font-size: 16px;
-                    }
-                }
-            `}</style>
         </div>
     )
 }

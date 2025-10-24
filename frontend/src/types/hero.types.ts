@@ -14,7 +14,7 @@ export interface HeroConfig {
     slides: HeroSlide[];
     rightText: string;
     bottomText: string;
-    dotsPattern: string; // ✅ string yap, boolean değil
+    dotsPattern: string;
     autoPlay: boolean;
     autoPlayInterval: number;
     showControls: boolean;

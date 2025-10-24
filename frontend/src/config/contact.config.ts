@@ -1,4 +1,3 @@
-// src/config/contact.config.ts
 import { ContactConfig } from '@/src/types/contact.types';
 
 export const DEFAULT_CONTACT_CONFIG: ContactConfig = {

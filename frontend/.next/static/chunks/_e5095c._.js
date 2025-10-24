@@ -70,14 +70,12 @@ class HeroService {
         }
         try {
             const config = await this.fetchFromApi(locale);
-            // Save to cache
             if (__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$config$2f$hero$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["HERO_CACHE_CONFIG"].enabled) {
                 this.saveToCache(locale, config);
             }
             return config;
         } catch (error) {
             console.error('[HeroService] Failed to fetch config:', error);
-            // Return default config as fallback
             return __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$config$2f$hero$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DEFAULT_HERO_CONFIG"];
         }
     }
@@ -87,7 +85,6 @@ class HeroService {
      * Fetch hero config from API
      */ async fetchFromApi(locale) {
         const url = `${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$config$2f$hero$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["HERO_API_CONFIG"].baseURL}${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$config$2f$hero$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["HERO_API_CONFIG"].endpoint}`;
-        // Debug logging
         console.log('[HeroService] Request Details:', {
             url,
             locale,
@@ -261,7 +258,6 @@ function Hero() {
     const [currentSlide, setCurrentSlide] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0);
     const [config, setConfig] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$config$2f$hero$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DEFAULT_HERO_CONFIG"]);
     const [isLoading, setIsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
-    // Fetch config from API - locale parametresi ile
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "Hero.useEffect": ()=>{
             const fetchConfig = {
@@ -284,7 +280,6 @@ function Hero() {
     }["Hero.useEffect"], [
         locale
     ]);
-    // Auto-play slides
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "Hero.useEffect": ()=>{
             if (!config.autoPlay || config.slides.length <= 1) return;
@@ -304,17 +299,15 @@ function Hero() {
         config.autoPlayInterval,
         config.autoPlay
     ]);
-    // Loading state
     if (isLoading) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
             className: "h-[calc(70dvh-80px)] md:h-[calc(100dvh-80px)] relative overflow-hidden bg-gray-200 animate-pulse"
         }, void 0, false, {
             fileName: "[project]/src/components/sections/Hero.tsx",
-            lineNumber: 49,
+            lineNumber: 46,
             columnNumber: 13
         }, this);
     }
-    // No slides - show default
     if (!config.slides || config.slides.length === 0) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
             className: "h-[calc(70dvh-80px)] md:h-[calc(100dvh-80px)] relative overflow-hidden bg-gray-800 flex items-center justify-center",
@@ -323,12 +316,12 @@ function Hero() {
                 children: "No slides configured"
             }, void 0, false, {
                 fileName: "[project]/src/components/sections/Hero.tsx",
-                lineNumber: 57,
+                lineNumber: 53,
                 columnNumber: 17
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/components/sections/Hero.tsx",
-            lineNumber: 56,
+            lineNumber: 52,
             columnNumber: 13
         }, this);
     }
@@ -352,7 +345,7 @@ function Hero() {
                                     }
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/sections/Hero.tsx",
-                                    lineNumber: 74,
+                                    lineNumber: 70,
                                     columnNumber: 29
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -362,23 +355,23 @@ function Hero() {
                                     }
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/sections/Hero.tsx",
-                                    lineNumber: 85,
+                                    lineNumber: 81,
                                     columnNumber: 29
                                 }, this)
                             ]
                         }, index, true, {
                             fileName: "[project]/src/components/sections/Hero.tsx",
-                            lineNumber: 68,
+                            lineNumber: 64,
                             columnNumber: 25
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/src/components/sections/Hero.tsx",
-                    lineNumber: 66,
+                    lineNumber: 62,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/sections/Hero.tsx",
-                lineNumber: 65,
+                lineNumber: 61,
                 columnNumber: 13
             }, this),
             config.slides[currentSlide] && (config.slides[currentSlide].title || config.slides[currentSlide].subtitle) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -389,7 +382,7 @@ function Hero() {
                         children: config.slides[currentSlide].subtitle
                     }, void 0, false, {
                         fileName: "[project]/src/components/sections/Hero.tsx",
-                        lineNumber: 98,
+                        lineNumber: 93,
                         columnNumber: 25
                     }, this),
                     config.slides[currentSlide].title && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -397,13 +390,13 @@ function Hero() {
                         children: config.slides[currentSlide].title
                     }, void 0, false, {
                         fileName: "[project]/src/components/sections/Hero.tsx",
-                        lineNumber: 103,
+                        lineNumber: 98,
                         columnNumber: 25
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/sections/Hero.tsx",
-                lineNumber: 96,
+                lineNumber: 91,
                 columnNumber: 17
             }, this),
             config.rightText && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -411,7 +404,7 @@ function Hero() {
                 children: config.rightText
             }, void 0, false, {
                 fileName: "[project]/src/components/sections/Hero.tsx",
-                lineNumber: 112,
+                lineNumber: 106,
                 columnNumber: 17
             }, this),
             config.bottomText && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -421,12 +414,12 @@ function Hero() {
                     children: config.bottomText
                 }, void 0, false, {
                     fileName: "[project]/src/components/sections/Hero.tsx",
-                    lineNumber: 120,
+                    lineNumber: 113,
                     columnNumber: 21
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/sections/Hero.tsx",
-                lineNumber: 119,
+                lineNumber: 112,
                 columnNumber: 17
             }, this),
             config.slides.length > 1 && config.showIndicators && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -437,18 +430,18 @@ function Hero() {
                         "aria-label": `Go to slide ${index + 1}`
                     }, index, false, {
                         fileName: "[project]/src/components/sections/Hero.tsx",
-                        lineNumber: 130,
+                        lineNumber: 123,
                         columnNumber: 25
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/src/components/sections/Hero.tsx",
-                lineNumber: 128,
+                lineNumber: 121,
                 columnNumber: 17
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/sections/Hero.tsx",
-        lineNumber: 63,
+        lineNumber: 59,
         columnNumber: 9
     }, this);
 }
@@ -535,7 +528,6 @@ class WelcomeService {
         this.cache = new Map();
     }
     async getWelcomeConfig(locale) {
-        // Check cache first
         if (__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$config$2f$welcome$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["WELCOME_CACHE_CONFIG"].enabled) {
             const cached = this.getFromCache(locale);
             if (cached) {
@@ -545,7 +537,6 @@ class WelcomeService {
         }
         try {
             const config = await this.fetchFromApi(locale);
-            // Save to cache
             if (__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$config$2f$welcome$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["WELCOME_CACHE_CONFIG"].enabled) {
                 this.saveToCache(locale, config);
             }
@@ -1037,7 +1028,6 @@ class TreatmentsService {
         }
         try {
             const config = await this.fetchFromApi(locale);
-            // Save to cache
             if (__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$config$2f$treatments$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TREATMENTS_CACHE_CONFIG"].enabled) {
                 this.saveToCache(locale, config);
             }
@@ -1072,7 +1062,6 @@ class TreatmentsService {
         }
     }
     validateConfig(config) {
-        // Filter active treatments and sort by order
         const treatments = (config.treatments || __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$config$2f$treatments$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DEFAULT_TREATMENTS_CONFIG"].treatments).filter((treatment)=>treatment.isActive !== false).sort((a, b)=>(a.order || 0) - (b.order || 0));
         return {
             background_logo: config.background_logo || __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$config$2f$treatments$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DEFAULT_TREATMENTS_CONFIG"].background_logo,
@@ -1153,7 +1142,6 @@ function TreatmentMethods() {
     const locale = params?.locale || 'tr';
     const [config, setConfig] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$config$2f$treatments$2e$config$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DEFAULT_TREATMENTS_CONFIG"]);
     const [isLoading, setIsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
-    // Fetch config from API - locale parametresi ile
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "TreatmentMethods.useEffect": ()=>{
             const fetchConfig = {
@@ -1176,7 +1164,6 @@ function TreatmentMethods() {
     }["TreatmentMethods.useEffect"], [
         locale
     ]);
-    // Loading skeleton
     if (isLoading) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
             className: "w-full bg-white py-7 md:py-14",
@@ -1189,14 +1176,14 @@ function TreatmentMethods() {
                             className: "h-6 w-32 bg-gray-200 animate-pulse rounded mb-2"
                         }, void 0, false, {
                             fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-                            lineNumber: 42,
+                            lineNumber: 40,
                             columnNumber: 25
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "h-8 w-64 bg-gray-200 animate-pulse rounded mb-4"
                         }, void 0, false, {
                             fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-                            lineNumber: 43,
+                            lineNumber: 41,
                             columnNumber: 25
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1206,20 +1193,20 @@ function TreatmentMethods() {
                                     className: "h-4 bg-gray-200 animate-pulse rounded w-3/4 mx-auto"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-                                    lineNumber: 45,
+                                    lineNumber: 43,
                                     columnNumber: 29
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "h-4 bg-gray-200 animate-pulse rounded w-2/3 mx-auto"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-                                    lineNumber: 46,
+                                    lineNumber: 44,
                                     columnNumber: 29
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-                            lineNumber: 44,
+                            lineNumber: 42,
                             columnNumber: 25
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1230,28 +1217,28 @@ function TreatmentMethods() {
                                     className: "h-6 bg-gray-200 animate-pulse rounded"
                                 }, i, false, {
                                     fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-                                    lineNumber: 50,
+                                    lineNumber: 48,
                                     columnNumber: 33
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-                            lineNumber: 48,
+                            lineNumber: 46,
                             columnNumber: 25
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-                    lineNumber: 41,
+                    lineNumber: 39,
                     columnNumber: 21
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-                lineNumber: 40,
+                lineNumber: 38,
                 columnNumber: 17
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-            lineNumber: 39,
+            lineNumber: 37,
             columnNumber: 13
         }, this);
     }
@@ -1273,7 +1260,7 @@ function TreatmentMethods() {
                         children: config.top_title
                     }, void 0, false, {
                         fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-                        lineNumber: 77,
+                        lineNumber: 75,
                         columnNumber: 25
                     }, this),
                     config.title && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1281,7 +1268,7 @@ function TreatmentMethods() {
                         children: config.title
                     }, void 0, false, {
                         fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-                        lineNumber: 82,
+                        lineNumber: 80,
                         columnNumber: 25
                     }, this),
                     (config.description1 || config.description2) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1292,20 +1279,20 @@ function TreatmentMethods() {
                                 children: config.description1
                             }, void 0, false, {
                                 fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-                                lineNumber: 90,
+                                lineNumber: 88,
                                 columnNumber: 53
                             }, this),
                             config.description2 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                 children: config.description2
                             }, void 0, false, {
                                 fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-                                lineNumber: 91,
+                                lineNumber: 89,
                                 columnNumber: 53
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-                        lineNumber: 89,
+                        lineNumber: 87,
                         columnNumber: 25
                     }, this),
                     config.treatments && config.treatments.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1319,7 +1306,7 @@ function TreatmentMethods() {
                                         className: "text-primary-pink flex-shrink-0"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-                                        lineNumber: 104,
+                                        lineNumber: 102,
                                         columnNumber: 37
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1327,18 +1314,18 @@ function TreatmentMethods() {
                                         children: treatment.label
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-                                        lineNumber: 105,
+                                        lineNumber: 103,
                                         columnNumber: 37
                                     }, this)
                                 ]
                             }, treatment.id, true, {
                                 fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-                                lineNumber: 99,
+                                lineNumber: 97,
                                 columnNumber: 33
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-                        lineNumber: 97,
+                        lineNumber: 95,
                         columnNumber: 25
                     }, this),
                     config.contact_button_text && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1349,28 +1336,28 @@ function TreatmentMethods() {
                             children: config.contact_button_text
                         }, void 0, false, {
                             fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-                            lineNumber: 119,
+                            lineNumber: 117,
                             columnNumber: 29
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-                        lineNumber: 115,
+                        lineNumber: 113,
                         columnNumber: 25
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-                lineNumber: 74,
+                lineNumber: 72,
                 columnNumber: 17
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-            lineNumber: 62,
+            lineNumber: 60,
             columnNumber: 13
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/sections/TreatmentMethods.tsx",
-        lineNumber: 60,
+        lineNumber: 58,
         columnNumber: 9
     }, this);
 }
@@ -1603,19 +1590,18 @@ function ContactMap() {
     }["ContactMap.useEffect"], [
         locale
     ]);
-    // Loading skeleton
     if (isLoading) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "w-full aspect-[16/11] md:aspect-[16/6] bg-gray-200 animate-pulse"
             }, void 0, false, {
                 fileName: "[project]/src/components/sections/ContactMap.tsx",
-                lineNumber: 39,
+                lineNumber: 38,
                 columnNumber: 17
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/components/sections/ContactMap.tsx",
-            lineNumber: 38,
+            lineNumber: 37,
             columnNumber: 13
         }, this);
     }
@@ -1636,15 +1622,14 @@ function ContactMap() {
                 className: "absolute inset-0"
             }, void 0, false, {
                 fileName: "[project]/src/components/sections/ContactMap.tsx",
-                lineNumber: 49,
+                lineNumber: 48,
                 columnNumber: 21
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/components/sections/ContactMap.tsx",
-            lineNumber: 48,
+            lineNumber: 47,
             columnNumber: 17
-        }, this) : // Static Image
-        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             className: "w-full aspect-[16/11] md:aspect-[16/6]",
             style: {
                 backgroundImage: `url("${config.image}")`,
@@ -1656,12 +1641,12 @@ function ContactMap() {
             "aria-label": t('imageAlt') || 'Contact showcase image'
         }, void 0, false, {
             fileName: "[project]/src/components/sections/ContactMap.tsx",
-            lineNumber: 62,
+            lineNumber: 60,
             columnNumber: 17
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/sections/ContactMap.tsx",
-        lineNumber: 45,
+        lineNumber: 44,
         columnNumber: 9
     }, this);
 }

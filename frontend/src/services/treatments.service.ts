@@ -22,7 +22,6 @@ class TreatmentsService {
         try {
             const config = await this.fetchFromApi(locale);
 
-            // Save to cache
             if (TREATMENTS_CACHE_CONFIG.enabled) {
                 this.saveToCache(locale, config);
             }
@@ -61,7 +60,6 @@ class TreatmentsService {
     }
 
     private validateConfig(config: Partial<TreatmentsConfig>): TreatmentsConfig {
-        // Filter active treatments and sort by order
         const treatments = (config.treatments || DEFAULT_TREATMENTS_CONFIG.treatments)
             .filter(treatment => treatment.isActive !== false)
             .sort((a, b) => (a.order || 0) - (b.order || 0));
